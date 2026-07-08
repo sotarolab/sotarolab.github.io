@@ -1,0 +1,60 @@
+schema: hugoblox/author/v1
+slug: me
+is_owner: true
+name:
+  display: Sebastian Otarola-Bustos
+  given: Sebastian
+  family: Otarola-Bustos
+  alternate: ''
+  pronunciation: ''
+  pronouns: ''
+postnominals:
+  - PhD
+status:
+  icon: "🌪️"
+role: Machine Learning & Atmospheric Scientist
+bio: |
+  Sebastian Otarola-Bustos, PhD, is a machine learning and atmospheric scientist
+  focused on weather extremes — heat waves, forecast bias correction, and
+  satellite-based reconstruction of surface observations. He builds ML tools
+  and live dashboards that turn NWP forecasts, reanalysis, and satellite
+  retrievals into actionable extreme-weather intelligence, and is looking to
+  bring that work to a national laboratory setting.
+
+affiliations: []
+
+links:
+  - icon: at-symbol
+    url: mailto:sfotarol@gmail.com
+    label: E-mail Me
+  - icon: brands/github
+    url: https://github.com/sotarolab
+
+interests:
+  - Machine Learning for Weather & Climate
+  - Weather Extremes & Climate Attribution
+  - Forecast Verification & Bias Correction
+  - Satellite Remote Sensing
+  - Extreme Value Statistics
+
+education: []
+
+experience: []
+
+skills:
+  - name: Technical Skills
+    items:
+      - label: Python
+        level: 5
+      - label: Machine Learning / Deep Learning
+        level: 4
+      - label: Extreme Value Statistics
+        level: 4
+      - label: NWP & Reanalysis (GFS, ECMWF, ERA5)
+        level: 4
+      - label: Dash / Plotly
+        level: 4
+
+languages: []
+
+awards: []
