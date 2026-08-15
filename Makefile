@@ -1,6 +1,8 @@
 # sotarolab.github.io
 #
 #   make serve   local preview with drafts, at http://localhost:1313
+#                (served from memory; it does not touch public/, so it can run
+#                alongside make check without the two overwriting each other)
 #   make build   production build into public/
 #   make check   build + pre-publish checks (see tools/qc.sh)
 #   make clean   remove build output and caches
@@ -14,7 +16,7 @@ help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
 
 serve: ## Local preview with drafts and future-dated content
-	hugo server -D -F --disableFastRender
+	hugo server -D -F --disableFastRender --renderToMemory
 
 build: publications ## Production build into public/
 	hugo --gc --minify
