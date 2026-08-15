@@ -106,9 +106,20 @@ hugoblox:
     align: left # left | center | right
     # Feature toggles
     search: true
-    theme_toggle: true
+    # Dark only (2026-08-15). The site is designed dark: the figures ship dark
+    # canvases, the app screenshots are dark UIs, and the heading/border tokens
+    # are tuned against the dark surface. A visitor flipping to light got a
+    # half-finished version of the design, so the switch is gone.
+    #
+    # `mode: dark` above is the default for a visitor with no stored choice;
+    # this hides the control that would store one. Browsers that already
+    # stored "light" are reset by the head script in
+    # layouts/_partials/hooks/head-end/custom-assets.html — without it, anyone
+    # who had toggled (including Sebastian) would be stuck in light with no
+    # way back.
+    theme_toggle: false
     # Theme picker and language switcher disabled — visitor-facing clutter on a
-    # single-language personal site. Dark/light toggle is kept.
+    # single-language personal site.
     theme_picker: false
     language_switcher: false
     # Call-to-action button

@@ -1,0 +1,70 @@
+{{/*
+  Publication citation. Overrides the theme's _partials/views/citation.html.
+
+  ONE CHANGE from upstream: the title is plain text instead of a link to the
+  page's own detail page. The DOI chip underneath is the citation's only link
+  (Sebastian, 2026-08-15) — a reference list should point at the paper of
+  record, and a title linking to a local stub whose content is the citation
+  the reader is already looking at is a round trip to nowhere.
+
+  Detail pages are still built and still reachable: /research/ links to the two
+  AGU abstracts by URL, and search indexes them. They are simply not linked
+  from this list.
+
+  Entries with no DOI (work in preparation, conference abstracts) therefore
+  carry no link here at all. That is correct — there is nothing yet to point
+  at — and the *(in preparation)* / *submitted* status in the venue line says
+  so in words.
+*/}}
+
+{{ $item := .item }}
+{{ $year_value := $item.Params.event_start | default $item.Date }}
+{{ $year := (time $year_value).Format "2006" }}
+{{ $has_attachments := partial "functions/has_attachments" $item }}
+{{ $pub := partial "functions/resolve_publication.html" $item }}
+{{ $top_award := "" }}
+{{ with $item.Params.awards }}{{ $top_award = index . 0 }}{{ end }}
+
+<div class="pub-list-item view-citation" style="margin-bottom: 1rem">
+  <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+
+  {{/* APA Style */}}
+  {{ if eq (site.Params.hugoblox.content.citations.style | default "apa") "apa" }}
+
+  <span class="article-metadata li-cite-author">
+    {{ partial "page_metadata_authors" $item }}
+  </span>
+  ({{- $year -}}).
+  <span class="pub-title">{{ $item.Title }}</span>.
+  {{ with $pub.display_short }}{{- . | markdownify -}}.{{ end }}
+  {{ with $top_award }}
+    <span class="ml-1">{{ partial "components/award_badge.html" (dict "award" . "page" $item "variant" "inline") }}</span>
+  {{ end }}
+
+  {{ if $has_attachments }}
+  <div class="flex flex-wrap space-x-3">
+    {{ partial "page_links" (dict "page" $item "is_list" 1) }}
+  </div>
+  {{ end }}
+
+  {{/* MLA Style */}}
+  {{ else }}
+
+  <span class="article-metadata li-cite-author">
+    {{ partial "page_metadata_authors" $item }}.
+  </span>
+  <span class="pub-title">{{ $item.Title }}</span>.
+  {{ with $pub.display_short }}{{- . | markdownify -}},{{ end }}
+  {{- $year -}}.
+  {{ with $top_award }}
+    <span class="ml-1">{{ partial "components/award_badge.html" (dict "award" . "page" $item "variant" "inline") }}</span>
+  {{ end }}
+
+  {{ if $has_attachments }}
+  <div class="flex flex-wrap space-x-3">
+    {{ partial "page_links" (dict "page" $item "is_list" 1) }}
+  </div>
+  {{ end }}
+
+  {{ end }}
+</div>

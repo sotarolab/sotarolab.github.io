@@ -1,6 +1,7 @@
 ---
+draft: true  # unpublished 2026-08-15: not ready to show (see content/teaching/_index.md)
 title: "Machine Learning for Weather Extremes"
-summary: "A one-semester course proposal — extreme value statistics, ML bias correction, satellite-based reconstruction, and climate attribution — taught by lecture, with weekly coding assignments. Open to offer as a part-time / adjunct course."
+summary: "A one-semester course proposal covering extreme value statistics, ML bias correction, satellite-based reconstruction and climate attribution, taught by lecture with weekly coding assignments. Open to offer as a part-time / adjunct course."
 date: 2026-07-08
 tags:
   - Course

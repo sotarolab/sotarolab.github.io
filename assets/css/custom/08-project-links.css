@@ -1,0 +1,169 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Project pages — the "open the live app" button row
+   ═══════════════════════════════════════════════════════════════════════════
+   A project page here documents a RUNNING APPLICATION, so opening it is the
+   primary action on the page. The theme renders front-matter `links:` as a
+   small chain-icon text link above the body, visually identical to a DOI or a
+   dataset link — fine for a paper, wrong for an app, and Sebastian flagged
+   that it was not obvious where to click (2026-08-15).
+
+   The applinks shortcode (layouts/_shortcodes/applinks.html) emits this row
+   directly under the page title. Primer's button, near enough: 1px border,
+   6px radius, no shadow, no gradient.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Primer light: btn.primary.bg / btn.primary.hoverBg. The green is Primer's
+     own primary-button colour — NOT the site accent, which is a link blue and
+     would read as one more link in a page full of them. */
+  --hb-btn-primary-bg: #1f883d;
+  --hb-btn-primary-hover: #1a7f37;
+  --hb-btn-primary-fg: #ffffff;
+}
+
+html.dark {
+  /* Primer dark dimmed: btn.primary.bg / hoverBg. Slightly desaturated so it
+     does not glare against the dark canvas. */
+  --hb-btn-primary-bg: #347d39;
+  --hb-btn-primary-hover: #46954a;
+  --hb-btn-primary-fg: #ffffff;
+}
+
+.applinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 2rem;
+}
+
+/* Selectors are `.applinks a.applinks-btn`, not `.applinks-btn`: the theme's
+   prose link rule (.prose a, 05-typography.css) is specificity 0,1,1 and would
+   otherwise paint these buttons link-blue and underline them. `not-prose` on
+   the wrapper does not help — that only disables Tailwind's own typography
+   layer, not this repo's link rule. */
+.applinks a.applinks-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--hb-border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  color: var(--hb-color-foreground);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.applinks a.applinks-btn svg {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
+.applinks a.applinks-btn:hover {
+  border-color: currentColor;
+  text-decoration: none;
+}
+
+.applinks a.applinks-btn--primary {
+  background: var(--hb-btn-primary-bg);
+  border-color: var(--hb-btn-primary-bg);
+  color: var(--hb-btn-primary-fg);
+}
+
+.applinks a.applinks-btn--primary:hover {
+  background: var(--hb-btn-primary-hover);
+  border-color: var(--hb-btn-primary-hover);
+  color: var(--hb-btn-primary-fg);
+}
+
+/* Availability caveats ("source repository is private") — a footnote, not a
+   button, so it sits on the same line at body-text weight. */
+.applinks-note {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+@media (max-width: 480px) {
+  .applinks-note {
+    flex-basis: 100%;
+  }
+}
+
+/* ── Project cards ───────────────────────────────────────────────────────────
+   The Projects index uses the theme's article-grid view. Its card image box is
+   `aspect-[16/9]` with `object-fit: fill` — it STRETCHES the cover to fit
+   rather than cropping it, so a cover in any other ratio is silently
+   distorted. (A first attempt to fix that in CSS targeted `.article-card-image`
+   / `.hb-card-image`, class names this theme does not emit; the rules were
+   dead. The block's `css_class` does reach the wrapper, but overriding
+   object-fit here would letterbox every card against a background the theme
+   chooses — easier and better to ship covers already at 16:9.)
+
+   So: every `featured.jpg` is cropped to EXACTLY 16:9 at source. If you replace
+   one, match that ratio or the app screenshot will look subtly squashed —
+   which is hard to spot on a map and obvious on a chart with a square aspect.
+
+       sips -c 810 1440 --cropOffset 60 0 capture.png --out featured.jpg
+*/
+
+/* ── No taxonomy badges on cards ─────────────────────────────────────────────
+   The article-grid card prints the page's first tag as a pill above the title
+   ("Weather Extremes", "Machine Learning", …). Removed 2026-08-15 at
+   Sebastian's request: with two projects the labels group nothing, and they
+   link to taxonomy pages nothing else on the site links to — the same reason
+   the footer tag row went (see layouts/_partials/tags.html).
+
+   Hidden rather than deleted from front matter: the Teaching page's
+   collections filter on `tag: Course` and `tag: Interactive`, so the tags
+   still do work even though they are no longer printed.
+
+   `div:has(> a[href^="/tags/"])` matches the pill's own wrapper and nothing
+   above it, so the card's spacing stack closes up cleanly. */
+.hbb-section div:has(> a[href^="/tags/"]) {
+  display: none;
+}
+
+/* ── Projects grid: wider, and flush left with the text ─────────────────────
+   Moving from /research/ to /projects/ felt like a layout change (Sebastian,
+   2026-08-15). Both sit on the same 52rem rail, but /research/ lets its `wide`
+   figures break out to 60rem (09-page-width.css), so it reads as the wider
+   page. The card grid is this page's equivalent of those figures, so it gets
+   the same 60rem.
+
+   Centring that wider grid outdented it on BOTH sides, so the cards started
+   4rem left of the paragraph above them and looked unmoored from it. Instead
+   the grid keeps the rail's left edge and grows to the right only: its left
+   margin is the same `(100% - rail) / 2` the centred rail resolves to, and
+   `margin-right: 0` lets the extra 8rem fall on the right.
+
+   Both levels need it: 04-sections.css caps the wrapper AND its child at
+   --hb-rail (the `> *` rule), so widening only the wrapper changes nothing.
+
+   Scoped to `#live-tools`, the Projects collection block's own id, so no other
+   landing page moves. Below `lg` the grid is one column and none of this
+   applies. */
+@media (min-width: 64rem) {
+  #live-tools > .flex.flex-col.items-center.px-6 {
+    max-width: 60rem;
+    margin-left: calc((100% - var(--hb-rail)) / 2);
+    margin-right: 0;
+  }
+
+  #live-tools > .flex.flex-col.items-center.px-6 > * {
+    max-width: 60rem;
+  }
+
+  /* The collection's own container adds `px-8` (and `xl:px-5`), which inset
+     the cards ~2rem from the text above even once the containers agreed. The
+     rail gutter on the wrapper is already the page's left margin, so this
+     padding is a second one. Zero it and the card edge lands exactly on the
+     paragraph's edge. */
+  #live-tools > .flex.flex-col.items-center.px-6 > .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

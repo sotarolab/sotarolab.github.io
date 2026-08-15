@@ -1,6 +1,6 @@
 ---
 title: Publications
-summary: Peer-reviewed articles, conference contributions, and technical reports.
+summary: Peer-reviewed articles and conference contributions.
 cms_exclude: true
 type: landing
 
@@ -14,26 +14,24 @@ design:
 # edit here is needed when adding a paper.
 #
 # ⚠️ If you add a `publication_types` value not covered below, its entries will
-# silently render nowhere. The values in use are article-journal,
-# paper-conference and report; add a block if you introduce another.
+# silently render nowhere. The values rendered here are article-journal and
+# paper-conference. The Reports block was removed 2026-08-15, so a `report`
+# entry would build a page that nothing links to — add a block back if reports
+# ever return.
 #
 # `view: citation` renders each entry as a formatted reference rather than a
 # card — style is set by `content.citations.style` in params.yaml (APA). This is
 # the AcademicPages convention: a publication list should look like a reference
 # list, because that is how it gets read.
 sections:
-  # Page title. A landing page does not render its own `title`, and without
-  # this the page opened straight into "Journal Articles" while /research/ and
-  # /cv/ both lead with their name. The first-section rule in
-  # assets/css/custom/04-sections.css sets this one at page-title scale.
-  - block: markdown
-    content:
-      title: 'Publications'
-      text: |-
-        Peer-reviewed articles, conference contributions, and technical reports.
-        Work in preparation is marked as such.
-    design:
-      columns: '1'
+  # NB the page opens straight into "Journal Articles": the title block that
+  # used to sit here (an H1 "Publications" plus a line of blurb) was removed
+  # 2026-08-15 at Sebastian's request. A landing page does not render its own
+  # `title`, so /publications/ now has no page-level heading, unlike /research/
+  # and /cv/. That is deliberate — the section headings are self-explanatory
+  # and the nav already says where you are. The first-section rule in
+  # assets/css/custom/04-sections.css now scales "Journal Articles" as the
+  # page title, which is why it reads larger than "Conference Presentations".
 
   - block: collection
     id: journal-articles
@@ -63,39 +61,4 @@ sections:
     design:
       view: citation
 
-  - block: collection
-    id: reports
-    content:
-      title: Reports
-      text: ''
-      count: 0
-      filters:
-        folders:
-          - publications
-        publication_type: 'report'
-      order: desc
-    design:
-      view: citation
 ---
-
-<!--
-  ⚠️ NAME VARIANTS. Sebastian is indexed under at least five forms across these
-  papers:
-
-    Otarola Bustos, Sebastian F.   (BLM 2023)
-    Otárola-Bustos, Sebastián F.   (JAMC 2022)
-    Otárola, Sebastián             (GRL 2016)
-    Otarola-Bustos, Sebastian      (BAMS 2019, WFIP2)
-    Otarola-Bustos, S.             (BAMS 2019, Perdigão)
-
-  Each byline here matches its own paper of record. The practical consequence is
-  off this site: Google Scholar and ORCID will not merge these automatically, so
-  all five need claiming by hand on both profiles or the citation record stays
-  fragmented.
-
-  Once a Google Scholar ID exists, add a line above pointing at the full list;
-  reviewers routinely go looking for it.
-
-  To add a publication, see docs/CONTENT.md — or run:
-      hugo new content/publications/<year-venue-slug>/index.md -k publication
--->

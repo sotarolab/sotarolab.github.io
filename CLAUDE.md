@@ -25,9 +25,19 @@ make check    # build + pre-publish checks — run before pushing
 - `data/publications.yaml` is the whole bibliography. Everything under
   `content/publications/` is GENERATED from it by `tools/gen_publications.py`
   — never edit those pages; `make check` fails if they drift.
-- `data/research.yaml` is the whole Research page — prose and figures per
-  section. `content/research.md` is GENERATED from it by `tools/gen_research.py`
-  (`make research`); never edit it directly, `make check` fails if it drifts.
+- Figures rendered from code ship a light AND a dark canvas
+  (`rfig`'s `image_dark=`), because a white plot glares on the dark theme.
+  `~/dev/caudal` and `~/dev/chile-super-extremes` each grew a
+  `viz.style.dark()` context and a `--dark` flag that re-run the SAME builders
+  and write `*_dark.png`; never hand-edit or recolour a rendered figure, and
+  never let a dark render overwrite the file the paper builds from.
+- `content/research.md` is the whole Research page, hand-written markdown —
+  edit it directly, no generator. Figures go in via the `rfig`/`rstrip`
+  shortcodes in `layouts/_shortcodes/`, which own the `.rstrip` markup that
+  `research-strip.js` and `06-figures.css` are keyed to, and which fail the
+  BUILD if a figure lacks `ratio`, `alt`, or (for video) `poster`. It was
+  generated from `data/research.yaml` until 2026-08-15 — dropped because the
+  prose is edited far more often than the figures.
 - Factual source of truth is `Sebastian_Otarola-Bustos_CV_human.pdf` (repo
   root, gitignored — it carries a personal phone number). Facts on the site
   come from that document; never invent credentials, dates, or claims. The
@@ -37,8 +47,21 @@ make check    # build + pre-publish checks — run before pushing
   wording verbatim. Elsewhere, prefer his wording; substantive rewrites need
   his sign-off.
 - Nav: About / Research / Projects / Publications / Teaching / CV. Research is
-  what the work studies; Projects is what is built and running. `/blog/` exists
+  what the work studies; Projects is what is built and running. Project pages
+  open with the `applinks` shortcode (the live app as a primary button — the
+  theme's own `links:` render is a small text link and was missed), carry a
+  `featured.jpg` card cover marked `preview_only`, and document the app with
+  real captures under `static/media/projects/`. Interactive teaching tools are
+  self-contained HTML in `static/apps/<slug>/`, framed by a page under
+  `content/teaching/<slug>/` tagged `Interactive`. `/blog/` exists
   but is unlinked while it has one post.
+- Figure images open full-size on click (`assets/js/figure-lightbox.js` +
+  `10-lightbox.css`), site-wide and JS-optional. It binds BOTH theme variants
+  of a paired figure — binding only the visible one breaks as soon as a reader
+  uses the theme toggle.
+- No social share row anywhere: the theme's sharer is opt-OUT, so
+  `config/_default/hugo.yaml` cascades `share: false` over `/**`. A new
+  content file would otherwise bring X/Facebook/WhatsApp buttons back.
 - Custom CSS lives in `assets/css/custom/*.css`, concatenated in filename order.
   Never put CSS back into a head-hook `<style>` tag — two rules were silently
   dead behind unbalanced comment delimiters in the old inline file. Never quote

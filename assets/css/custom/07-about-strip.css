@@ -40,10 +40,16 @@
    than clipping (the page body is overflow-x: clip). */
 @media (min-width: 768px) {
   .astrip {
-    /* without an explicit width the bio's prose cap (65ch) squeezes the
-       row and the tiles lose ~90px each */
-    width: calc(50vw + min(80rem, 100vw - 2rem) / 6 - 2.167rem);
-    max-width: none;
+    /* Was a hand-tuned breakout — `calc(50vw + min(80rem,100vw - 2rem)/6 -
+       2.167rem)` — which ran the row rightward past the bio column into the
+       page margin. That was tuned against the old 4/8 column split and against
+       the prose cap it was working around; both are gone (the sidebar is a
+       fixed 20rem now, and .bio-text's cap is lifted below), and it left the
+       strip visibly wider than the paragraphs above it.
+
+       The column is the measure now, so the strip simply fills it and the two
+       line up on both edges. */
+    width: 100%;
   }
 }
 
@@ -91,12 +97,66 @@
 /* Caption idiom matches the research strip (.rstrip-cap). */
 .astrip-cap {
   margin-top: 0.55rem;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  opacity: 0.68;
+  /* Matched to .rstrip-cap in 06-figures.css, which went up for the same
+     reason: at 0.78rem/0.68 opacity these read as fine print rather than as
+     the description of the thing above them. */
+  font-size: 0.9rem;
+  line-height: 1.55;
+  opacity: 0.8;
 }
 
 .astrip-cap b {
   font-weight: 600;
   opacity: 0.92;
+}
+
+/* ── News block: same left edge as the bio column ────────────────────────────
+   The News collection is its own section, so its containers centre on
+   --hb-rail, while the biography above is a two-column grid: fixed 20rem
+   sidebar, 2rem gap, then the bio and the animation strip. The left edges
+   disagreed and News read as shifted against the strip right above it
+   (Sebastian, 2026-08-15).
+
+   The block nests three centring layers — the section's flex children
+   (`items-center`), the heading's `max-w-prose mx-auto`, and the list's
+   `w-fit` — and each one re-centres inside whatever box the layer above
+   gives it. Shifting any single layer just moved the problem down, so every
+   layer is pinned left here and the offset is applied once, on the section.
+
+   The 22rem is the biography's sidebar (20rem) plus its grid gap (2rem). If
+   03-biography.css changes that split, change this with it. */
+@media (min-width: 48rem) {
+  #news {
+    padding-left: calc((100% - min(80rem, 100% - 2rem)) / 2 + 22rem) !important;
+    padding-right: calc((100% - min(80rem, 100% - 2rem)) / 2 + 1rem) !important;
+  }
+
+  #news > div {
+    align-items: flex-start !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  /* The heading sits one level deeper and takes its horizontal position from
+     the wrapper's `items-center`. `align-self` on the child is the only thing
+     that overrides that regardless of what the parent says. */
+  #news > div > * {
+    align-self: flex-start !important;
+    margin-left: 0 !important;
+  }
+
+  /* The list wrapper is `w-fit`, and the entries inside it are capped at
+     `max-w-3xl`; both need to start at the container edge rather than in the
+     middle of it. */
+  #news .w-fit,
+  #news .max-w-3xl {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
 }

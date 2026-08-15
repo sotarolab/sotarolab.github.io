@@ -11,7 +11,7 @@ authors:
   - Justin Sharp
   - Caroline Draxl
   - Katherine McCaffrey
-  - et al. (36 authors, incl. S. Otarola-Bustos)
+  - et al.
 
 date: 2019-09-01
 publishDate: 2019-09-01

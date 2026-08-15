@@ -1,0 +1,67 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Single-page width — /research/, /projects/<slug>/, /teaching/<slug>/
+   ═══════════════════════════════════════════════════════════════════════════
+   Landing pages (About, Projects index, Teaching index, CV) are normalised
+   onto --hb-rail by 04-sections.css. Regular single pages were not, because
+   until 2026-08-15 the only ones were short. /research/ becoming a hand-written
+   markdown page put a long, figure-heavy page through the single template, and
+   it read as a narrow ribbon of text with a large empty margin beside it
+   (Sebastian, 2026-08-15).
+
+   Two separate causes, fixed separately below.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. The empty sidebar column ─────────────────────────────────────────────
+   layouts/single.html calls components/sidebar.html with `no_sidebar true`,
+   but the partial still emits its <aside class="hb-sidebar-container">, which
+   the theme sizes at w-64 (16rem) and shows again at xl:
+
+       .hb-sidebar-container { lg:hidden xl:block }   ← container
+       ul inside                                     ← lg:hidden
+
+   Below lg the container IS the mobile nav drawer (position: fixed, slides in)
+   and must stay. At lg it is hidden. At xl it comes back — but its only
+   contents are that lg:hidden list, so what returns is 256px of nothing,
+   pushing the article off-centre.
+
+   So: hide it at xl only, where it is provably empty. Never hide it outright —
+   that kills the mobile menu. Docs-type pages (the course pages under
+   /teaching/) render their own sidebar and never reach this rule.
+
+   `aside.hb-sidebar-container` rather than the bare class: the theme's
+   `xl:block` is one class, so this needs specificity 0,1,1 to win, and this
+   bundle already loads after the theme's. */
+@media (min-width: 80rem) {
+  aside.hb-sidebar-container {
+    display: none;
+  }
+}
+
+/* ── 2. The text column ──────────────────────────────────────────────────────
+   The theme wraps page bodies in `prose prose-slate lg:prose-xl`, and Tailwind
+   typography caps each size in `ch` — around 65ch, well under the 52rem rail
+   the landing pages use. Two different measures on one site read as a bug.
+
+   Matching --hb-rail also means a figure sized `width: 680px` in a shortcode
+   occupies the same fraction of the column here as it does on a landing page,
+   so figure sizing stays portable between the two. */
+.prose {
+  max-width: var(--hb-rail);
+}
+
+/* ── 3. Wide figures break the rail ──────────────────────────────────────────
+   `wide="true"` figures (panoramic multi-panel plots, the lidar scan sequence,
+   app screenshots) are the ones that were illegible at card size in the first
+   place, so they get the full width the article container allows rather than
+   the text measure. Text stays at --hb-rail for readability; only the media
+   steps outside it.
+
+   Bounded at 60rem, and only from xl up, where hiding the sidebar freed the
+   room. Below that the strip stays inside the rail and no negative margin is
+   applied, so nothing can push a horizontal scrollbar onto a narrow screen. */
+@media (min-width: 80rem) {
+  .rstrip-align:has(.rstrip-item--wide) {
+    max-width: 60rem;
+    margin-inline: calc((var(--hb-rail) - 60rem) / 2);
+  }
+}

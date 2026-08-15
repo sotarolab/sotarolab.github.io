@@ -18,14 +18,36 @@ sections:
     content:
       title: 'Curriculum Vitae'
       text: |-
-        My background spans water resources engineering, atmospheric fluid
-        dynamics, and applied machine learning — in industry and in research.
+        <!-- Print-only masthead: hidden on screen (the site header already
+             names him), shown in the generated PDF, which is a standalone
+             document. NO phone number here on purpose. -->
+        <div class="cv-print-header">
+          <h1>Sebastian F. Otarola-Bustos, PhD</h1>
+          <p>Rockville, MD · sfotarol@gmail.com · linkedin.com/in/sotarolab</p>
+        </div>
 
-        <!-- The PDF at the repo root is deliberately NOT published: it carries a
-             personal phone number and this site is public and crawlable. To
-             offer a download, export a web version without it, save to
-             `static/uploads/cv.pdf`, and uncomment the line below. -->
-        <!-- [Download CV (PDF)](/uploads/cv.pdf) -->
+        My background spans water resources engineering, atmospheric fluid
+        dynamics, and applied machine learning, in industry and in research.
+
+        <!-- The PDF at the repo root is deliberately NOT the one published: it
+             carries a personal phone number and this site is public and
+             crawlable. What ships is static/uploads/cv.pdf, PRINTED FROM THIS
+             PAGE, so it inherits the page's redactions (no client names, no
+             project numbers, no phone) and cannot drift from it:
+
+               make serve                       # or any local build
+               "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+                 --headless=new --disable-gpu --no-pdf-header-footer \
+                 --print-to-pdf=static/uploads/cv.pdf \
+                 http://localhost:1313/cv/
+
+             Layout comes from assets/css/custom/12-print.css. Regenerate it
+             whenever the CV content changes. To publish a hand-made PDF
+             instead, drop it at the same path; only remove the phone number
+             first. -->
+        <a class="applinks-btn applinks-btn--primary" href="/uploads/cv.pdf" download>
+          Download CV (PDF)
+        </a>
     design:
       columns: '1'
 
@@ -71,7 +93,7 @@ sections:
       text: |-
         Engineering mentoring at Hazen and Sawyer since 2022, and graduate
         teaching assistantships in environmental hydrology and fluid mechanics at
-        Notre Dame — see [Teaching](/teaching/) for the full record.
+        Notre Dame. See [Teaching](/teaching/) for the full record.
     design:
       columns: '1'
 

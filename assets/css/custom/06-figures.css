@@ -75,9 +75,12 @@ img.rstrip-media {
 
 .rstrip-cap {
   margin-top: 0.55rem;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  opacity: 0.68;
+  /* 0.78rem at 0.68 opacity was too quiet to read comfortably against the
+     body text above it (Sebastian, 2026-08-15). A caption is content, not a
+     credit line: it should sit below body size and clearly above fine print. */
+  font-size: 0.9rem;
+  line-height: 1.55;
+  opacity: 0.8;
 }
 
 .rstrip-cap b {
@@ -155,4 +158,27 @@ img.rstrip-media {
    break the sticky header. */
 .page-body {
   overflow-x: clip;
+}
+
+/* ── Per-theme figure variants ───────────────────────────────────────────────
+   A figure whose canvas is white is a glare panel on the dark theme, and a
+   dark-canvas figure is equally wrong on the light one. Where a figure has
+   both (rfig's `image_dark=`), the theme picks. Plots only: photographs and
+   app screenshots have one true version and ship unpaired.
+
+   Toggled on `html.dark`, the class the theme sets — NOT `prefers-color-scheme`,
+   which would ignore a reader who has overridden the theme with the header
+   switch. Both files are fetched; they are the same figure at the same size,
+   and swapping at paint time is what keeps the switch instant. */
+
+.rstrip-media--dark {
+  display: none;
+}
+
+html.dark .rstrip-media--light {
+  display: none;
+}
+
+html.dark .rstrip-media--dark {
+  display: block;
 }

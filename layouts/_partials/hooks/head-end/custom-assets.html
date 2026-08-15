@@ -18,9 +18,9 @@
 
   ── JS ─────────────────────────────────────────────────────────────────────
   Listed explicitly rather than globbed: order is not alphabetical and each
-  script is independently droppable. All three attach on DOMContentLoaded and
-  no-op when their hook element is absent, so `defer` is safe and every page
-  gets all three regardless of which elements it actually contains.
+  script is independently droppable. Each attaches on DOMContentLoaded and
+  no-ops when its hook element is absent, so `defer` is safe and every page
+  gets all of them regardless of which elements it actually contains.
 
   Both are minified and then fingerprinted, with Subresource Integrity emitted
   from the same pipeline. ORDER MATTERS: `minify` must come before
@@ -32,6 +32,21 @@
   workarounds against upstream block templates — they are stripped from the
   published bundle, not from the repo.
 */}}
+
+{{- /* Dark only. The theme reads `wc-color-theme` from localStorage before
+       falling back to the configured default, so a browser that toggled to
+       light once stays light forever now that the toggle is hidden
+       (params.yaml). This normalises the stored value and paints the class
+       immediately.
+
+       INLINE and BEFORE the stylesheet on purpose: as a deferred file it would
+       run after first paint and every visit would flash white. It is the one
+       script that has to be inline — everything else goes through the
+       fingerprinted bundle above. */ -}}
+<script>
+  try { localStorage.setItem('wc-color-theme', 'dark'); } catch (e) {}
+  document.documentElement.classList.add('dark');
+</script>
 
 {{- $css := slice -}}
 {{- range (resources.Match "css/custom/*.css") -}}
@@ -47,7 +62,7 @@
 {{- /* mountain-waves.js dropped from the bundle 2026-08-16 with its canvas
        figure on /research/ — the file stays in assets/js/ for possible
        restoration. */ -}}
-{{- range slice "js/biography-aria.js" "js/research-strip.js" -}}
+{{- range slice "js/biography-aria.js" "js/research-strip.js" "js/figure-lightbox.js" -}}
   {{- with resources.Get . -}}
     {{- $js := . | minify | fingerprint -}}
     <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>

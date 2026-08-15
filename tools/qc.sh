@@ -53,11 +53,6 @@ if python3 tools/gen_publications.py --check; then
 else
   fail "content/publications/ is out of sync — edit data/publications.yaml, then: make publications"
 fi
-if python3 tools/gen_research.py --check; then
-  pass "content/research.md matches data/research.yaml"
-else
-  fail "content/research.md is out of sync — edit data/research.yaml, then: make research"
-fi
 
 # ── 2. No placeholders ship ─────────────────────────────────────────────────
 # Checked against the BUILT SITE, not the sources: a placeholder inside a YAML

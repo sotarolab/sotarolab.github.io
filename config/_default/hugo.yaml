@@ -27,6 +27,20 @@ cascade:
       kind: page
     outputs: [HTML, present]
 
+  # No social share row. The theme appends X / Facebook / e-mail / LinkedIn /
+  # WhatsApp buttons under every page (components/page_sharer.html, which
+  # renders unless `share` is false). On an academic site they read as a blog's
+  # engagement furniture, and WhatsApp/Facebook share buttons under a
+  # publication page are not what this site is for (Sebastian, 2026-08-15).
+  #
+  # Set here rather than per page: the sharer is opt-OUT, so any new content
+  # file would otherwise silently bring the row back. To restore it on one
+  # page, put `share: true` in that page's front matter.
+  - target:
+      path: /**
+    params:
+      share: false
+
 ############################
 ## ADVANCED
 ############################

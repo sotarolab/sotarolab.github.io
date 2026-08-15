@@ -1,0 +1,117 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Figure lightbox
+   ═══════════════════════════════════════════════════════════════════════════
+   Behaviour lives in assets/js/figure-lightbox.js. Everything here is inert
+   until that script marks a figure `.lbx-trigger` and appends the overlay, so
+   with JS off nothing below applies and the page is unchanged.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── The trigger ─────────────────────────────────────────────────────────────
+   The affordance has to be visible without hover, because touch has no hover:
+   the cursor covers pointers, and the focus ring covers keyboards. */
+
+.lbx-trigger {
+  cursor: zoom-in;
+}
+
+.lbx-trigger:focus-visible {
+  outline: 2px solid var(--hb-nav-active);
+  outline-offset: 3px;
+}
+
+/* ── The overlay ─────────────────────────────────────────────────────────────
+   Deliberately near-opaque rather than a light scrim: these are dense
+   multi-panel scientific figures, and the point of opening one is to read axis
+   numbers. Anything showing through competes with that. */
+
+.lbx {
+  position: fixed;
+  inset: 0;
+  z-index: 60; /* above the theme's sticky navbar (z-15) and its sidebar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgb(1 4 9 / 92%);
+  cursor: zoom-out;
+}
+
+.lbx[hidden] {
+  display: none;
+}
+
+.lbx-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* The image is the point: give it the whole viewport minus the padding, and
+   let the caption take what is left. `min-height: 0` so a tall portrait figure
+   (the Chile maps are 1043x1400) shrinks to fit instead of pushing its caption
+   off-screen. */
+.lbx-img {
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff; /* transparent PNGs still need a canvas to read against */
+  cursor: default;
+}
+
+.lbx-cap {
+  flex: none;
+  max-width: 60rem;
+  color: #cdd9e5;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  text-align: center;
+  cursor: default;
+}
+
+.lbx-cap[hidden] {
+  display: none;
+}
+
+.lbx-cap b,
+.lbx-cap strong {
+  color: #fff;
+}
+
+.lbx-cap a {
+  color: #79c0ff;
+}
+
+.lbx-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(205 217 229 / 35%);
+  border-radius: 6px;
+  background: transparent;
+  color: #cdd9e5;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lbx-close:hover,
+.lbx-close:focus-visible {
+  border-color: #cdd9e5;
+  color: #fff;
+}
+
+/* The page must not scroll behind the overlay. */
+body.lbx-open {
+  overflow: hidden;
+}

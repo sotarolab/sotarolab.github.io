@@ -1,0 +1,2077 @@
+<title>The Saint-Venant Flume</title>
+<style>
+  :root {
+    --bg: #0B1220;
+    --panel: #101A2E;
+    --panel-edge: #1E2C45;
+    --bed: #16233B;
+    --ink: #E8EDF5;
+    --ink-2: #92A2BC;
+    --ink-3: #5C6E8C;
+    --water: #2A9AC2;
+    --exact: #BD882C;
+    --bore: #CE5A7F;
+    --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 72px;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; }
+  header { padding: 52px 0 12px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.12;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  h1 em { font-style: italic; color: var(--water); }
+  .lede {
+    color: var(--ink-2);
+    max-width: 64ch;
+    margin: 0;
+    font-size: 17px;
+  }
+  .exp-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--water);
+    margin: 0 0 8px;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 27px;
+    line-height: 1.22;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  section.exp { margin: 54px 0 0; }
+  /* ---------- instrument ---------- */
+  .instrument {
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: 10px;
+    padding: 18px 18px 14px;
+    margin: 20px 0 18px;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-2);
+    padding: 0 2px 10px;
+  }
+  .legend .swatch {
+    display: inline-block;
+    width: 18px; height: 0;
+    border-top: 2.5px solid;
+    vertical-align: middle;
+    margin-right: 7px;
+    border-radius: 2px;
+  }
+  .legend .sw-num   { border-color: var(--water); }
+  .legend .sw-exact { border-color: var(--exact); border-top-style: dashed; }
+  .legend .sw-bore  { border-color: var(--bore); }
+  canvas { display: block; width: 100%; }
+  .cv-flume { height: 280px; cursor: crosshair; }
+  .cv-xt    { height: 240px; margin-top: 6px; }
+  .cv-fr    { height: 130px; margin-top: 6px; }
+  .cv-jet   { height: 165px; margin-top: 6px; }
+  .cv-map   { height: 380px; cursor: crosshair; }
+  .cv-slice { height: 170px; margin-top: 6px; }
+  .panel-caption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 10px 2px 2px;
+  }
+  /* ---------- controls ---------- */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    align-items: center;
+    padding: 14px 2px 4px;
+  }
+  button {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink);
+    background: #182540;
+    border: 1px solid var(--panel-edge);
+    border-radius: 6px;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+  button:hover { border-color: var(--ink-3); }
+  button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--water);
+    outline-offset: 2px;
+  }
+  button.primary { background: var(--water); color: #06121C; border-color: var(--water); font-weight: 600; }
+  button[aria-pressed="true"] { border-color: var(--water); color: var(--water); }
+  .ctl-group { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .ctl-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    margin-right: 4px;
+  }
+  input[type=range] { accent-color: var(--water); width: 150px; }
+  .ctl-value { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); min-width: 8.5ch; font-variant-numeric: tabular-nums; }
+  /* ---------- stats ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+    margin: 14px 0 0;
+  }
+  .stat {
+    background: #0D1626;
+    border: 1px solid var(--panel-edge);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .stat .k {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .stat .v {
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .v .sub { color: var(--ink-2); font-size: 12px; }
+  /* ---------- equations ---------- */
+  .eqs {
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: 10px;
+    padding: 26px 24px 20px;
+    margin: 30px 0 8px;
+  }
+  .eq-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 18px;
+  }
+  .eq {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 21px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    margin: 0 0 6px;
+  }
+  .eq .rm { font-style: normal; }
+  .term { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; }
+  .term .tag {
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .term .tag b { color: var(--water); font-weight: 600; }
+  .frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 1.15;
+    font-size: 0.86em;
+  }
+  .frac .num { padding: 0 4px 2px; border-bottom: 1px solid var(--ink-2); }
+  .frac .den { padding: 2px 4px 0; }
+  .eq-note { color: var(--ink-2); font-size: 15px; margin: 18px 0 0; max-width: 68ch; }
+  /* ---------- prose ---------- */
+  .prose p { max-width: 66ch; color: var(--ink-2); margin: 0 0 14px; }
+  .prose strong { color: var(--ink); font-weight: 600; }
+  .prose i, .prose .m { font-family: var(--serif); font-style: italic; }
+  .marker { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: baseline; margin-right: 2px; }
+  footer {
+    margin-top: 56px;
+    padding-top: 18px;
+    border-top: 1px solid var(--panel-edge);
+    color: var(--ink-3);
+    font-size: 13.5px;
+    max-width: 76ch;
+  }
+  footer p { margin: 0 0 6px; }
+  @media (max-width: 560px) {
+    .cv-flume { height: 210px; }
+    .cv-xt { height: 190px; }
+    .cv-map { height: 300px; }
+    .eq { font-size: 17px; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Shallow water equations · water &amp; air · finite volume</p>
+    <h1>The Saint-Venant equations, <em>one term at a time</em></h1>
+    <p class="lede">
+      Five live numerical experiments. The first switches every source term off and watches
+      the bare hyperbolic core of the equations — a dam break. The next two switch the
+      right-hand side back on, one term at a time: bed slope, then friction. The fourth
+      leaves the line for the plane. The last spins the planet, and the same equations stop
+      describing a flood and start describing a weather front. Every experiment is computed
+      by the same Godunov-type HLL finite-volume scheme, and each is checked against an exact
+      or reference solution, drawn dashed.
+    </p>
+  </header>
+
+  <div class="eqs">
+    <p class="eq-title">The Saint-Venant equations, one dimension</p>
+    <p class="eq">
+      <span class="term"><span><span class="frac"><span class="num">∂h</span><span class="den">∂t</span></span></span><span class="tag">storage</span></span>
+      <span class="rm">+</span>
+      <span class="term"><span><span class="frac"><span class="num">∂(hu)</span><span class="den">∂x</span></span></span><span class="tag">mass flux</span></span>
+      <span class="rm">= 0</span>
+    </p>
+    <p class="eq">
+      <span class="term"><span><span class="frac"><span class="num">∂(hu)</span><span class="den">∂t</span></span></span><span class="tag">inertia</span></span>
+      <span class="rm">+</span>
+      <span class="term"><span><span class="frac"><span class="num">∂</span><span class="den">∂x</span></span><span class="rm">(</span>hu² + ½gh²<span class="rm">)</span></span><span class="tag">advection + pressure · <b>exp i</b></span></span>
+      <span class="rm">=</span>
+      <span class="term"><span>−gh <span class="frac"><span class="num">∂z<sub>b</sub></span><span class="den">∂x</span></span></span><span class="tag">bed slope · <b>exp ii</b></span></span>
+      <span class="rm">−</span>
+      <span class="term"><span><span class="frac"><span class="num">g n² u|u|</span><span class="den">h<sup>1/3</sup></span></span></span><span class="tag">friction · <b>exp iii</b></span></span>
+      <span class="rm">+</span>
+      <span class="term"><span>f h v</span><span class="tag">Coriolis · <b>exp v</b></span></span>
+    </p>
+    <p class="eq">
+      <span class="term"><span><span class="frac"><span class="num">∂(hv)</span><span class="den">∂t</span></span></span><span class="tag">along-front momentum</span></span>
+      <span class="rm">+</span>
+      <span class="term"><span><span class="frac"><span class="num">∂(huv)</span><span class="den">∂x</span></span></span><span class="tag">transport</span></span>
+      <span class="rm">=</span>
+      <span class="term"><span>−f h u</span><span class="tag">Coriolis · <b>exp v</b></span></span>
+    </p>
+    <p class="eq-note">
+      With the right-hand side removed, what remains is a pure hyperbolic system with wave
+      speeds <i class="m">u</i> ± √(<i class="m">gh</i>) — formally identical to isentropic gas dynamics
+      with γ = 2, the Froude number playing the role of Mach. Experiment IV keeps the same
+      system but lets the flux point in two directions, <i class="m">x</i> and <i class="m">y</i>.
+      Experiment V adds the third line above and swaps gravity for reduced gravity
+      <i class="m">g</i>′ — at which point the equations describe a layer of cold air rather than
+      a layer of water, and the flood model becomes a weather model.
+    </p>
+  </div>
+
+  <!-- ═══════════════ EXPERIMENT I ═══════════════ -->
+  <section class="exp prose" id="exp1">
+    <p class="exp-eyebrow">Experiment I · right-hand side off</p>
+    <h2>The dam break is the Riemann problem</h2>
+    <p>
+      At <i>t</i> = 0 a wall separating two still pools is removed. On a flat, frictionless
+      bed the collapse is exactly solvable — and it contains, in one picture, every wave the
+      shallow-water equations can produce.
+    </p>
+
+    <div class="instrument">
+      <div class="legend" aria-hidden="true">
+        <span><span class="swatch sw-num"></span>finite-volume solution (HLL, 400 cells)</span>
+        <span><span class="swatch sw-exact"></span>exact solution</span>
+        <span><span class="swatch sw-bore"></span>bore / wet front</span>
+      </div>
+      <canvas id="d1-flume" class="cv-flume" role="img" aria-label="Animated water depth profile of a dam break: numerical solution as a filled water surface, exact solution as a dashed overlay"></canvas>
+      <p class="panel-caption">x–t plane · characteristics fan &amp; shock path · dots = numerical front</p>
+      <canvas id="d1-xt" class="cv-xt" role="img" aria-label="Space-time diagram showing rarefaction characteristics fanning from the dam site and the shock trajectory, with the numerical front position plotted as dots"></canvas>
+      <div class="controls">
+        <button id="d1-play" class="primary">Pause</button>
+        <button id="d1-reset">Restart</button>
+        <div class="ctl-group">
+          <span class="ctl-label">tailwater h<sub>r</sub>/h<sub>0</sub></span>
+          <input type="range" id="d1-ratio" min="0" max="0.5" step="0.01" value="0.10" aria-label="Downstream to upstream depth ratio">
+          <span class="ctl-value" id="d1-ratioVal">0.10 · wet</span>
+        </div>
+        <div class="ctl-group" role="group" aria-label="Preset scenarios">
+          <button id="d1-stoker" aria-pressed="true">Stoker · wet bed</button>
+          <button id="d1-ritter" aria-pressed="false">Ritter · dry bed</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">elapsed time</div><div class="v" id="d1-t">0.00 s</div></div>
+        <div class="stat"><div class="k" id="d1-sK">bore speed S</div><div class="v" id="d1-sV">–</div></div>
+        <div class="stat"><div class="k" id="d1-dK">plateau depth hₘ</div><div class="v" id="d1-dV">–</div></div>
+      </div>
+    </div>
+
+    <p>
+      Three regions appear instantly and self-similarly — every profile is a stretched copy
+      of the last, a function of <i>x</i>/<i>t</i> alone. Upstream, a <strong>rarefaction fan</strong>
+      spreads the news of the collapse at speed <i>c</i>₀ = √(<i>gh</i>₀); inside it the surface is a
+      smooth parabola and the characteristics splay apart like spokes. In the middle sits a
+      <strong>plateau</strong> of constant depth <i>h<sub>m</sub></i>, fixed by matching the fan to the
+      shock. Downstream, a <strong><span class="marker" style="background:var(--bore)"></span>bore</strong>
+      advances into still water: characteristics converge, the surface steepens into a
+      discontinuity, and mass and momentum are conserved across it while <strong>energy is
+      not</strong> — the lost energy is real, spent churning the front. Drag the tailwater to zero
+      and the bore disappears entirely: on a dry bed (Ritter, 1892) the solution is all
+      rarefaction, the front runs at 2<i>c</i>₀, and the depth at the dam site locks to exactly
+      <sup>4</sup>⁄<sub>9</sub> <i>h</i>₀.
+    </p>
+    <p>
+      Why this problem anchors everything: the numerical scheme is a Godunov method, and at
+      every cell interface, every timestep, it confronts two constant states meeting at a
+      discontinuity — <strong>which is precisely a dam break</strong>. The HLL flux answers it
+      approximately, bracketing the fan–plateau–shock structure between two estimated wave
+      speeds. The scene you are watching is the solver's own inner subproblem, blown up to
+      the size of the domain. And because the exact answer is known, the readouts above are
+      a genuine validation: a conservative scheme must get the bore speed right, and the
+      visible smearing of the front is the honest signature of first-order numerics.
+    </p>
+  </section>
+
+  <!-- ═══════════════ EXPERIMENT II ═══════════════ -->
+  <section class="exp prose" id="exp2">
+    <p class="exp-eyebrow">Experiment II · bed slope on</p>
+    <h2>Flow over a bump, and the art of doing nothing</h2>
+    <p>
+      Now the bed term −<i>gh</i> ∂<i>z<sub>b</sub></i>/∂<i>x</i> switches on. Water is forced over a
+      parabolic bump: it accelerates, passes through critical flow at the crest, goes
+      supercritical down the far side, and shocks back to subcritical in a standing
+      <strong>hydraulic jump</strong> — a steady solution you can derive with Bernoulli and check below.
+    </p>
+
+    <div class="instrument">
+      <div class="legend" aria-hidden="true">
+        <span><span class="swatch sw-num"></span>finite-volume surface (HLL + hydrostatic reconstruction)</span>
+        <span><span class="swatch sw-exact"></span>analytic steady profile</span>
+        <span><span class="swatch sw-bore"></span>hydraulic jump</span>
+      </div>
+      <canvas id="d2-flume" class="cv-flume" role="img" aria-label="Water surface flowing over a parabolic bump, converging to a steady state with a hydraulic jump, with the analytic steady profile as a dashed overlay"></canvas>
+      <p class="panel-caption">Froude number along the flume · Fr = 1 is critical</p>
+      <canvas id="d2-fr" class="cv-fr" role="img" aria-label="Froude number along the channel, crossing one at the bump crest and jumping back below one at the hydraulic jump"></canvas>
+      <div class="controls">
+        <button id="d2-play" class="primary">Pause</button>
+        <button id="d2-reset">Restart</button>
+        <div class="ctl-group" role="group" aria-label="Preset scenarios">
+          <button id="d2-trans" aria-pressed="true">transcritical + jump</button>
+          <button id="d2-sub" aria-pressed="false">subcritical</button>
+          <button id="d2-lake" aria-pressed="false">lake at rest</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">elapsed time</div><div class="v" id="d2-t">0.00 s</div></div>
+        <div class="stat"><div class="k" id="d2-aK">jump position</div><div class="v" id="d2-aV">–</div></div>
+        <div class="stat"><div class="k" id="d2-bK">froude range</div><div class="v" id="d2-bV">–</div></div>
+      </div>
+    </div>
+
+    <p>
+      The subtlety here is not the jump — it is <strong>rest</strong>. Discretize the flux and the bed
+      term independently and they fail to cancel over a sloping bed, so a perfectly still
+      lake develops phantom currents out of pure truncation error. A scheme that keeps
+      exact stillness is called <strong>well-balanced</strong> (it satisfies the "C-property"), and the
+      one running above uses hydrostatic reconstruction to achieve it: press
+      <em>lake at rest</em> and watch the maximum velocity readout sit at machine precision —
+      the discrete flux gradient and the discrete bed force cancelling identically, forever.
+      For a flood model this is not a nicety. A river valley is nothing but sloping terrain
+      holding nearly-still water, and a scheme that cannot do nothing cannot be trusted to
+      do something.
+    </p>
+    <p>
+      The transcritical case adds the second lesson: the flow chooses its own regime.
+      Upstream the flow is subcritical (Fr &lt; 1, information travels both ways), the crest
+      pins Fr = 1 exactly — the shallow-water version of a nozzle throat — and downstream of
+      the jump the flow is subcritical again, which is why fixing the outlet depth is a
+      legitimate boundary condition. The jump itself is a shock that has stopped moving:
+      the same Rankine–Hugoniot conditions as the dam-break bore, with the same energy loss,
+      now anchored in place.
+    </p>
+  </section>
+
+  <!-- ═══════════════ EXPERIMENT III ═══════════════ -->
+  <section class="exp prose" id="exp3">
+    <p class="exp-eyebrow">Experiment III · friction on</p>
+    <h2>The flood wave meets Manning</h2>
+    <p>
+      Last source term: friction, −<i>gn</i>²<i>u</i>|<i>u</i>|/<i>h</i><sup>1/3</sup>. The same dry-bed dam
+      break as Ritter's — but now the front runs over resistive ground. The dashed profile
+      is the frictionless exact solution: the gap between the two is what roughness does to
+      a flood.
+    </p>
+
+    <div class="instrument">
+      <div class="legend" aria-hidden="true">
+        <span><span class="swatch sw-num"></span>with Manning friction (HLL, 400 cells)</span>
+        <span><span class="swatch sw-exact"></span>frictionless exact (Ritter)</span>
+        <span><span class="swatch sw-bore"></span>wet front</span>
+      </div>
+      <canvas id="d3-flume" class="cv-flume" role="img" aria-label="Dry-bed dam break with Manning friction: the computed front lags the dashed frictionless exact solution, with a blunted tip"></canvas>
+      <p class="panel-caption">x–t plane · dashed line = frictionless front at 2c₀ · dots = actual front</p>
+      <canvas id="d3-xt" class="cv-xt" role="img" aria-label="Space-time diagram comparing the frictionless front trajectory, a straight line, with the friction-slowed front, which curves away from it"></canvas>
+      <div class="controls">
+        <button id="d3-play" class="primary">Pause</button>
+        <button id="d3-reset">Restart</button>
+        <div class="ctl-group">
+          <span class="ctl-label">Manning n</span>
+          <input type="range" id="d3-n" min="0" max="0.16" step="0.005" value="0.035" aria-label="Manning roughness coefficient">
+          <span class="ctl-value" id="d3-nVal">0.035</span>
+        </div>
+        <div class="ctl-group" role="group" aria-label="Land-cover presets">
+          <button data-n="0.030" aria-pressed="false">open water</button>
+          <button data-n="0.035" aria-pressed="true">grassland</button>
+          <button data-n="0.080" aria-pressed="false">shrub</button>
+          <button data-n="0.160" aria-pressed="false">forest</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">elapsed time</div><div class="v" id="d3-t">0.00 s</div></div>
+        <div class="stat"><div class="k">front position</div><div class="v" id="d3-fV">–</div></div>
+        <div class="stat"><div class="k">front lag vs frictionless</div><div class="v" id="d3-lV">–</div></div>
+      </div>
+    </div>
+
+    <p>
+      Friction rewrites the front. In the frictionless solution the tip is a wedge tapering
+      to zero depth at 2<i>c</i>₀; with roughness the depth-to-the-¹⁄₃-power in the denominator
+      makes drag explode precisely where the water is thinnest, so the tip blunts into a
+      steep snout and the front falls further and further behind the inviscid prediction —
+      Whitham showed the tip becomes a boundary layer where friction and gravity balance
+      and inertia drops out entirely. Slide n upward and watch the wave change character:
+      by n ≈ 0.16 it is less a wave than a slow spreading, the regime where the
+      <strong>kinematic-wave</strong> approximation used in simpler flood-routing models becomes honest.
+    </p>
+    <p>
+      The presets are not generic: they are the NLCD land-cover classes a real flood
+      pipeline maps to Manning coefficients — open water 0.030, grassland 0.035,
+      shrub 0.080, evergreen forest 0.160. In an operational model that coefficient field
+      is the terrain's fingerprint, resampled from satellite land cover onto every grid
+      cell, and this experiment is why it matters: <strong>arrival time</strong>, the quantity a flood
+      forecast most owes the public, is set largely by this one empirical number.
+    </p>
+  </section>
+
+  <!-- ═══════════════ EXPERIMENT IV ═══════════════ -->
+  <section class="exp prose" id="exp4">
+    <p class="exp-eyebrow">Experiment IV · two dimensions</p>
+    <h2>The grid is square. The physics is round.</h2>
+    <p>
+      A circular column of water collapses on a plane — the 2-D dam break. The solver knows
+      nothing about circles: it computes 1-D HLL fluxes across the faces of a
+      168 × 168 Cartesian grid, x-faces and y-faces, exactly as Experiment I did on a line.
+      Whether a round bore emerges from that square machinery is the test.
+    </p>
+
+    <div class="instrument">
+      <div class="legend" aria-hidden="true">
+        <span><span class="swatch sw-num"></span>depth field h(x, y) · brighter = deeper</span>
+        <span><span class="swatch sw-exact"></span>1-D radial reference</span>
+      </div>
+      <canvas id="d4-map" class="cv-map" role="img" aria-label="Plan view of a circular dam break on a two-dimensional grid: a bright circular bore ring expands outward from the center"></canvas>
+      <p class="panel-caption">cross-section along y = 0 · dashed = radial reference solution</p>
+      <canvas id="d4-slice" class="cv-slice" role="img" aria-label="Depth profile along the horizontal centerline compared with the one-dimensional radial reference solution"></canvas>
+      <div class="controls">
+        <button id="d4-play" class="primary">Pause</button>
+        <button id="d4-reset">Restart</button>
+        <div class="ctl-group" role="group" aria-label="Boundary condition">
+          <span class="ctl-label">boundaries</span>
+          <button id="d4-open" aria-pressed="true">open</button>
+          <button id="d4-walls" aria-pressed="false">walls</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">elapsed time</div><div class="v" id="d4-t">0.00 s</div></div>
+        <div class="stat"><div class="k" id="d4-aK">bore radius</div><div class="v" id="d4-aV">–</div></div>
+        <div class="stat"><div class="k" id="d4-bK">azimuthal asymmetry</div><div class="v" id="d4-bV">–</div></div>
+      </div>
+    </div>
+
+    <p>
+      Two checks run continuously. The <strong>cross-section</strong> is compared against a reference
+      computed live by a separate 1-D solver in radial coordinates — the same equations with
+      a geometric source term −<i>hu</i>/<i>r</i>, which is why the 2-D bore is weaker than its 1-D
+      cousin: the same water must feed an ever-growing circumference. And the
+      <strong>asymmetry readout</strong> samples the bore ring at 72 angles: the departure from a
+      perfect circle is the scheme's directional error, the residue of pretending a plane is
+      a stack of rows and columns. Switch the boundaries to <em>walls</em> and the problem leaves
+      textbook territory: the bore reflects, refocuses through the center, and the reference
+      solution goes silent — there is no exact answer anymore, only conservation. Which is
+      the punchline: with closed walls the total volume readout holds to machine precision,
+      because a finite-volume scheme moves water between cells and never invents any.
+    </p>
+    <p>
+      This experiment is, at small scale, what a 2-D flood model <em>is</em>. Replace the flat
+      floor with a DEM, the uniform roughness with the land-cover Manning field from
+      Experiment III, the circular column with rainfall and river inflows — and the machinery
+      running in this panel, face-normal Riemann problems on a structured grid, is what
+      computes an inundation map. Every term in this page's equations is now switched on
+      somewhere in that computation.
+    </p>
+  </section>
+
+  <!-- ═══════════════ EXPERIMENT V ═══════════════ -->
+  <section class="exp prose" id="exp5">
+    <p class="exp-eyebrow">Experiment V · rotation on</p>
+    <h2>Why fronts don't flatten</h2>
+    <p>
+      Same collapse as Experiment I, on a planet that spins — and now the fluid is air: a
+      1 km layer of cold air, denser than the air above it by about 3%, so gravity is
+      <strong>reduced</strong> to <i>g</i>′ = <i>g</i>Δθ/θ ≈ 0.3 m/s² and the wave speed drops from
+      140 m/s to a leisurely 17 m/s. The dense air is 100 m deeper on the left. Released, it
+      should slump and spread until flat, exactly as the dam break did. It doesn't.
+    </p>
+
+    <div class="instrument">
+      <div class="legend" aria-hidden="true">
+        <span><span class="swatch sw-num"></span>rotating solution</span>
+        <span><span class="swatch sw-exact"></span>geostrophic balanced state</span>
+        <span><span class="swatch" style="border-color:#5C6E8C;border-top-style:dotted"></span>same run without rotation</span>
+      </div>
+      <canvas id="d5-eta" class="cv-flume" role="img" aria-label="Interface displacement across the front: the rotating solution arrests at the Rossby radius and matches the dashed geostrophic state, while the non-rotating ghost keeps spreading"></canvas>
+      <p class="panel-caption">along-front jet v(x) · the wind that holds the front up</p>
+      <canvas id="d5-jet" class="cv-jet" role="img" aria-label="Along-front jet profile, peaking at the front and decaying over one Rossby radius, compared with the dashed geostrophic reference"></canvas>
+      <div class="controls">
+        <button id="d5-play" class="primary">Pause</button>
+        <button id="d5-reset">Restart</button>
+        <div class="ctl-group">
+          <span class="ctl-label">latitude</span>
+          <input type="range" id="d5-lat" min="35" max="75" step="1" value="45" aria-label="Latitude, which sets the Coriolis parameter">
+          <span class="ctl-value" id="d5-latVal">45° · a = 168 km</span>
+        </div>
+        <div class="ctl-group" role="group" aria-label="Latitude presets">
+          <button data-lat="35" aria-pressed="false">35°</button>
+          <button data-lat="45" aria-pressed="true">45°</button>
+          <button data-lat="70" aria-pressed="false">70°</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">elapsed time</div><div class="v" id="d5-t">0.0 h</div></div>
+        <div class="stat"><div class="k">front width</div><div class="v" id="d5-wV">–</div></div>
+        <div class="stat"><div class="k">jet peak</div><div class="v" id="d5-jV">–</div></div>
+      </div>
+    </div>
+
+    <p>
+      Watch the two runs diverge. Without rotation (the dotted ghost) the front collapses
+      into a spreading pair of waves and keeps going — by the end of the run its edges have
+      left the frame, and given enough time the layer would be flat everywhere. With
+      rotation, the slumping air is deflected by Coriolis into an <strong>along-front jet</strong>,
+      the jet's own deflection opposes further slumping, and within about one inertial
+      period the collapse simply <em>stops</em>. What remains is a permanently tilted interface
+      held up by a wind — the definition of a <strong>front</strong>. The distance over which it
+      arrests is the <strong>Rossby radius of deformation</strong>, <i>a</i> = √(<i>g</i>′<i>H</i>)/<i>f</i>:
+      drag the latitude slider and both the jet width and the frontal width follow it, because
+      that single length is what rotation and gravity negotiate.
+    </p>
+    <p>
+      The dashed curve is not a fit — it is the balanced state predicted before the run
+      starts, from conservation of <strong>potential vorticity</strong> alone. Each column of air
+      carries its PV, (<i>f</i> + ∂<i>v</i>/∂<i>x</i>)/<i>h</i>, unchanged as it moves; requiring the
+      final state to be both geostrophic and PV-preserving gives a linear equation whose
+      solution the page computes by convolving the initial profile with e<sup>−|x|/a</sup>.
+      That the simulation walks to that curve on its own is the payoff: the end state was
+      knowable from the start, without solving a single timestep.
+    </p>
+    <p>
+      Two honest wrinkles, both visible. The jet <strong>rings</strong>: it overshoots and wobbles
+      around the balanced state at exactly the inertial period 2π/<i>f</i> (16.9 hours at 45°),
+      because adjustment does not gently settle — it dumps the excess energy into
+      inertia-gravity waves that race outward at 17 m/s and leave the domain, and the
+      residue oscillates. Balance is what's left when the waves have gone, which is why
+      forecasters speak of <em>balanced</em> and <em>unbalanced</em> flow as separate worlds.
+      Second, the run uses a <strong>sponge layer</strong> in the outer quarter of the domain to
+      soak up those departing waves, as operational models do — without it they reflect off
+      the boundary and slosh back through the answer.
+    </p>
+    <p>
+      This is the experiment that connects the page to weather. The Rossby radius is why
+      atmospheric fronts, jet streams, ocean currents and the filaments of an atmospheric
+      river have the widths they do — a few hundred kilometers, not a few thousand. It also
+      explains why the shallow-water equations remain a working tool in atmospheric science
+      rather than only in hydraulics: with <i>g</i> replaced by <i>g</i>′ and a Coriolis term
+      added, the same five lines of flux and source that routed a flood over a floodplain
+      now hold up a weather front.
+    </p>
+  </section>
+
+  <!-- ═══════════════ CODA ═══════════════ -->
+  <section class="exp prose">
+    <p class="exp-eyebrow">Coda</p>
+    <h2>Where Saint-Venant ends</h2>
+    <p>
+      The model assumes hydrostatic pressure — fine while the surface varies slowly, false at
+      the front. Real bores with Froude numbers below about 1.3 do not break; they go
+      <strong>undular</strong>, radiating a train of smooth waves where dispersion balances steepening —
+      Boussinesq physics, the same family as internal waves in a stratified fluid. And the
+      same mathematics ports across density interfaces: a dam break between two fluids of
+      slightly different density is the lock-exchange gravity current, governed by the
+      two-layer equations with <i>g</i> replaced by <i>g</i>′ = <i>g</i>Δρ/ρ. One wave structure,
+      from flash floods to exchange flows through a strait.
+    </p>
+  </section>
+
+  <footer>
+    <p>Exact and reference solutions: Ritter (1892), dry-bed dam break; Stoker (1957), wet bed; Goutal &amp; Maurel (1997) bump test cases via steady Bernoulli theory; 1-D radial shallow-water equations for the circular case; linear Rossby adjustment via potential-vorticity conservation (Rossby, 1938; Gill, 1982, §7.2) for the rotating case. Scheme: first-order Godunov finite volume, HLL interface fluxes (Toro, 2001), hydrostatic reconstruction for well-balancing (Audusse et al., 2004), semi-implicit Manning friction, exact rotation for Coriolis, CFL 0.9 (1-D) / 0.45 (2-D).</p>
+    <p>All five solvers run live in this page's JavaScript.</p>
+  </footer>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const G = 9.81, DRY = 1e-6;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const css = getComputedStyle(document.documentElement);
+  const C = n => css.getPropertyValue(n).trim();
+  const COL = {
+    water: C('--water'), exact: C('--exact'), bore: C('--bore'),
+    ink: C('--ink'), ink2: C('--ink-2'), ink3: C('--ink-3'),
+    edge: C('--panel-edge'), bed: C('--bed'),
+  };
+  const MONO = '"SF Mono", Menlo, monospace';
+  const $ = id => document.getElementById(id);
+
+  // ══════════ shared helpers ══════════
+  function fitCanvas(cv) {
+    const dpr = window.devicePixelRatio || 1;
+    const r = cv.getBoundingClientRect();
+    if (cv.width !== Math.round(r.width * dpr) || cv.height !== Math.round(r.height * dpr)) {
+      cv.width = Math.round(r.width * dpr);
+      cv.height = Math.round(r.height * dpr);
+    }
+    cv.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { w: r.width, h: r.height };
+  }
+  const PADL = 46, PADR = 14;
+
+  function hll(hL, uL, hR, uR, g = G) {
+    // returns [Fh, Fhu] in the face-normal frame; Toro dry-front wave speeds
+    if (hL < DRY && hR < DRY) return [0, 0, 0];
+    const cL = Math.sqrt(g * Math.max(hL, 0)), cR = Math.sqrt(g * Math.max(hR, 0));
+    let sL, sR;
+    if (hL < DRY)      { sL = uR - 2 * cR; sR = uR + cR; }
+    else if (hR < DRY) { sL = uL - cL;     sR = uL + 2 * cL; }
+    else { sL = Math.min(uL - cL, uR - cR); sR = Math.max(uL + cL, uR + cR); }
+    const FLh = hL * uL, FLhu = hL * uL * uL + 0.5 * g * hL * hL;
+    const FRh = hR * uR, FRhu = hR * uR * uR + 0.5 * g * hR * hR;
+    if (sL >= 0) return [FLh, FLhu, sL];
+    if (sR <= 0) return [FRh, FRhu, sR];
+    const inv = 1 / (sR - sL);
+    return [
+      (sR * FLh - sL * FRh + sL * sR * (hR - hL)) * inv,
+      (sR * FLhu - sL * FRhu + sL * sR * (hR * uR - hL * uL)) * inv,
+      0,
+    ];
+  }
+  const vel = (h, hu) => h > DRY ? hu / h : 0;
+
+  // 1-D solver: hydrostatic reconstruction (well-balanced), optional friction,
+  // bc: 'open' | {qin, hout} | {radial: true}
+  function makeSolver1D(cfg) {
+    const N = cfg.N, xmin = cfg.xmin, xmax = cfg.xmax;
+    const g = cfg.g || G;
+    const dx = (xmax - xmin) / N;
+    const z = new Float64Array(N);
+    if (cfg.bed) for (let i = 0; i < N; i++) z[i] = cfg.bed(xmin + (i + 0.5) * dx);
+    const h = new Float64Array(N), hu = new Float64Array(N);
+    const rot = !!cfg.rotating;
+    const hv = rot ? new Float64Array(N) : null;
+    const fh = new Float64Array(N + 1), fL = new Float64Array(N + 1), fR = new Float64Array(N + 1);
+    const fhv = rot ? new Float64Array(N + 1) : null;
+    const S = {
+      N, dx, xmin, xmax, z, h, hu, hv, g, fcor: cfg.fcor || 0,
+      manning: cfg.manning || 0, bc: cfg.bc || 'open',
+      x: i => xmin + (i + 0.5) * dx,
+      cell: x => Math.min(N - 1, Math.max(0, Math.floor((x - xmin) / dx))),
+      step() {
+        let smax = 1e-12;
+        for (let i = 0; i < N; i++) {
+          const s = Math.abs(vel(h[i], hu[i])) + Math.sqrt(g * Math.max(h[i], 0));
+          if (s > smax) smax = s;
+        }
+        const dt = 0.9 * dx / smax;
+        for (let f = 0; f <= N; f++) {
+          let hLc, huLc, zL, hRc, huRc, zR;
+          const iLi = Math.max(f - 1, 0), iRi = Math.min(f, N - 1);
+          if (f === 0) {
+            hRc = h[0]; huRc = hu[0]; zR = z[0];
+            if (this.bc.qin !== undefined) { hLc = h[0]; huLc = this.bc.qin; zL = z[0]; }
+            else if (this.bc.radial) { hLc = h[0]; huLc = -hu[0]; zL = z[0]; }
+            else { hLc = h[0]; huLc = hu[0]; zL = z[0]; }
+          } else if (f === N) {
+            hLc = h[N - 1]; huLc = hu[N - 1]; zL = z[N - 1];
+            if (this.bc.hout !== undefined) { hRc = this.bc.hout; hRc = Math.max(hRc, 0); huRc = hu[N - 1]; zR = z[N - 1]; }
+            else { hRc = h[N - 1]; huRc = hu[N - 1]; zR = z[N - 1]; }
+          } else {
+            hLc = h[f - 1]; huLc = hu[f - 1]; zL = z[f - 1];
+            hRc = h[f];     huRc = hu[f];     zR = z[f];
+          }
+          const uL = vel(hLc, huLc), uR = vel(hRc, huRc);
+          const zf = Math.max(zL, zR);
+          const hLs = Math.max(0, hLc + zL - zf);
+          const hRs = Math.max(0, hRc + zR - zf);
+          const F = hll(hLs, uL, hRs, uR, g);
+          fh[f] = F[0];
+          fL[f] = F[1] + 0.5 * g * (hLc * hLc - hLs * hLs);
+          fR[f] = F[1] + 0.5 * g * (hRc * hRc - hRs * hRs);
+          if (rot) {
+            // tangential momentum rides along with the mass flux, upwinded
+            const vT = F[0] > 0 ? vel(h[iLi], hv[iLi]) : vel(h[iRi], hv[iRi]);
+            fhv[f] = F[0] * vT;
+          }
+        }
+        const r = dt / dx;
+        for (let i = 0; i < N; i++) {
+          h[i]  -= r * (fh[i + 1] - fh[i]);
+          hu[i] -= r * (fL[i + 1] - fR[i]);
+          if (rot) hv[i] -= r * (fhv[i + 1] - fhv[i]);
+        }
+        if (rot && this.fcor !== 0) {
+          // Coriolis is a rigid rotation of (u, v) -- apply it exactly, so the
+          // scheme neither creates nor destroys kinetic energy doing so
+          const cs = Math.cos(this.fcor * dt), sn = Math.sin(this.fcor * dt);
+          for (let i = 0; i < N; i++) {
+            if (h[i] > DRY) {
+              const u = hu[i] / h[i], v = hv[i] / h[i];
+              hu[i] = h[i] * (u * cs + v * sn);
+              hv[i] = h[i] * (-u * sn + v * cs);
+            } else { hu[i] = 0; hv[i] = 0; }
+          }
+        }
+        if (this.bc.radial) {
+          for (let i = 0; i < N; i++) {
+            const ri = this.x(i);
+            if (h[i] > DRY && ri > 1e-9) {
+              const u = hu[i] / h[i];
+              h[i]  -= dt * hu[i] / ri;
+              hu[i] -= dt * hu[i] * u / ri;
+            }
+          }
+        }
+        if (this.manning > 0) {
+          const gn2 = g * this.manning * this.manning;
+          for (let i = 0; i < N; i++) {
+            if (h[i] > DRY) {
+              const u = hu[i] / h[i];
+              hu[i] /= (1 + dt * gn2 * Math.abs(u) / Math.pow(h[i], 4 / 3));
+            } else hu[i] = 0;
+          }
+        }
+        for (let i = 0; i < N; i++) if (h[i] < DRY) { h[i] = Math.max(h[i], 0); hu[i] = 0; }
+        return dt;
+      },
+    };
+    return S;
+  }
+
+  // exact dam-break (Ritter / Stoker)
+  function exactSetup(hl, hr) {
+    const cl = Math.sqrt(G * hl);
+    if (hr < 1e-9) return { dry: true, cl, hm: 0, um: 0, cm: 0, S: 2 * cl, head: -cl, tail: 2 * cl };
+    const F = h => 2 * (cl - Math.sqrt(G * h)) - (h - hr) * Math.sqrt(0.5 * G * (h + hr) / (h * hr));
+    let a = hr, b = hl;
+    for (let i = 0; i < 80; i++) { const m = 0.5 * (a + b); (F(m) > 0 ? a = m : b = m); }
+    const hm = 0.5 * (a + b), cm = Math.sqrt(G * hm), um = 2 * (cl - cm);
+    return { dry: false, cl, hm, um, cm, S: hm * um / (hm - hr), head: -cl, tail: um - cm };
+  }
+  function exactProfile(x, t, hl, hr, ex) {
+    if (t <= 0) return { h: x < 0 ? hl : hr, u: 0 };
+    const xi = x / t;
+    if (xi < -ex.cl) return { h: hl, u: 0 };
+    if (ex.dry) {
+      if (xi > 2 * ex.cl) return { h: 0, u: 0 };
+      const c = (2 * ex.cl - xi) / 3;
+      return { h: c * c / G, u: xi + c };
+    }
+    if (xi < ex.tail) { const c = (2 * ex.cl - xi) / 3; return { h: c * c / G, u: xi + c }; }
+    if (xi < ex.S) return { h: ex.hm, u: ex.um };
+    return { h: hr, u: 0 };
+  }
+
+  // generic axis text
+  function axisFont(ctx) { ctx.font = '10px ' + MONO; }
+
+  // hover state helper
+  function attachHover(cv, obj) {
+    cv.addEventListener('mousemove', e => { obj.mx = e.clientX - cv.getBoundingClientRect().left; });
+    cv.addEventListener('mouseleave', () => { obj.mx = null; });
+  }
+  function drawTip(ctx, w, padT, mx, lines) {
+    const bw = 112, bh = 18 + lines.length * 13;
+    let bx = mx + 12;
+    if (bx + bw > w - PADR) bx = mx - 12 - bw;
+    ctx.fillStyle = 'rgba(13,22,38,0.92)';
+    ctx.strokeStyle = COL.edge;
+    ctx.beginPath(); ctx.roundRect(bx, padT + 4, bw, bh, 5); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = COL.ink2;
+    ctx.font = '11px ' + MONO;
+    ctx.textAlign = 'left';
+    lines.forEach((s, i) => ctx.fillText(s, bx + 9, padT + 20 + i * 13));
+  }
+
+  const demos = [];
+
+  // ═════════════════════ DEMO 1 · dam break ═════════════════════
+  const D1 = (() => {
+    const XMIN = -25, XMAX = 25, L = 50, N = 400, H0 = 2;
+    const sol = makeSolver1D({ N, xmin: XMIN, xmax: XMAX });
+    const flume = $('d1-flume'), xtc = $('d1-xt');
+    const fx = flume.getContext('2d'), xx = xtc.getContext('2d');
+    const st = { t: 0, Tend: 1, playing: !reduced, ratio: 0.10, hr: 0.2, ex: null, trace: [], lastTr: -1, particles: [], mx: null };
+    attachHover(flume, st);
+    const xpx = (x, w) => PADL + (x - XMIN) / L * (w - PADL - PADR);
+
+    function frontX() {
+      const { h } = sol;
+      if (st.ex.dry) {
+        for (let i = N - 1; i >= 0; i--) if (h[i] > 1e-3) return sol.x(i);
+        return 0;
+      }
+      let best = 0, bx = 0;
+      for (let i = N >> 1; i < N - 1; i++) {
+        const g = Math.abs(h[i + 1] - h[i]);
+        if (g > best) { best = g; bx = XMIN + (i + 1) * sol.dx; }
+      }
+      return bx;
+    }
+    function sample(x) {
+      const i = sol.cell(x);
+      return { h: sol.h[i], u: vel(sol.h[i], sol.hu[i]) };
+    }
+    function reset() {
+      st.hr = st.ratio < 0.005 ? 0 : H0 * st.ratio;
+      st.ex = exactSetup(H0, st.hr);
+      for (let i = 0; i < N; i++) { sol.h[i] = sol.x(i) < 0 ? H0 : st.hr; sol.hu[i] = 0; }
+      st.t = 0;
+      st.Tend = 0.94 * Math.min(-XMIN / st.ex.cl, XMAX / (st.ex.dry ? 2 * st.ex.cl : st.ex.S));
+      st.trace = []; st.lastTr = -1;
+      st.particles = [];
+      if (!reduced) for (let i = 0; i < 70; i++) st.particles.push({ x: XMIN + Math.random() * L, f: 0.15 + 0.7 * Math.random() });
+      if (reduced) { const target = 0.5 * st.Tend; while (st.t < target) st.t += sol.step(); }
+      stats();
+    }
+    function measuredSpeed() {
+      if (st.trace.length < 6) return null;
+      const pts = st.trace.slice(st.trace.length >> 1);
+      let a = 0, b = 0, c2 = 0, d = 0;
+      for (const [tt, xv] of pts) { a += tt; b += xv; c2 += tt * tt; d += tt * xv; }
+      const n = pts.length, den = n * c2 - a * a;
+      return den > 1e-9 ? (n * d - a * b) / den : null;
+    }
+    function stats() {
+      $('d1-t').textContent = st.t.toFixed(2) + ' s';
+      const ms = measuredSpeed();
+      const msTxt = ms === null ? '· measuring' : '/ ' + ms.toFixed(2) + ' HLL';
+      if (st.ex.dry) {
+        $('d1-sK').textContent = 'front speed 2c₀';
+        $('d1-sV').innerHTML = (2 * st.ex.cl).toFixed(2) + ' <span class="sub">exact ' + msTxt + ' m/s</span>';
+        $('d1-dK').innerHTML = 'depth at dam · exact ⁴⁄₉ h₀';
+        $('d1-dV').innerHTML = (4 / 9 * H0).toFixed(3) + ' <span class="sub">exact / ' + sample(0).h.toFixed(3) + ' HLL m</span>';
+      } else {
+        $('d1-sK').textContent = 'bore speed S';
+        $('d1-sV').innerHTML = st.ex.S.toFixed(2) + ' <span class="sub">exact ' + msTxt + ' m/s</span>';
+        $('d1-dK').innerHTML = 'plateau depth hₘ';
+        const xm = 0.5 * (st.ex.tail + st.ex.S) * Math.max(st.t, 0.01);
+        const hm = sample(Math.max(Math.min(xm, XMAX - 1), XMIN + 1)).h;
+        $('d1-dV').innerHTML = st.ex.hm.toFixed(3) + ' <span class="sub">exact / ' + (st.t > 0.3 ? hm.toFixed(3) : '· ··') + ' HLL m</span>';
+      }
+    }
+    function advance(want) {
+      let guard = 0;
+      while (want > 1e-6 && guard++ < 300) {
+        const dt = sol.step();
+        st.t += dt; want -= dt;
+        for (const p of st.particles) {
+          p.x += sample(p.x).u * dt;
+          if (p.x > XMAX || p.x < XMIN || sample(p.x).h < 0.02) p.x = XMIN + Math.random() * L;
+        }
+        if (st.t - st.lastTr > 0.08) { st.trace.push([st.t, frontX()]); st.lastTr = st.t; }
+        if (st.t >= st.Tend) { reset(); break; }
+      }
+      stats();
+    }
+    function draw() {
+      const { w, h: H } = fitCanvas(flume);
+      const padT = 30, padB = 26, hMax = H0 * 1.12;
+      const ypx = d => H - padB - d / hMax * (H - padT - padB);
+      fx.clearRect(0, 0, w, H);
+      axisFont(fx);
+      fx.fillStyle = COL.ink3; fx.strokeStyle = COL.edge; fx.lineWidth = 1;
+      for (let d = 0; d <= H0 + 0.01; d += 0.5) {
+        const y = ypx(d);
+        fx.beginPath(); fx.moveTo(PADL, y); fx.lineTo(w - PADR, y); fx.stroke();
+        fx.textAlign = 'right'; fx.fillText(d.toFixed(1), PADL - 6, y + 3);
+      }
+      fx.textAlign = 'center';
+      for (let x = -20; x <= 20; x += 10) fx.fillText(x + ' m', xpx(x, w), H - 8);
+      fx.save(); fx.translate(12, (padT + H - padB) / 2); fx.rotate(-Math.PI / 2);
+      fx.fillText('depth h (m)', 0, 0); fx.restore();
+      // water body
+      fx.beginPath();
+      fx.moveTo(xpx(XMIN, w), ypx(0));
+      for (let i = 0; i < N; i++) fx.lineTo(xpx(sol.x(i), w), ypx(sol.h[i]));
+      fx.lineTo(xpx(XMAX, w), ypx(0));
+      fx.closePath();
+      const grad = fx.createLinearGradient(0, ypx(H0), 0, ypx(0));
+      grad.addColorStop(0, 'rgba(42,154,194,0.34)');
+      grad.addColorStop(1, 'rgba(42,154,194,0.10)');
+      fx.fillStyle = grad; fx.fill();
+      // particles
+      fx.fillStyle = 'rgba(214,236,248,0.5)';
+      for (const p of st.particles) {
+        const s = sample(p.x);
+        if (s.h < 0.03) continue;
+        fx.beginPath(); fx.arc(xpx(p.x, w), ypx(s.h * (1 - p.f)), 1.4, 0, 6.2832); fx.fill();
+      }
+      // numerical surface
+      fx.beginPath();
+      for (let i = 0; i < N; i++) {
+        const X = xpx(sol.x(i), w), Y = ypx(sol.h[i]);
+        i ? fx.lineTo(X, Y) : fx.moveTo(X, Y);
+      }
+      fx.strokeStyle = COL.water; fx.lineWidth = 2.25; fx.stroke();
+      // exact
+      fx.beginPath();
+      for (let k = 0; k <= 340; k++) {
+        const x = XMIN + k / 340 * L;
+        const p = exactProfile(x, st.t, H0, st.hr, st.ex);
+        const X = xpx(x, w), Y = ypx(p.h);
+        k ? fx.lineTo(X, Y) : fx.moveTo(X, Y);
+      }
+      fx.setLineDash([7, 5]); fx.strokeStyle = COL.exact; fx.lineWidth = 2; fx.stroke();
+      fx.setLineDash([]);
+      // bed
+      fx.strokeStyle = COL.ink3; fx.lineWidth = 1.5;
+      fx.beginPath(); fx.moveTo(PADL, ypx(0)); fx.lineTo(w - PADR, ypx(0)); fx.stroke();
+      // region markers
+      if (st.t > 0.15) {
+        const marks = st.ex.dry
+          ? [[st.ex.head * st.t, 'fan head'], [st.ex.tail * st.t, 'wet front']]
+          : [[st.ex.head * st.t, 'fan head'], [st.ex.tail * st.t, 'fan tail'], [st.ex.S * st.t, 'bore']];
+        axisFont(fx); fx.textAlign = 'center';
+        for (const [mx2, label] of marks) {
+          if (mx2 < XMIN + 1.5 || mx2 > XMAX - 1.5) continue;
+          const X = xpx(mx2, w);
+          const isBore = label === 'bore' || label === 'wet front';
+          fx.strokeStyle = isBore ? COL.bore : COL.ink3;
+          fx.globalAlpha = 0.55; fx.setLineDash([2, 4]);
+          fx.beginPath(); fx.moveTo(X, padT - 4); fx.lineTo(X, ypx(0)); fx.stroke();
+          fx.setLineDash([]); fx.globalAlpha = 1;
+          fx.fillStyle = isBore ? COL.bore : COL.ink3;
+          fx.fillText(label, X, padT - 10);
+        }
+      }
+      // hover
+      if (st.mx !== null) {
+        const x = XMIN + (st.mx - PADL) / (w - PADL - PADR) * L;
+        if (x >= XMIN && x <= XMAX) {
+          const s = sample(x);
+          const Fr = s.h > DRY ? Math.abs(s.u) / Math.sqrt(G * s.h) : 0;
+          fx.strokeStyle = COL.ink3; fx.globalAlpha = 0.5; fx.lineWidth = 1;
+          fx.beginPath(); fx.moveTo(st.mx, padT); fx.lineTo(st.mx, H - padB); fx.stroke();
+          fx.globalAlpha = 1;
+          drawTip(fx, w, padT, st.mx, [
+            'x  ' + x.toFixed(1).padStart(6) + ' m',
+            'h  ' + s.h.toFixed(2).padStart(6) + ' m',
+            'u  ' + s.u.toFixed(2).padStart(6) + ' m/s',
+            'Fr ' + Fr.toFixed(2).padStart(6),
+          ]);
+        }
+      }
+      drawXT();
+    }
+    function drawXT() {
+      const { w, h: H } = fitCanvas(xtc);
+      const padT = 12, padB = 26;
+      const tp = tv => H - padB - tv / st.Tend * (H - padT - padB);
+      xx.clearRect(0, 0, w, H);
+      axisFont(xx);
+      xx.fillStyle = COL.ink3; xx.strokeStyle = COL.edge; xx.lineWidth = 1;
+      const tTick = st.Tend > 6 ? 2 : 1;
+      for (let tv = 0; tv <= st.Tend; tv += tTick) {
+        const y = tp(tv);
+        xx.beginPath(); xx.moveTo(PADL, y); xx.lineTo(w - PADR, y); xx.stroke();
+        xx.textAlign = 'right'; xx.fillText(tv + ' s', PADL - 6, y + 3);
+      }
+      xx.textAlign = 'center';
+      for (let x = -20; x <= 20; x += 10) xx.fillText(x + ' m', xpx(x, w), H - 8);
+      xx.save(); xx.translate(12, (padT + H - padB) / 2); xx.rotate(-Math.PI / 2);
+      xx.fillText('time t (s)', 0, 0); xx.restore();
+      xx.fillStyle = 'rgba(214,236,248,0.03)';
+      xx.fillRect(PADL, tp(Math.min(st.t, st.Tend)), w - PADL - PADR, tp(0) - tp(Math.min(st.t, st.Tend)));
+      const ray = (slope, color, width) => {
+        let tEnd = st.Tend;
+        if (slope > 1e-9) tEnd = Math.min(tEnd, XMAX / slope);
+        else if (slope < -1e-9) tEnd = Math.min(tEnd, XMIN / slope);
+        xx.strokeStyle = color; xx.lineWidth = width;
+        xx.beginPath(); xx.moveTo(xpx(0, w), tp(0)); xx.lineTo(xpx(slope * tEnd, w), tp(tEnd)); xx.stroke();
+      };
+      for (let k = 0; k <= 7; k++) {
+        const slope = st.ex.head + (st.ex.tail - st.ex.head) * k / 7;
+        xx.globalAlpha = (k === 0 || k === 7) ? 0.9 : 0.38;
+        ray(slope, COL.water, k === 0 || k === 7 ? 1.6 : 1);
+      }
+      xx.globalAlpha = 1;
+      if (!st.ex.dry) ray(st.ex.S, COL.bore, 2.2);
+      xx.fillStyle = COL.ink3; xx.font = '10.5px ' + MONO; xx.textAlign = 'center';
+      const midT = st.Tend * 0.62;
+      const lab = (sa, sb, text) => {
+        const xm = 0.5 * (sa + sb) * midT;
+        if (xm > XMIN + 3 && xm < XMAX - 3) xx.fillText(text, xpx(xm, w), tp(midT));
+      };
+      lab(XMIN / midT, st.ex.head, 'still · h₀');
+      lab(st.ex.head, st.ex.tail, 'fan');
+      if (!st.ex.dry) { lab(st.ex.tail, st.ex.S, 'plateau · hₘ'); lab(st.ex.S, XMAX / midT, 'still · hᵣ'); }
+      else lab(st.ex.tail, XMAX / midT, 'dry bed');
+      xx.fillStyle = COL.bore;
+      for (const [tt, xv] of st.trace) { xx.beginPath(); xx.arc(xpx(xv, w), tp(tt), 1.8, 0, 6.2832); xx.fill(); }
+      const yNow = tp(Math.min(st.t, st.Tend));
+      xx.strokeStyle = COL.ink2; xx.lineWidth = 1.4;
+      xx.beginPath(); xx.moveTo(PADL, yNow); xx.lineTo(w - PADR, yNow); xx.stroke();
+      xx.fillStyle = COL.ink2; xx.textAlign = 'left';
+      xx.fillText('now', PADL + 4, yNow - 5);
+    }
+    // wiring
+    $('d1-play').addEventListener('click', () => { st.playing = !st.playing; $('d1-play').textContent = st.playing ? 'Pause' : 'Play'; });
+    $('d1-reset').addEventListener('click', reset);
+    const rIn = $('d1-ratio');
+    function setRatio(r, fromSlider) {
+      st.ratio = r;
+      if (!fromSlider) rIn.value = r;
+      $('d1-ratioVal').textContent = r.toFixed(2) + (r < 0.005 ? ' · dry' : ' · wet');
+      $('d1-stoker').setAttribute('aria-pressed', String(Math.abs(r - 0.10) < 1e-9));
+      $('d1-ritter').setAttribute('aria-pressed', String(r < 0.005));
+      reset();
+    }
+    rIn.addEventListener('input', () => setRatio(parseFloat(rIn.value), true));
+    $('d1-stoker').addEventListener('click', () => setRatio(0.10));
+    $('d1-ritter').addEventListener('click', () => setRatio(0));
+    reset();
+    return { el: $('exp1'), st, advance, draw, speed: 2.0 };
+  })();
+  demos.push(D1);
+
+  // ═════════════════════ DEMO 2 · bump ═════════════════════
+  const D2 = (() => {
+    const XMIN = 0, XMAX = 25, L = 25, N = 250;
+    const bump = x => Math.max(0, 0.2 - 0.05 * (x - 10) * (x - 10));
+    const sol = makeSolver1D({ N, xmin: XMIN, xmax: XMAX, bed: bump, bc: { qin: 0.18, hout: 0.33 } });
+    const flume = $('d2-flume'), frc = $('d2-fr');
+    const fx = flume.getContext('2d'), fr = frc.getContext('2d');
+    const PRESETS = {
+      trans: { qin: 0.18, hout: 0.33, label: 'transcritical + jump' },
+      sub:   { qin: 4.42, hout: 2.00, label: 'subcritical' },
+      lake:  { qin: 0.00, hout: 0.33, label: 'lake at rest' },
+    };
+    const st = { t: 0, playing: !reduced, preset: 'trans', steady: false, resid: 1, mx: null, ref: null };
+    attachHover(flume, st);
+    const xpx = (x, w) => PADL + (x - XMIN) / L * (w - PADL - PADR);
+
+    // analytic steady profile
+    function steadyRef(qin, hout) {
+      const xs = [];
+      for (let k = 0; k <= 300; k++) xs.push(XMIN + k / 300 * L);
+      if (qin === 0) return { xs, eta: xs.map(() => hout), jumpX: null };
+      const q = qin, hc = Math.cbrt(q * q / G);
+      const E = h => h + q * q / (2 * G * h * h);
+      const root = (Eavail, sub) => {
+        let a = sub ? hc : 1e-6, b = sub ? Eavail : hc;
+        for (let i = 0; i < 60; i++) {
+          const m = 0.5 * (a + b);
+          const hi = E(m) > Eavail;
+          // E rises with h on the subcritical branch, falls on the supercritical one
+          if (sub) { hi ? b = m : a = m; } else { hi ? a = m : b = m; }
+        }
+        return 0.5 * (a + b);
+      };
+      const zmax = 0.2, Eout = E(hout);
+      if (Eout - zmax >= 1.5 * hc) {
+        // subcritical throughout
+        return { xs, eta: xs.map(x => bump(x) + root(Eout - bump(x), true)), jumpX: null };
+      }
+      const H1 = zmax + 1.5 * hc;
+      const M = h => q * q / h + 0.5 * G * h * h;
+      let jumpX = null;
+      for (let k = 0; k < xs.length - 1; k++) {
+        const x = xs[k];
+        if (x > 10) {
+          const hs = root(Math.max(H1 - bump(x), 1e-3), false);
+          const hd = root(Eout - bump(x), true);
+          if (M(hs) < M(hd)) { jumpX = x; break; }
+        }
+      }
+      if (jumpX === null) jumpX = XMAX - 2;
+      const eta = xs.map(x => {
+        const z = bump(x);
+        if (x <= 10) return z + root(H1 - z, true);
+        if (x < jumpX) return z + root(Math.max(H1 - z, 1e-3), false);
+        return z + root(Eout - z, true);
+      });
+      return { xs, eta, jumpX };
+    }
+    function numJump() {
+      let best = 0, bx = null;
+      for (let i = sol.cell(10); i < N - 1; i++) {
+        const e1 = sol.z[i] + sol.h[i], e2 = sol.z[i + 1] + sol.h[i + 1];
+        if (e2 - e1 > best) { best = e2 - e1; bx = sol.x(i); }
+      }
+      return best > 0.01 ? bx : null;
+    }
+    function reset() {
+      const p = PRESETS[st.preset];
+      sol.bc = { qin: p.qin, hout: p.hout };
+      for (let i = 0; i < N; i++) {
+        sol.h[i] = Math.max(p.hout - sol.z[i], 0);
+        sol.hu[i] = 0;
+      }
+      st.t = 0; st.steady = false; st.resid = 1;
+      st.ref = steadyRef(p.qin, p.hout);
+      if (reduced) { let n = 0; while (n++ < 4000) sol.step(); st.t = 90; }
+      stats();
+    }
+    function advance(want) {
+      let guard = 0;
+      while (want > 1e-6 && guard++ < 400 && !st.steady) {
+        const hPrev = Float64Array.from(sol.h);
+        const dt = sol.step();
+        st.t += dt; want -= dt;
+        let r = 0;
+        for (let i = 0; i < N; i++) r = Math.max(r, Math.abs(sol.h[i] - hPrev[i]) / dt);
+        st.resid = r;
+        if (st.preset !== 'lake' && st.t > 5 && r < 1e-5) {
+          st.steady = true; st.playing = false;
+          $('d2-play').textContent = 'Play';
+        }
+      }
+      stats();
+    }
+    function stats() {
+      $('d2-t').textContent = st.t.toFixed(1) + ' s' + (st.steady ? ' · steady ✓' : '');
+      if (st.preset === 'lake') {
+        let umax = 0;
+        for (let i = 0; i < N; i++) umax = Math.max(umax, Math.abs(vel(sol.h[i], sol.hu[i])));
+        $('d2-aK').textContent = 'max |u| · should be 0';
+        $('d2-aV').innerHTML = umax.toExponential(1) + ' <span class="sub">m/s · machine precision</span>';
+        $('d2-bK').textContent = 'well-balanced';
+        $('d2-bV').innerHTML = 'C-property <span class="sub">holds</span>';
+      } else {
+        const nj = numJump();
+        if (st.ref.jumpX !== null) {
+          $('d2-aK').textContent = 'hydraulic jump position';
+          $('d2-aV').innerHTML = st.ref.jumpX.toFixed(2) + ' <span class="sub">exact / ' + (nj === null ? '· ··' : nj.toFixed(2)) + ' HLL m</span>';
+        } else {
+          $('d2-aK').textContent = 'regime';
+          $('d2-aV').innerHTML = 'subcritical <span class="sub">everywhere · no jump</span>';
+        }
+        let frMin = 99, frMax = 0;
+        for (let i = 0; i < N; i++) {
+          if (sol.h[i] > 0.01) {
+            const F = Math.abs(vel(sol.h[i], sol.hu[i])) / Math.sqrt(G * sol.h[i]);
+            frMin = Math.min(frMin, F); frMax = Math.max(frMax, F);
+          }
+        }
+        $('d2-bK').textContent = 'froude range';
+        $('d2-bV').innerHTML = frMin.toFixed(2) + ' – ' + frMax.toFixed(2) +
+          (frMax > 1 && frMin < 1 ? ' <span class="sub">transcritical</span>' : '');
+      }
+    }
+    function draw() {
+      const { w, h: H } = fitCanvas(flume);
+      const padT = 22, padB = 26;
+      const yMaxP = st.preset === 'sub' ? 2.4 : 0.55;
+      const ypx = e => H - padB - e / yMaxP * (H - padT - padB);
+      fx.clearRect(0, 0, w, H);
+      axisFont(fx);
+      fx.fillStyle = COL.ink3; fx.strokeStyle = COL.edge; fx.lineWidth = 1;
+      const eTick = yMaxP > 1 ? 0.5 : 0.1;
+      for (let e = 0; e <= yMaxP; e += eTick) {
+        const y = ypx(e);
+        fx.beginPath(); fx.moveTo(PADL, y); fx.lineTo(w - PADR, y); fx.stroke();
+        fx.textAlign = 'right'; fx.fillText(e.toFixed(1), PADL - 6, y + 3);
+      }
+      fx.textAlign = 'center';
+      for (let x = 0; x <= 25; x += 5) fx.fillText(x + ' m', xpx(x, w), H - 8);
+      fx.save(); fx.translate(12, (padT + H - padB) / 2); fx.rotate(-Math.PI / 2);
+      fx.fillText('elevation z + h (m)', 0, 0); fx.restore();
+      // water fill between bed and surface
+      fx.beginPath();
+      fx.moveTo(xpx(XMIN, w), ypx(sol.z[0] + sol.h[0]));
+      for (let i = 0; i < N; i++) fx.lineTo(xpx(sol.x(i), w), ypx(sol.z[i] + sol.h[i]));
+      for (let i = N - 1; i >= 0; i--) fx.lineTo(xpx(sol.x(i), w), ypx(sol.z[i]));
+      fx.closePath();
+      const grad = fx.createLinearGradient(0, ypx(yMaxP), 0, ypx(0));
+      grad.addColorStop(0, 'rgba(42,154,194,0.34)');
+      grad.addColorStop(1, 'rgba(42,154,194,0.10)');
+      fx.fillStyle = grad; fx.fill();
+      // numerical surface
+      fx.beginPath();
+      for (let i = 0; i < N; i++) {
+        const X = xpx(sol.x(i), w), Y = ypx(sol.z[i] + sol.h[i]);
+        i ? fx.lineTo(X, Y) : fx.moveTo(X, Y);
+      }
+      fx.strokeStyle = COL.water; fx.lineWidth = 2.25; fx.stroke();
+      // steady reference
+      if (st.ref) {
+        fx.beginPath();
+        st.ref.xs.forEach((x, k) => {
+          const X = xpx(x, w), Y = ypx(st.ref.eta[k]);
+          k ? fx.lineTo(X, Y) : fx.moveTo(X, Y);
+        });
+        fx.setLineDash([7, 5]); fx.strokeStyle = COL.exact; fx.lineWidth = 2; fx.stroke();
+        fx.setLineDash([]);
+        if (st.ref.jumpX !== null) {
+          const X = xpx(st.ref.jumpX, w);
+          fx.strokeStyle = COL.bore; fx.globalAlpha = 0.55; fx.setLineDash([2, 4]);
+          fx.beginPath(); fx.moveTo(X, padT); fx.lineTo(X, ypx(0)); fx.stroke();
+          fx.setLineDash([]); fx.globalAlpha = 1;
+          fx.fillStyle = COL.bore; fx.textAlign = 'center';
+          fx.fillText('jump', X, padT - 6);
+        }
+      }
+      // bed
+      fx.beginPath();
+      fx.moveTo(xpx(XMIN, w), ypx(0));
+      for (let i = 0; i < N; i++) fx.lineTo(xpx(sol.x(i), w), ypx(sol.z[i]));
+      fx.lineTo(xpx(XMAX, w), ypx(0));
+      fx.closePath();
+      fx.fillStyle = COL.bed; fx.fill();
+      fx.strokeStyle = COL.ink3; fx.lineWidth = 1.5;
+      fx.beginPath();
+      for (let i = 0; i < N; i++) {
+        const X = xpx(sol.x(i), w), Y = ypx(sol.z[i]);
+        i ? fx.lineTo(X, Y) : fx.moveTo(X, Y);
+      }
+      fx.stroke();
+      // hover
+      if (st.mx !== null) {
+        const x = XMIN + (st.mx - PADL) / (w - PADL - PADR) * L;
+        if (x >= XMIN && x <= XMAX) {
+          const i = sol.cell(x);
+          const hh = sol.h[i], uu = vel(hh, sol.hu[i]);
+          const Fr = hh > DRY ? Math.abs(uu) / Math.sqrt(G * hh) : 0;
+          fx.strokeStyle = COL.ink3; fx.globalAlpha = 0.5; fx.lineWidth = 1;
+          fx.beginPath(); fx.moveTo(st.mx, padT); fx.lineTo(st.mx, H - padB); fx.stroke();
+          fx.globalAlpha = 1;
+          drawTip(fx, w, padT, st.mx, [
+            'x  ' + x.toFixed(1).padStart(6) + ' m',
+            'h  ' + hh.toFixed(3).padStart(6) + ' m',
+            'u  ' + uu.toFixed(2).padStart(6) + ' m/s',
+            'Fr ' + Fr.toFixed(2).padStart(6),
+          ]);
+        }
+      }
+      drawFr();
+    }
+    function drawFr() {
+      const { w, h: H } = fitCanvas(frc);
+      const padT = 10, padB = 24;
+      const frMaxP = st.preset === 'lake' ? 1.4 : 2.2;
+      const ypx = f => H - padB - f / frMaxP * (H - padT - padB);
+      fr.clearRect(0, 0, w, H);
+      axisFont(fr);
+      fr.fillStyle = COL.ink3; fr.strokeStyle = COL.edge; fr.lineWidth = 1;
+      for (let f = 0; f <= frMaxP; f += 1) {
+        const y = ypx(f);
+        fr.beginPath(); fr.moveTo(PADL, y); fr.lineTo(w - PADR, y); fr.stroke();
+        fr.textAlign = 'right'; fr.fillText(f.toFixed(0), PADL - 6, y + 3);
+      }
+      fr.textAlign = 'center';
+      for (let x = 0; x <= 25; x += 5) fr.fillText(x + ' m', xpx(x, w), H - 8);
+      // Fr = 1 line
+      fr.strokeStyle = COL.bore; fr.setLineDash([5, 5]); fr.lineWidth = 1.3;
+      fr.beginPath(); fr.moveTo(PADL, ypx(1)); fr.lineTo(w - PADR, ypx(1)); fr.stroke();
+      fr.setLineDash([]);
+      fr.fillStyle = COL.bore; fr.textAlign = 'left';
+      fr.fillText('Fr = 1 · critical', PADL + 6, ypx(1) - 5);
+      // Fr curve
+      fr.beginPath();
+      let started = false;
+      for (let i = 0; i < N; i++) {
+        if (sol.h[i] < 0.01) { started = false; continue; }
+        const F = Math.abs(vel(sol.h[i], sol.hu[i])) / Math.sqrt(G * sol.h[i]);
+        const X = xpx(sol.x(i), w), Y = ypx(Math.min(F, frMaxP));
+        started ? fr.lineTo(X, Y) : fr.moveTo(X, Y);
+        started = true;
+      }
+      fr.strokeStyle = COL.water; fr.lineWidth = 2; fr.stroke();
+    }
+    function setPreset(p) {
+      st.preset = p;
+      for (const k of Object.keys(PRESETS)) {
+        $('d2-' + (k === 'trans' ? 'trans' : k === 'sub' ? 'sub' : 'lake')).setAttribute('aria-pressed', String(k === p));
+      }
+      st.playing = true; $('d2-play').textContent = 'Pause';
+      reset();
+    }
+    $('d2-play').addEventListener('click', () => { st.playing = !st.playing; if (st.playing) st.steady = false; $('d2-play').textContent = st.playing ? 'Pause' : 'Play'; });
+    $('d2-reset').addEventListener('click', () => { st.playing = true; $('d2-play').textContent = 'Pause'; reset(); });
+    $('d2-trans').addEventListener('click', () => setPreset('trans'));
+    $('d2-sub').addEventListener('click', () => setPreset('sub'));
+    $('d2-lake').addEventListener('click', () => setPreset('lake'));
+    reset();
+    return { el: $('exp2'), st, advance, draw, speed: 16 };
+  })();
+  demos.push(D2);
+
+  // ═════════════════════ DEMO 3 · friction ═════════════════════
+  const D3 = (() => {
+    const XMIN = -25, XMAX = 25, L = 50, N = 400, H0 = 2;
+    const sol = makeSolver1D({ N, xmin: XMIN, xmax: XMAX, manning: 0.035 });
+    const flume = $('d3-flume'), xtc = $('d3-xt');
+    const fx = flume.getContext('2d'), xx = xtc.getContext('2d');
+    const ex = exactSetup(H0, 0); // frictionless dry-bed reference
+    const st = { t: 0, Tend: 0.94 * XMAX / (2 * ex.cl), playing: !reduced, n: 0.035, trace: [], lastTr: -1, mx: null };
+    attachHover(flume, st);
+    const xp = (x, w) => PADL + (x - XMIN) / L * (w - PADL - PADR);
+    function frontX() {
+      for (let i = N - 1; i >= 0; i--) if (sol.h[i] > 1e-3) return sol.x(i);
+      return 0;
+    }
+    function reset() {
+      sol.manning = st.n;
+      for (let i = 0; i < N; i++) { sol.h[i] = sol.x(i) < 0 ? H0 : 0; sol.hu[i] = 0; }
+      st.t = 0; st.trace = []; st.lastTr = -1;
+      if (reduced) { const target = 0.6 * st.Tend; while (st.t < target) st.t += sol.step(); }
+      stats();
+    }
+    function advance(want) {
+      let guard = 0;
+      while (want > 1e-6 && guard++ < 300) {
+        const dt = sol.step();
+        st.t += dt; want -= dt;
+        if (st.t - st.lastTr > 0.08) { st.trace.push([st.t, frontX()]); st.lastTr = st.t; }
+        if (st.t >= st.Tend) { reset(); break; }
+      }
+      stats();
+    }
+    function stats() {
+      $('d3-t').textContent = st.t.toFixed(2) + ' s';
+      const xf = frontX(), xe = Math.min(2 * ex.cl * st.t, XMAX);
+      $('d3-fV').innerHTML = xe.toFixed(1) + ' <span class="sub">frictionless / ' + xf.toFixed(1) + ' actual m</span>';
+      const lag = xe - xf;
+      $('d3-lV').innerHTML = (st.t > 0.3 ? lag.toFixed(1) + ' m' : '–') +
+        ' <span class="sub">n = ' + st.n.toFixed(3) + '</span>';
+    }
+    function draw() {
+      const { w, h: H } = fitCanvas(flume);
+      const padT = 24, padB = 26, hMax = H0 * 1.12;
+      const ypx = d => H - padB - d / hMax * (H - padT - padB);
+      fx.clearRect(0, 0, w, H);
+      axisFont(fx);
+      fx.fillStyle = COL.ink3; fx.strokeStyle = COL.edge; fx.lineWidth = 1;
+      for (let d = 0; d <= H0 + 0.01; d += 0.5) {
+        const y = ypx(d);
+        fx.beginPath(); fx.moveTo(PADL, y); fx.lineTo(w - PADR, y); fx.stroke();
+        fx.textAlign = 'right'; fx.fillText(d.toFixed(1), PADL - 6, y + 3);
+      }
+      fx.textAlign = 'center';
+      for (let x = -20; x <= 20; x += 10) fx.fillText(x + ' m', xp(x, w), H - 8);
+      fx.save(); fx.translate(12, (padT + H - padB) / 2); fx.rotate(-Math.PI / 2);
+      fx.fillText('depth h (m)', 0, 0); fx.restore();
+      // water
+      fx.beginPath();
+      fx.moveTo(xp(XMIN, w), ypx(0));
+      for (let i = 0; i < N; i++) fx.lineTo(xp(sol.x(i), w), ypx(sol.h[i]));
+      fx.lineTo(xp(XMAX, w), ypx(0));
+      fx.closePath();
+      const grad = fx.createLinearGradient(0, ypx(H0), 0, ypx(0));
+      grad.addColorStop(0, 'rgba(42,154,194,0.34)');
+      grad.addColorStop(1, 'rgba(42,154,194,0.10)');
+      fx.fillStyle = grad; fx.fill();
+      fx.beginPath();
+      for (let i = 0; i < N; i++) {
+        const X = xp(sol.x(i), w), Y = ypx(sol.h[i]);
+        i ? fx.lineTo(X, Y) : fx.moveTo(X, Y);
+      }
+      fx.strokeStyle = COL.water; fx.lineWidth = 2.25; fx.stroke();
+      // frictionless exact
+      fx.beginPath();
+      for (let k = 0; k <= 340; k++) {
+        const x = XMIN + k / 340 * L;
+        const p = exactProfile(x, st.t, H0, 0, ex);
+        const X = xp(x, w), Y = ypx(p.h);
+        k ? fx.lineTo(X, Y) : fx.moveTo(X, Y);
+      }
+      fx.setLineDash([7, 5]); fx.strokeStyle = COL.exact; fx.lineWidth = 2; fx.stroke();
+      fx.setLineDash([]);
+      // bed
+      fx.strokeStyle = COL.ink3; fx.lineWidth = 1.5;
+      fx.beginPath(); fx.moveTo(PADL, ypx(0)); fx.lineTo(w - PADR, ypx(0)); fx.stroke();
+      // front marker
+      if (st.t > 0.15) {
+        const X = xp(frontX(), w);
+        fx.strokeStyle = COL.bore; fx.globalAlpha = 0.55; fx.setLineDash([2, 4]);
+        fx.beginPath(); fx.moveTo(X, padT - 4); fx.lineTo(X, ypx(0)); fx.stroke();
+        fx.setLineDash([]); fx.globalAlpha = 1;
+        fx.fillStyle = COL.bore; fx.textAlign = 'center';
+        fx.fillText('front', X, padT - 8);
+      }
+      // hover
+      if (st.mx !== null) {
+        const x = XMIN + (st.mx - PADL) / (w - PADL - PADR) * L;
+        if (x >= XMIN && x <= XMAX) {
+          const i = sol.cell(x);
+          const hh = sol.h[i], uu = vel(hh, sol.hu[i]);
+          fx.strokeStyle = COL.ink3; fx.globalAlpha = 0.5; fx.lineWidth = 1;
+          fx.beginPath(); fx.moveTo(st.mx, padT); fx.lineTo(st.mx, H - padB); fx.stroke();
+          fx.globalAlpha = 1;
+          drawTip(fx, w, padT, st.mx, [
+            'x  ' + x.toFixed(1).padStart(6) + ' m',
+            'h  ' + hh.toFixed(2).padStart(6) + ' m',
+            'u  ' + uu.toFixed(2).padStart(6) + ' m/s',
+          ]);
+        }
+      }
+      drawXT();
+    }
+    function drawXT() {
+      const { w, h: H } = fitCanvas(xtc);
+      const padT = 12, padB = 26;
+      const tp = tv => H - padB - tv / st.Tend * (H - padT - padB);
+      xx.clearRect(0, 0, w, H);
+      axisFont(xx);
+      xx.fillStyle = COL.ink3; xx.strokeStyle = COL.edge; xx.lineWidth = 1;
+      for (let tv = 0; tv <= st.Tend; tv += 1) {
+        const y = tp(tv);
+        xx.beginPath(); xx.moveTo(PADL, y); xx.lineTo(w - PADR, y); xx.stroke();
+        xx.textAlign = 'right'; xx.fillText(tv + ' s', PADL - 6, y + 3);
+      }
+      xx.textAlign = 'center';
+      for (let x = -20; x <= 20; x += 10) xx.fillText(x + ' m', xp(x, w), H - 8);
+      xx.save(); xx.translate(12, (padT + H - padB) / 2); xx.rotate(-Math.PI / 2);
+      xx.fillText('time t (s)', 0, 0); xx.restore();
+      xx.fillStyle = 'rgba(214,236,248,0.03)';
+      xx.fillRect(PADL, tp(Math.min(st.t, st.Tend)), w - PADL - PADR, tp(0) - tp(Math.min(st.t, st.Tend)));
+      // frictionless front ray (dashed amber)
+      const slope = 2 * ex.cl;
+      const tEnd = Math.min(st.Tend, XMAX / slope);
+      xx.setLineDash([7, 5]); xx.strokeStyle = COL.exact; xx.lineWidth = 2;
+      xx.beginPath(); xx.moveTo(xp(0, w), tp(0)); xx.lineTo(xp(slope * tEnd, w), tp(tEnd)); xx.stroke();
+      xx.setLineDash([]);
+      xx.fillStyle = COL.exact; xx.textAlign = 'left'; xx.font = '10.5px ' + MONO;
+      xx.fillText('2c₀ · frictionless', xp(slope * tEnd * 0.72, w) + 6, tp(tEnd * 0.72));
+      // rarefaction head
+      xx.strokeStyle = COL.water; xx.globalAlpha = 0.6; xx.lineWidth = 1.3;
+      const tEndH = Math.min(st.Tend, -XMIN / ex.cl);
+      xx.beginPath(); xx.moveTo(xp(0, w), tp(0)); xx.lineTo(xp(-ex.cl * tEndH, w), tp(tEndH)); xx.stroke();
+      xx.globalAlpha = 1;
+      // actual front trace
+      xx.fillStyle = COL.bore;
+      for (const [tt, xv] of st.trace) { xx.beginPath(); xx.arc(xp(xv, w), tp(tt), 1.8, 0, 6.2832); xx.fill(); }
+      const yNow = tp(Math.min(st.t, st.Tend));
+      xx.strokeStyle = COL.ink2; xx.lineWidth = 1.4;
+      xx.beginPath(); xx.moveTo(PADL, yNow); xx.lineTo(w - PADR, yNow); xx.stroke();
+      xx.fillStyle = COL.ink2; xx.textAlign = 'left';
+      xx.fillText('now', PADL + 4, yNow - 5);
+    }
+    // wiring
+    $('d3-play').addEventListener('click', () => { st.playing = !st.playing; $('d3-play').textContent = st.playing ? 'Pause' : 'Play'; });
+    $('d3-reset').addEventListener('click', reset);
+    const nIn = $('d3-n');
+    function setN(n, fromSlider) {
+      st.n = n;
+      if (!fromSlider) nIn.value = n;
+      $('d3-nVal').textContent = n.toFixed(3);
+      document.querySelectorAll('#exp3 button[data-n]').forEach(b =>
+        b.setAttribute('aria-pressed', String(Math.abs(parseFloat(b.dataset.n) - n) < 1e-9)));
+      reset();
+    }
+    nIn.addEventListener('input', () => setN(parseFloat(nIn.value), true));
+    document.querySelectorAll('#exp3 button[data-n]').forEach(b =>
+      b.addEventListener('click', () => setN(parseFloat(b.dataset.n))));
+    reset();
+    return { el: $('exp3'), st, advance, draw, speed: 2.0 };
+  })();
+  demos.push(D3);
+
+  // ═════════════════════ DEMO 4 · 2-D circular dam break ═════════════════════
+  const D4 = (() => {
+    const NG = 168, LG = 50, dx = LG / NG, HW = LG / 2;
+    const H_IN = 2.0, H_AMB = 0.1, R0 = 6;
+    const h = new Float64Array(NG * NG), hu = new Float64Array(NG * NG), hv = new Float64Array(NG * NG);
+    const nh = new Float64Array(NG * NG), nhu = new Float64Array(NG * NG), nhv = new Float64Array(NG * NG);
+    const map = $('d4-map'), slice = $('d4-slice');
+    const mc = map.getContext('2d'), sc = slice.getContext('2d');
+    const off = document.createElement('canvas');
+    off.width = NG; off.height = NG;
+    const oc = off.getContext('2d');
+    const img = oc.createImageData(NG, NG);
+    const st = { t: 0, Tend: 6.5, playing: !reduced, walls: false, V0: 0, wallHitT: null, mx: null, my: null };
+    // radial reference
+    const ref = makeSolver1D({ N: 600, xmin: 0, xmax: 26, bc: { radial: true } });
+    let refT = 0;
+    function resetRef() {
+      for (let i = 0; i < ref.N; i++) { ref.h[i] = ref.x(i) < R0 ? H_IN : H_AMB; ref.hu[i] = 0; }
+      refT = 0;
+    }
+    const idx = (i, j) => j * NG + i;
+    const cx = i => -HW + (i + 0.5) * dx;
+    // color LUT: sequential, dark → bright cyan
+    const LUT = new Uint8Array(256 * 3);
+    {
+      const stops = [
+        [0.00, 11, 18, 32],
+        [0.10, 16, 42, 66],
+        [0.45, 26, 106, 148],
+        [0.75, 42, 154, 194],
+        [1.00, 201, 239, 250],
+      ];
+      for (let k = 0; k < 256; k++) {
+        const t = k / 255;
+        let s0 = stops[0], s1 = stops[stops.length - 1];
+        for (let s = 0; s < stops.length - 1; s++) {
+          if (t >= stops[s][0] && t <= stops[s + 1][0]) { s0 = stops[s]; s1 = stops[s + 1]; break; }
+        }
+        const f = (t - s0[0]) / Math.max(s1[0] - s0[0], 1e-9);
+        LUT[k * 3]     = Math.round(s0[1] + f * (s1[1] - s0[1]));
+        LUT[k * 3 + 1] = Math.round(s0[2] + f * (s1[2] - s0[2]));
+        LUT[k * 3 + 2] = Math.round(s0[3] + f * (s1[3] - s0[3]));
+      }
+    }
+    function reset() {
+      for (let j = 0; j < NG; j++) for (let i = 0; i < NG; i++) {
+        const r = Math.hypot(cx(i), cx(j));
+        h[idx(i, j)] = r < R0 ? H_IN : H_AMB;
+        hu[idx(i, j)] = 0; hv[idx(i, j)] = 0;
+      }
+      st.t = 0; st.wallHitT = null;
+      st.V0 = volume();
+      resetRef();
+      st.Tend = st.walls ? 26 : 6.5;
+      if (reduced) { let n = 0; while (st.t < 2.2 && n++ < 400) st.t += step(); syncRef(); }
+      stats();
+    }
+    function volume() {
+      let v = 0;
+      for (let k = 0; k < NG * NG; k++) v += h[k];
+      return v * dx * dx;
+    }
+    function step() {
+      let smax = 1e-12;
+      for (let k = 0; k < NG * NG; k++) {
+        const hk = h[k];
+        if (hk > DRY) {
+          const s = Math.max(Math.abs(hu[k]), Math.abs(hv[k])) / hk + Math.sqrt(G * hk);
+          if (s > smax) smax = s;
+        }
+      }
+      const dt = 0.45 * dx / smax;
+      const r = dt / dx;
+      nh.set(h); nhu.set(hu); nhv.set(hv);
+      // x-faces
+      for (let j = 0; j < NG; j++) {
+        for (let f = 0; f <= NG; f++) {
+          let iL = f - 1, iR = f, sgnL = 1, sgnR = 1;
+          if (f === 0)  { iL = 0; if (st.walls) sgnL = -1; }
+          if (f === NG) { iR = NG - 1; if (st.walls) sgnR = -1; }
+          const kL = idx(iL, j), kR = idx(iR, j);
+          const hL = h[kL], hR = h[kR];
+          const uL = sgnL * vel(hL, hu[kL]), uR = sgnR * vel(hR, hu[kR]);
+          const F = hll(hL, uL, hR, uR);
+          const vt = F[0] > 0 ? vel(hL, hv[kL]) : vel(hR, hv[kR]);
+          const Ft = F[0] * vt;
+          if (f > 0)  { nh[kL] -= r * F[0]; nhu[kL] -= r * F[1]; nhv[kL] -= r * Ft; }
+          if (f < NG) { nh[kR] += r * F[0]; nhu[kR] += r * F[1]; nhv[kR] += r * Ft; }
+        }
+      }
+      // y-faces
+      for (let i = 0; i < NG; i++) {
+        for (let f = 0; f <= NG; f++) {
+          let jL = f - 1, jR = f, sgnL = 1, sgnR = 1;
+          if (f === 0)  { jL = 0; sgnL = st.walls ? -1 : 1; }
+          if (f === NG) { jR = NG - 1; sgnR = st.walls ? -1 : 1; }
+          const kL = idx(i, jL), kR = idx(i, jR);
+          const hL = h[kL], hR = h[kR];
+          const uL = sgnL * vel(hL, hv[kL]), uR = sgnR * vel(hR, hv[kR]);
+          const F = hll(hL, uL, hR, uR);
+          const vt = F[0] > 0 ? vel(hL, hu[kL]) : vel(hR, hu[kR]);
+          const Ft = F[0] * vt;
+          if (f > 0)  { nh[kL] -= r * F[0]; nhv[kL] -= r * F[1]; nhu[kL] -= r * Ft; }
+          if (f < NG) { nh[kR] += r * F[0]; nhv[kR] += r * F[1]; nhu[kR] += r * Ft; }
+        }
+      }
+      h.set(nh); hu.set(nhu); hv.set(nhv);
+      for (let k = 0; k < NG * NG; k++) if (h[k] < DRY) { h[k] = Math.max(h[k], 0); hu[k] = 0; hv[k] = 0; }
+      return dt;
+    }
+    function syncRef() { let g = 0; while (refT < st.t && g++ < 4000) refT += ref.step(); }
+    function boreRadius() {
+      // steepest gradient along the +x centerline
+      const j = NG >> 1;
+      let best = 0, br = 0;
+      for (let i = (NG >> 1) + 2; i < NG - 1; i++) {
+        const g = Math.abs(h[idx(i + 1, j)] - h[idx(i, j)]);
+        if (g > best) { best = g; br = Math.abs(cx(i)); }
+      }
+      return br;
+    }
+    function asymmetry(rb) {
+      if (rb < 2 || rb > HW - 2) return null;
+      let vals = [];
+      for (let a = 0; a < 72; a++) {
+        const th = a / 72 * 2 * Math.PI;
+        const x = rb * Math.cos(th), y = rb * Math.sin(th);
+        const fi = (x + HW) / dx - 0.5, fj = (y + HW) / dx - 0.5;
+        const i0 = Math.max(0, Math.min(NG - 2, Math.floor(fi)));
+        const j0 = Math.max(0, Math.min(NG - 2, Math.floor(fj)));
+        const fx2 = fi - i0, fy2 = fj - j0;
+        const v = h[idx(i0, j0)] * (1 - fx2) * (1 - fy2) + h[idx(i0 + 1, j0)] * fx2 * (1 - fy2)
+                + h[idx(i0, j0 + 1)] * (1 - fx2) * fy2 + h[idx(i0 + 1, j0 + 1)] * fx2 * fy2;
+        vals.push(v);
+      }
+      const mean = vals.reduce((a, b) => a + b) / vals.length;
+      let dev = 0;
+      for (const v of vals) dev = Math.max(dev, Math.abs(v - mean));
+      return dev / mean;
+    }
+    function advance(want) {
+      let guard = 0;
+      while (want > 1e-6 && guard++ < 12) {
+        const dt = step();
+        st.t += dt; want -= dt;
+        if (st.t >= st.Tend) { reset(); break; }
+      }
+      syncRef();
+      if (st.walls && st.wallHitT === null && boreRadius() > HW - 2.5) st.wallHitT = st.t;
+      stats();
+    }
+    function stats() {
+      $('d4-t').textContent = st.t.toFixed(2) + ' s';
+      const rb = boreRadius();
+      if (st.walls) {
+        const drift = Math.abs(volume() - st.V0) / st.V0;
+        $('d4-aK').textContent = 'volume drift · closed box';
+        $('d4-aV').innerHTML = drift.toExponential(1) + ' <span class="sub">relative · conservative ✓</span>';
+      } else {
+        // radial reference front
+        let rr = 0, best = 0;
+        for (let i = 2; i < ref.N - 1; i++) {
+          const g = Math.abs(ref.h[i + 1] - ref.h[i]);
+          if (g > best && ref.x(i) > 1) { best = g; rr = ref.x(i); }
+        }
+        $('d4-aK').textContent = 'bore radius';
+        $('d4-aV').innerHTML = rr.toFixed(1) + ' <span class="sub">radial ref / ' + rb.toFixed(1) + ' 2-D m</span>';
+      }
+      const asym = asymmetry(rb);
+      $('d4-bK').textContent = 'azimuthal asymmetry';
+      $('d4-bV').innerHTML = asym === null ? '–' : (100 * asym).toFixed(1) + ' % <span class="sub">of ring mean · 72 samples</span>';
+    }
+    function draw() {
+      const { w, h: H } = fitCanvas(map);
+      // render field to offscreen
+      const data = img.data;
+      const hScale = 1 / (H_IN * 1.05);
+      for (let j = 0; j < NG; j++) {
+        for (let i = 0; i < NG; i++) {
+          const k = idx(i, j);
+          let tval = Math.sqrt(Math.min(h[k] * hScale, 1));
+          // relief shading from x-gradient
+          const iL = Math.max(i - 1, 0), iR = Math.min(i + 1, NG - 1);
+          const gx = (h[idx(iR, j)] - h[idx(iL, j)]) / (2 * dx);
+          const shade = Math.max(0.6, Math.min(1.4, 1 - 1.1 * gx));
+          const li = Math.round(255 * tval) * 3;
+          const p = ((NG - 1 - j) * NG + i) * 4;
+          data[p]     = Math.min(255, LUT[li] * shade);
+          data[p + 1] = Math.min(255, LUT[li + 1] * shade);
+          data[p + 2] = Math.min(255, LUT[li + 2] * shade);
+          data[p + 3] = 255;
+        }
+      }
+      oc.putImageData(img, 0, 0);
+      mc.clearRect(0, 0, w, H);
+      const side = Math.min(w - 8, H - 8);
+      const ox = (w - side) / 2, oy = (H - side) / 2;
+      mc.imageSmoothingEnabled = true;
+      mc.drawImage(off, ox, oy, side, side);
+      mc.strokeStyle = COL.edge; mc.lineWidth = 1;
+      mc.strokeRect(ox + 0.5, oy + 0.5, side - 1, side - 1);
+      // scale note + slice line
+      axisFont(mc);
+      mc.fillStyle = COL.ink3; mc.textAlign = 'left';
+      mc.fillText('50 m × 50 m · ' + NG + '×' + NG + ' cells', ox + 8, oy + side - 8);
+      mc.strokeStyle = 'rgba(232,237,245,0.25)'; mc.setLineDash([4, 5]);
+      mc.beginPath(); mc.moveTo(ox, oy + side / 2); mc.lineTo(ox + side, oy + side / 2); mc.stroke();
+      mc.setLineDash([]);
+      mc.fillStyle = 'rgba(232,237,245,0.5)';
+      mc.fillText('y = 0', ox + side - 38, oy + side / 2 - 6);
+      // hover
+      if (st.mx !== null && st.my !== null) {
+        const gx2 = (st.mx - ox) / side, gy2 = (st.my - oy) / side;
+        if (gx2 >= 0 && gx2 <= 1 && gy2 >= 0 && gy2 <= 1) {
+          const xw = -HW + gx2 * LG, yw = HW - gy2 * LG;
+          const i = Math.max(0, Math.min(NG - 1, Math.floor((xw + HW) / dx)));
+          const j = Math.max(0, Math.min(NG - 1, Math.floor((yw + HW) / dx)));
+          drawTip(mc, w, 8, st.mx, [
+            'r  ' + Math.hypot(xw, yw).toFixed(1).padStart(6) + ' m',
+            'h  ' + h[idx(i, j)].toFixed(2).padStart(6) + ' m',
+          ]);
+        }
+      }
+      drawSlice();
+    }
+    function drawSlice() {
+      const { w, h: H } = fitCanvas(slice);
+      const padT = 12, padB = 24, hMax = H_IN * 1.12;
+      const ypx = d => H - padB - d / hMax * (H - padT - padB);
+      const xp2 = x => PADL + (x + HW) / LG * (w - PADL - PADR);
+      sc.clearRect(0, 0, w, H);
+      axisFont(sc);
+      sc.fillStyle = COL.ink3; sc.strokeStyle = COL.edge; sc.lineWidth = 1;
+      for (let d = 0; d <= H_IN; d += 1) {
+        const y = ypx(d);
+        sc.beginPath(); sc.moveTo(PADL, y); sc.lineTo(w - PADR, y); sc.stroke();
+        sc.textAlign = 'right'; sc.fillText(d.toFixed(0), PADL - 6, y + 3);
+      }
+      sc.textAlign = 'center';
+      for (let x = -20; x <= 20; x += 10) sc.fillText(x + ' m', xp2(x), H - 8);
+      // numerical slice
+      const j = NG >> 1;
+      sc.beginPath();
+      for (let i = 0; i < NG; i++) {
+        const X = xp2(cx(i)), Y = ypx(h[idx(i, j)]);
+        i ? sc.lineTo(X, Y) : sc.moveTo(X, Y);
+      }
+      sc.strokeStyle = COL.water; sc.lineWidth = 2; sc.stroke();
+      // radial reference (mirrored), hidden after wall reflection
+      const showRef = !(st.walls && st.wallHitT !== null && st.t > st.wallHitT);
+      if (showRef) {
+        sc.beginPath();
+        let started = false;
+        for (let k = -260; k <= 260; k++) {
+          const x = k / 260 * HW;
+          const rr = Math.abs(x);
+          const i = ref.cell(rr);
+          const Y = ypx(ref.h[i]);
+          const X = xp2(x);
+          started ? sc.lineTo(X, Y) : sc.moveTo(X, Y);
+          started = true;
+        }
+        sc.setLineDash([7, 5]); sc.strokeStyle = COL.exact; sc.lineWidth = 1.8; sc.stroke();
+        sc.setLineDash([]);
+      } else {
+        sc.fillStyle = COL.ink3; sc.textAlign = 'left'; sc.font = '10.5px ' + MONO;
+        sc.fillText('reference off — no exact solution after reflection', PADL + 6, padT + 10);
+      }
+    }
+    map.addEventListener('mousemove', e => {
+      const r = map.getBoundingClientRect();
+      st.mx = e.clientX - r.left; st.my = e.clientY - r.top;
+    });
+    map.addEventListener('mouseleave', () => { st.mx = null; st.my = null; });
+    $('d4-play').addEventListener('click', () => { st.playing = !st.playing; $('d4-play').textContent = st.playing ? 'Pause' : 'Play'; });
+    $('d4-reset').addEventListener('click', reset);
+    function setWalls(wl) {
+      st.walls = wl;
+      $('d4-open').setAttribute('aria-pressed', String(!wl));
+      $('d4-walls').setAttribute('aria-pressed', String(wl));
+      reset();
+    }
+    $('d4-open').addEventListener('click', () => setWalls(false));
+    $('d4-walls').addEventListener('click', () => setWalls(true));
+    reset();
+    return { el: $('exp4'), st, advance, draw, speed: 1.0 };
+  })();
+  demos.push(D4);
+
+  // ═════════════════════ DEMO 5 · geostrophic adjustment ═════════════════════
+  const D5 = (() => {
+    const GP = 0.3;          // reduced gravity g' = g dtheta/theta, ~3% contrast
+    const H0 = 1000;         // mean cold-layer depth (m)
+    const ETA0 = 100;        // initial interface step, +-100 m
+    const WF = 25e3;         // initial front width (m)
+    const XMIN = -600e3, XMAX = 600e3, LD = XMAX - XMIN, N = 500;
+    const OMEGA = 7.292e-5;  // Earth's rotation rate (rad/s)
+    const CG = Math.sqrt(GP * H0);   // internal wave speed ~17.3 m/s
+    const etaI = x => -ETA0 * Math.tanh(x / WF);
+
+    const eta = $('d5-eta'), jet = $('d5-jet');
+    const ec = eta.getContext('2d'), jc = jet.getContext('2d');
+    const st = { t: 0, Tend: 1, playing: !reduced, lat: 45, f: 0, a: 0, Tf: 1,
+                 ref: null, jetMean: 0, meanN: 0, mx: null };
+    attachHover(eta, st);
+    const xp = (x, w) => PADL + (x - XMIN) / LD * (w - PADL - PADR);
+
+    const rot  = makeSolver1D({ N, xmin: XMIN, xmax: XMAX, g: GP, rotating: true, fcor: 0 });
+    const flat = makeSolver1D({ N, xmin: XMIN, xmax: XMAX, g: GP, rotating: true, fcor: 0 });
+    let flatT = 0;
+    const sig = new Float64Array(N);   // sponge damping rate
+
+    // Balanced final state from PV conservation:  eta'' - eta/a^2 = -eta_i/a^2,
+    // solved as a convolution with the Green's function e^{-|x|/a} / 2a.
+    function balancedState(a) {
+      const xs = new Float64Array(N), ef = new Float64Array(N), vf = new Float64Array(N);
+      for (let i = 0; i < N; i++) xs[i] = rot.x(i);
+      for (let i = 0; i < N; i++) {
+        let s = 0;
+        for (let j = 0; j < N; j++) s += Math.exp(-Math.abs(xs[i] - xs[j]) / a) * etaI(xs[j]) * rot.dx;
+        // the domain is finite; the initial profile is +-ETA0 beyond it
+        s += ETA0 * a * Math.exp(-(xs[i] - XMIN) / a);
+        s -= ETA0 * a * Math.exp(-(XMAX - xs[i]) / a);
+        ef[i] = s / (2 * a);
+      }
+      for (let i = 0; i < N; i++) {
+        const im = Math.max(i - 1, 0), ip = Math.min(i + 1, N - 1);
+        vf[i] = (GP / st.f) * (ef[ip] - ef[im]) / ((ip - im) * rot.dx);
+      }
+      let vmax = 0;
+      for (let i = 0; i < N; i++) vmax = Math.max(vmax, Math.abs(vf[i]));
+      return { ef, vf, vmax };
+    }
+    function reset() {
+      st.f = 2 * OMEGA * Math.sin(st.lat * Math.PI / 180);
+      st.a = CG / st.f;
+      st.Tf = 2 * Math.PI / st.f;
+      st.Tend = 8 * st.Tf;
+      rot.fcor = st.f; flat.fcor = 0;
+      for (let i = 0; i < N; i++) {
+        const x = rot.x(i);
+        rot.h[i] = H0 + etaI(x); rot.hu[i] = 0; rot.hv[i] = 0;
+        flat.h[i] = H0 + etaI(x); flat.hu[i] = 0; flat.hv[i] = 0;
+        // sponge over the outer quarter, so radiated waves leave instead of reflecting
+        const X0 = 0.75 * XMAX, ax = Math.abs(x);
+        sig[i] = ax > X0 ? (2 / st.Tf) * Math.pow((ax - X0) / (XMAX - X0), 2) : 0;
+      }
+      st.t = 0; flatT = 0; st.jetMean = 0; st.meanN = 0;
+      st.ref = balancedState(st.a);
+      if (reduced) { while (st.t < 4 * st.Tf) advanceOne(); }
+      stats();
+    }
+    function damp(sol, dt) {
+      for (let i = 0; i < N; i++) if (sig[i] > 0) {
+        const k = 1 / (1 + dt * sig[i]);
+        sol.hu[i] *= k; sol.hv[i] *= k;
+      }
+    }
+    function advanceOne() {
+      const dt = rot.step();
+      damp(rot, dt);
+      st.t += dt;
+      let guard = 0;
+      while (flatT < st.t && guard++ < 40) { const d2 = flat.step(); damp(flat, d2); flatT += d2; }
+      // running mean of the jet peak over one inertial period
+      const w = Math.max(1, Math.round(st.Tf / dt));
+      st.jetMean += (jetPeak() - st.jetMean) / Math.min(++st.meanN, w);
+      return dt;
+    }
+    function advance(realDt) {
+      const n = Math.max(1, Math.min(12, Math.round(realDt * 160)));
+      for (let k = 0; k < n; k++) { advanceOne(); if (st.t >= st.Tend) { reset(); break; } }
+      stats();
+    }
+    function jetPeak() {
+      let v = 0;
+      for (let i = 0; i < N; i++) v = Math.max(v, Math.abs(vel(rot.h[i], rot.hv[i])));
+      return v;
+    }
+    function frontWidth(sol) {
+      let lo = null, hi = null;
+      for (let i = 0; i < N; i++) {
+        if (Math.abs(sol.h[i] - H0) < 0.8 * ETA0) { if (lo === null) lo = sol.x(i); hi = sol.x(i); }
+      }
+      return lo === null ? 0 : (hi - lo) / 1000;
+    }
+    function stats() {
+      $('d5-t').innerHTML = (st.t / 3600).toFixed(1) + ' h <span class="sub">· ' +
+        (st.t / st.Tf).toFixed(2) + ' inertial periods</span>';
+      const wr = frontWidth(rot), wf = frontWidth(flat);
+      const capped = wf > 0.95 * LD / 1000;
+      $('d5-wV').innerHTML = wr.toFixed(0) + ' <span class="sub">rotating / ' +
+        (capped ? '&gt;' : '') + wf.toFixed(0) + ' still spreading km</span>';
+      $('d5-jV').innerHTML = st.ref.vmax.toFixed(2) + ' <span class="sub">balanced / ' +
+        st.jetMean.toFixed(2) + ' mean m/s</span>';
+    }
+    function drawEta() {
+      const { w, h: H } = fitCanvas(eta);
+      const padT = 22, padB = 26, EMAX = ETA0 * 1.25;
+      const ypx = e => (padT + H - padB) / 2 - e / EMAX * (H - padT - padB) / 2;
+      ec.clearRect(0, 0, w, H);
+      axisFont(ec);
+      ec.fillStyle = COL.ink3; ec.strokeStyle = COL.edge; ec.lineWidth = 1;
+      for (let e = -100; e <= 100; e += 50) {
+        const y = ypx(e);
+        ec.beginPath(); ec.moveTo(PADL, y); ec.lineTo(w - PADR, y); ec.stroke();
+        ec.textAlign = 'right'; ec.fillText((e > 0 ? '+' : '') + e, PADL - 6, y + 3);
+      }
+      ec.textAlign = 'center';
+      for (let x = -600; x <= 600; x += 200) ec.fillText(x + ' km', xp(x * 1000, w), H - 8);
+      ec.save(); ec.translate(12, (padT + H - padB) / 2); ec.rotate(-Math.PI / 2);
+      ec.fillText('interface η (m)', 0, 0); ec.restore();
+      // Rossby radius bracket
+      const y0 = ypx(0);
+      ec.strokeStyle = COL.bore; ec.globalAlpha = 0.45; ec.setLineDash([3, 4]);
+      for (const s of [-1, 1]) {
+        const X = xp(s * st.a, w);
+        if (X > PADL && X < w - PADR) { ec.beginPath(); ec.moveTo(X, padT); ec.lineTo(X, H - padB); ec.stroke(); }
+      }
+      ec.setLineDash([]); ec.globalAlpha = 1;
+      ec.fillStyle = COL.bore; ec.textAlign = 'center';
+      if (xp(st.a, w) < w - PADR - 20) ec.fillText('Rossby radius a', xp(st.a, w), padT - 6);
+      // non-rotating ghost
+      jcLine(ec, i => ypx(flat.h[i] - H0), w, COL.ink3, 1.4, [2, 3]);
+      // balanced reference
+      ec.beginPath();
+      for (let i = 0; i < N; i++) {
+        const X = xp(rot.x(i), w), Y = ypx(st.ref.ef[i]);
+        i ? ec.lineTo(X, Y) : ec.moveTo(X, Y);
+      }
+      ec.setLineDash([7, 5]); ec.strokeStyle = COL.exact; ec.lineWidth = 2; ec.stroke();
+      ec.setLineDash([]);
+      // rotating solution, filled to the zero line
+      ec.beginPath();
+      ec.moveTo(xp(XMIN, w), y0);
+      for (let i = 0; i < N; i++) ec.lineTo(xp(rot.x(i), w), ypx(rot.h[i] - H0));
+      ec.lineTo(xp(XMAX, w), y0);
+      ec.closePath();
+      ec.fillStyle = 'rgba(42,154,194,0.18)'; ec.fill();
+      jcLine(ec, i => ypx(rot.h[i] - H0), w, COL.water, 2.25, null);
+      // zero line
+      ec.strokeStyle = COL.edge; ec.lineWidth = 1;
+      ec.beginPath(); ec.moveTo(PADL, y0); ec.lineTo(w - PADR, y0); ec.stroke();
+      // hover
+      if (st.mx !== null) {
+        const x = XMIN + (st.mx - PADL) / (w - PADL - PADR) * LD;
+        if (x >= XMIN && x <= XMAX) {
+          const i = rot.cell(x);
+          ec.strokeStyle = COL.ink3; ec.globalAlpha = 0.5;
+          ec.beginPath(); ec.moveTo(st.mx, padT); ec.lineTo(st.mx, H - padB); ec.stroke();
+          ec.globalAlpha = 1;
+          drawTip(ec, w, padT, st.mx, [
+            'x  ' + (x / 1000).toFixed(0).padStart(6) + ' km',
+            'η  ' + (rot.h[i] - H0).toFixed(1).padStart(6) + ' m',
+            'v  ' + vel(rot.h[i], rot.hv[i]).toFixed(2).padStart(6) + ' m/s',
+          ]);
+        }
+      }
+      drawJet();
+    }
+    function jcLine(ctx, yf, w, color, lw, dash) {
+      ctx.beginPath();
+      for (let i = 0; i < N; i++) {
+        const X = xp(rot.x(i), w), Y = yf(i);
+        i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y);
+      }
+      if (dash) ctx.setLineDash(dash);
+      ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    function drawJet() {
+      const { w, h: H } = fitCanvas(jet);
+      const padT = 14, padB = 24;
+      const VMAX = Math.max(2.2, st.ref.vmax * 1.5);
+      const ypx = v => (padT + H - padB) / 2 - v / VMAX * (H - padT - padB) / 2;
+      jc.clearRect(0, 0, w, H);
+      axisFont(jc);
+      jc.fillStyle = COL.ink3; jc.strokeStyle = COL.edge; jc.lineWidth = 1;
+      for (let v = -2; v <= 2; v += 1) {
+        const y = ypx(v);
+        jc.beginPath(); jc.moveTo(PADL, y); jc.lineTo(w - PADR, y); jc.stroke();
+        jc.textAlign = 'right'; jc.fillText((v > 0 ? '+' : '') + v, PADL - 6, y + 3);
+      }
+      jc.textAlign = 'center';
+      for (let x = -600; x <= 600; x += 200) jc.fillText(x + ' km', xp(x * 1000, w), H - 8);
+      jc.save(); jc.translate(12, (padT + H - padB) / 2); jc.rotate(-Math.PI / 2);
+      jc.fillText('jet v (m/s)', 0, 0); jc.restore();
+      // balanced reference
+      jc.beginPath();
+      for (let i = 0; i < N; i++) {
+        const X = xp(rot.x(i), w), Y = ypx(st.ref.vf[i]);
+        i ? jc.lineTo(X, Y) : jc.moveTo(X, Y);
+      }
+      jc.setLineDash([7, 5]); jc.strokeStyle = COL.exact; jc.lineWidth = 2; jc.stroke();
+      jc.setLineDash([]);
+      // instantaneous jet, filled
+      const yz = ypx(0);
+      jc.beginPath();
+      jc.moveTo(xp(XMIN, w), yz);
+      for (let i = 0; i < N; i++) jc.lineTo(xp(rot.x(i), w), ypx(vel(rot.h[i], rot.hv[i])));
+      jc.lineTo(xp(XMAX, w), yz);
+      jc.closePath();
+      jc.fillStyle = 'rgba(42,154,194,0.16)'; jc.fill();
+      jcLine(jc, i => ypx(vel(rot.h[i], rot.hv[i])), w, COL.water, 2, null);
+    }
+    // wiring
+    $('d5-play').addEventListener('click', () => {
+      st.playing = !st.playing; $('d5-play').textContent = st.playing ? 'Pause' : 'Play';
+    });
+    $('d5-reset').addEventListener('click', reset);
+    const latIn = $('d5-lat');
+    function setLat(lat, fromSlider) {
+      st.lat = lat;
+      if (!fromSlider) latIn.value = lat;
+      const f = 2 * OMEGA * Math.sin(lat * Math.PI / 180);
+      $('d5-latVal').textContent = lat + '° · a = ' + (CG / f / 1000).toFixed(0) + ' km';
+      document.querySelectorAll('#exp5 button[data-lat]').forEach(b =>
+        b.setAttribute('aria-pressed', String(parseInt(b.dataset.lat, 10) === lat)));
+      reset();
+    }
+    latIn.addEventListener('input', () => setLat(parseInt(latIn.value, 10), true));
+    document.querySelectorAll('#exp5 button[data-lat]').forEach(b =>
+      b.addEventListener('click', () => setLat(parseInt(b.dataset.lat, 10))));
+    setLat(45);
+    return { el: $('exp5'), st, advance, draw: drawEta, speed: 1 };
+  })();
+  demos.push(D5);
+
+  // ══════════ visibility + main loop ══════════
+  const visible = new Set();
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      const d = demos.find(d2 => d2.el === e.target);
+      if (!d) continue;
+      if (e.isIntersecting) visible.add(d); else visible.delete(d);
+    }
+  }, { rootMargin: '80px' });
+  demos.forEach(d => io.observe(d.el));
+
+  let lastFrame = null;
+  function frame(now) {
+    requestAnimationFrame(frame);
+    if (lastFrame === null) lastFrame = now;
+    const realDt = Math.min((now - lastFrame) / 1000, 0.1);
+    lastFrame = now;
+    for (const d of demos) {
+      if (!visible.has(d)) continue;
+      if (d.st.playing) d.advance(realDt * d.speed);
+      d.draw();
+    }
+  }
+  if (reduced) demos.forEach(d => {
+    d.st.playing = false;
+    const btn = d.el.querySelector('button.primary');
+    if (btn) btn.textContent = 'Play';
+  });
+  requestAnimationFrame(frame);
+})();
+</script>

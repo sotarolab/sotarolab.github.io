@@ -23,7 +23,11 @@
 #                         date it to the MEETING, not the submission.
 #   publish_date          only if it differs from `date` (e.g. work dated to a
 #                         future meeting that should be listed on the site now).
-#   type        REQUIRED  article-journal | paper-conference | report
+#   type        REQUIRED  article-journal | paper-conference
+#               (`report` is still supported by the generator, but /publications/
+#               no longer renders a Reports section — see content/publications/
+#               _index.md. Adding a report entry would build a page nothing
+#               links to.)
 #                         ⚠️ Anything else renders NOWHERE — /publications/ has
 #                         one block per type. `make check` catches it.
 #   venue       REQUIRED  journal or meeting, spelled out
@@ -95,35 +99,6 @@
     companion abstract is
     [presented at AGU Fall Meeting 2026](../agu2026-lstm-diffusion-ar-floods/), where
     the full results are summarised.
-- slug: 2027-climdyn-cmip6-downscaling-chile
-  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
-  # co-authors to this work and to its companion in OPPOSITE order. The site
-  # follows the Conferences assignment throughout — Giani & Valenzuela on the
-  # CMIP6 work, Buahin on the LSTM/hydrology work — because it matches each
-  # collaborator's field. If the Papers section is right, swap the two lists.
-  title: Physical Drivers of Downscaled CMIP6 Projections of Weather Extremes over
-    Chile
-  authors:
-  - Sebastian F. Otarola-Bustos
-  - P. Giani
-  - R. Valenzuela
-  date: '2027-01-01'
-  publish_date: '2026-08-11'
-  type: article-journal
-  venue: Climate Dynamics
-  status: in preparation
-  summary: The physical mechanisms behind CNN-downscaled CMIP6 projections of extreme
-    precipitation and temperature over Chile — why the changes appear where they do,
-    and what that implies for transferring the method to other regions.
-  tags:
-  - Machine Learning
-  - Climate Projections
-  - Downscaling
-  - Weather Extremes
-  - Chile
-  body: |
-    Status: **in preparation** for submission to *Climate Dynamics*. The companion
-    abstract is [presented at AGU Fall Meeting 2026](../agu2026-cmip6-downscaling-chile/).
 - slug: agu2026-lstm-diffusion-ar-floods
   # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
   # co-authors to this work and to its companion in OPPOSITE order. The site
@@ -368,7 +343,7 @@
   - Justin Sharp
   - Caroline Draxl
   - Katherine McCaffrey
-  - et al. (36 authors, incl. S. Otarola-Bustos)
+  - et al.
   date: '2019-09-01'
   type: article-journal
   venue: Bulletin of the American Meteorological Society
@@ -391,7 +366,7 @@
   - Julie K. Lundquist
   - Rebecca J. Barthelmie
   - Margarida Belo-Pereira
-  - et al. (48 authors, incl. S. Otarola-Bustos)
+  - et al.
   date: '2019-05-01'
   type: article-journal
   venue: Bulletin of the American Meteorological Society
@@ -406,30 +381,6 @@
   - Field Campaign
   - Complex Terrain
   - Turbulence
-- slug: 2019-doe-wfip2-columbia-gorge-report
-  title: Wind Forecasting Improvement Project in Complex Terrain Near the Columbia
-    River Gorge
-  authors:
-  - James McCaa
-  - Eric Grimit
-  - Mark Stoelinga
-  - Justin Sharp
-  - Julie K. Lundquist
-  - Branko Kosović
-  - et al. (14 authors, incl. S. Otarola-Bustos)
-  date: '2019-02-28'
-  type: report
-  venue: Technical report, U.S. Department of Energy (OSTI)
-  venue_short: U.S. Dept. of Energy
-  publisher: U.S. Department of Energy (OSTI)
-  doi: 10.2172/1606516
-  summary: Final DOE project report on improving wind forecasts in the complex terrain
-    of the Columbia River Gorge — the modelling and field-campaign programme behind
-    WFIP2.
-  tags:
-  - Field Campaign
-  - Complex Terrain
-  - Wind Energy
 - slug: 2016-grl-atacama-floods
   title: An Integrated Analysis of the March 2015 Atacama Floods
   authors:

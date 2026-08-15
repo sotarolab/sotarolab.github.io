@@ -158,6 +158,12 @@
 .pub-list-item.view-citation {
   margin-bottom: 1.1rem !important;
   line-height: 1.65;
+  /* The citation list sits outside `.prose`, so it inherited the 1rem base
+     while article text renders at `lg:prose-xl` (1.25rem) — /publications/
+     read as fine print next to every other page (Sebastian, 2026-08-15).
+     1.125rem lands between the two: a reference list should be denser than
+     running prose, but it is still the page's main content, not a footnote. */
+  font-size: 1.125rem;
 }
 
 .pub-list-item .pub-icon {

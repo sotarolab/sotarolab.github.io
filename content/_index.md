@@ -28,14 +28,29 @@ sections:
       # list of research threads. On 2026-08-15 he rewrote it himself; this
       # is HIS wording, so treat it as authoritative — copy-edit only, and
       # take substantive rewrites back to him first. The three bullets are
+      # The opening line named him a "water resources engineer" until
+      # 2026-08-15. That is his B.S. field, and it read as a consulting job
+      # title to an atmospheric-science reader — the wrong altitude for the
+      # research the rest of the page shows. Now the discipline leads and
+      # the engineering training follows. Do not reintroduce the job-title
+      # framing. The degree is also no longer called a "PhD in Fluid
+      # Dynamics": the registrar name in me.yaml is "PhD, Civil &
+      # Environmental Engineering & Earth Sciences", so the bio names the
+      # institution and the research area instead of a degree that /cv/
+      # would contradict.
+      #
+      # The three bullets are
       # deliberately the three threads on /research/, phrased — his first
       # draft had seven one-word topics and read as a skills inventory
       # (his own call, 2026-08-15). Keep them in step with research.yaml.
       # All facts are from his
-      # CV and this site; the closing sentence IS still his CV wording
-      # verbatim, and stays deliberate: interest, not intent — "seeking a
-      # postdoc" framing belongs in application materials, not on a public
-      # page.
+      # CV and this site. The closing sentence was his CV wording verbatim
+      # until 2026-08-15, when its topic list was cut for repeating the
+      # bullets above it (his call) — what remains is the half that says
+      # something the rest of the page does not. It stays deliberate:
+      # interest, not intent — "seeking a postdoc" framing belongs in
+      # application materials, not on a public page. Keep "these areas"
+      # pointing at the bullets; if the bullets move, this breaks.
       #
       # Strip content — Sebastian's final pick (2026-08-14): two stacked
       # loops, atmospheric river above, reservoir filling below, each with a
@@ -51,8 +66,10 @@ sections:
       # static/media/about/, update the path and --ar here.
       # Styling: assets/css/custom/07-about-strip.css.
       text: |
-        I am a water resources engineer with a **PhD in Fluid Dynamics** from the
-        **University of Notre Dame**, and currently a **Principal Scientist at Hazen**.
+        I am an environmental fluid dynamicist with a **PhD from the University of
+        Notre Dame**, where I worked on atmospheric turbulence and complex-terrain
+        boundary layers, and a background in water resources engineering. I am
+        currently a **Principal Scientist at Hazen**.
 
         My work, research, and professional interests focus on leveraging machine learning
         (LSTM, diffusion, decision trees, and neural networks) and remote sensing to emulate
@@ -64,23 +81,22 @@ sections:
         - Atmospheric rivers, hydrological forecasting, and climate downscaling
         - Ground- and space-based remote sensing, and live weather-intelligence platforms
 
-        I am interested in pursuing applied research at the intersection of weather extremes,
-        flood forecasting, remote sensing, and ML development, and fostering collaborations between
-        industry and academia.
+        I am interested in pursuing applied research in these areas, and in fostering
+        collaborations between industry and academia.
 
         <div class="astrip not-prose">
           <div class="astrip-duo">
           <figure class="astrip-item" style="--ar: 1">
             <video class="astrip-media" autoplay muted loop playsinline
                    preload="metadata" poster="/media/about/chile-ar-ivt-jul2026-v6-poster.jpg"
-                   aria-label="Animated map of integrated vapour transport over the southeast Pacific and Chile, 15–19 July 2026, with particle streaks tracing an atmospheric river's moisture flux into the coast.">
+                   aria-label="Animated map of integrated vapor transport over the southeast Pacific and Chile, 15–19 July 2026, with particle streaks tracing an atmospheric river's moisture flux into the coast.">
               <source src="/media/about/chile-ar-ivt-jul2026-v6.mp4" type="video/mp4">
             </video>
             <figcaption class="astrip-cap">
-              <b>Atmospheric river, Jul 2026.</b> Integrated vapour transport
-              streaming into Chile, GEFS control — streaks trace the moisture
-              flux. From my <a href="/projects/chile-ar-nowcast/">live AR
-              nowcast</a>.
+              <b>Atmospheric river, July 2026.</b> Integrated vapor transport
+              into Chile from the GEFS control run; the streaks trace the
+              moisture flux. From my <a href="/projects/chile-ar-nowcast/">live
+              AR nowcast</a>.
             </figcaption>
           </figure>
           <!-- Autoplaying, no controls — Sebastian's final call ("gif so no
@@ -95,11 +111,11 @@ sections:
               <source src="/media/about/la-paloma-dark.mp4" type="video/mp4">
             </video>
             <figcaption class="astrip-cap">
-              <b>Embalse La Paloma, Chile — Jun–Jul 2026.</b> Sentinel
-              satellite mapping of the reservoir refilling after that
-              atmospheric river's landfall — surface water more than doubled,
-              4.5&nbsp;→&nbsp;9.4&nbsp;km². Sentinel-2 optical where skies
-              were clear, Sentinel-1 radar where they were not.
+              <b>Embalse La Paloma, Chile, June to July 2026.</b> Sentinel
+              mapping of the reservoir refilling after that atmospheric river
+              made landfall. Surface water more than doubled, from
+              4.5 to 9.4&nbsp;km². Mapped with Sentinel-2 optical imagery, and
+              with Sentinel-1 radar under cloud.
             </figcaption>
           </figure>
           </div>

@@ -261,3 +261,98 @@ html.dark .avatar {
   height: 1.05rem;
   flex-shrink: 0;
 }
+
+/* ── Bio body size ───────────────────────────────────────────────────────────
+   The biography block ships `prose prose-lg … text-base sm:text-lg`, so the
+   About page's body text tops out at 1.125rem. Every article page renders at
+   `lg:prose-xl` (1.25rem), which made About read a size smaller than the
+   Research page it introduces (Sebastian, 2026-08-15).
+
+   Matched at the same breakpoint Tailwind uses for `lg:prose-xl`, so the two
+   pages step up together rather than crossing over at some width in between.
+   Line height follows prose-xl's 1.8, otherwise the larger type sets tighter
+   than the page it is being matched to.
+
+   `.resume-biography .prose` is (0,2,0) and outranks the block's own
+   `sm:text-lg` utility (0,1,0). */
+@media (min-width: 64rem) {
+  .resume-biography .prose {
+    /* Was 1.25rem to match `lg:prose-xl` on the article pages. Once the column
+       widened to fill the block, 1.25rem ran long lines AND read heavy at the
+       top of the site, so it steps back to 1.15rem (Sebastian, 2026-08-15).
+       The article pages keep prose-xl; About is the one page whose measure is
+       set by the layout rather than the rail. */
+    font-size: 1.15rem;
+    line-height: 1.75;
+  }
+}
+
+/* ── Column split ────────────────────────────────────────────────────────────
+   The block splits 4 / 8 of twelve columns: identity sidebar left, bio right.
+   With the bio at 1.25rem (see above) the right column ran to roughly 540px on
+   a 1200px screen — about 55 characters, short for body text, and the bullet
+   list wrapped after four or five words (Sebastian, 2026-08-15: "reads a tiny
+   bit cramped").
+
+   Twelfths are the wrong instrument here. Re-splitting 3 / 9 did widen the bio,
+   but it also narrowed the sidebar until "Sebastian Otarola-Bustos" wrapped to
+   two lines — the exact problem the `name.size: xs` setting in
+   content/_index.md exists to avoid.
+
+   So: give the sidebar a FIXED 20rem, which is what "Sebastian Otarola-Bustos"
+   needs to stay on one line at the `name.size: xs` set in content/_index.md
+   (18rem still wrapped it), and let the bio take everything left over. The bio still stops
+   at --hb-rail (09-page-width.css caps every .prose), so a wide monitor makes
+   the gutter grow rather than the line length.
+
+   Only from `md` up, where the two columns exist at all — below that the block
+   is a single stack and the grid is one column. */
+@media (min-width: 48rem) {
+  .resume-biography .grid.md\:grid-cols-12 {
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+  }
+
+  /* The span utilities would otherwise place items on a 12-track grid that no
+     longer exists, leaving both children in column 1. */
+  .resume-biography .md\:col-span-4,
+  .resume-biography .md\:col-span-8 {
+    grid-column: auto;
+  }
+}
+
+/* ── Bio text fills its column ───────────────────────────────────────────────
+   09-page-width.css caps every `.prose` at --hb-rail so article pages hold a
+   readable measure. In this block that cap fought the layout: the animation
+   strip below the prose is `not-prose`, so it filled the column (928px at
+   1440) while the paragraphs stopped at 832px, and the text read narrower than
+   the media it introduces (Sebastian, 2026-08-15).
+
+   Two caps had to go, not one: 09-page-width.css's rail, and the theme's own
+   `.bio-text { max-width: 680px }`, which is the one that was actually binding
+   here. The grid column IS the measure — already bounded by the 20rem sidebar
+   and the block's max-w-7xl — so both are redundant, and dropping them lines
+   the paragraphs up with the strip (which now fills the column too; see
+   07-about-strip.css).
+
+   Trade-off worth knowing: at 1440 this runs to roughly 95 characters a line,
+   past the 60-75 that reads most comfortably. It is the price of matching the
+   strip, asked for deliberately. If it ever reads too long, the fix is to cap
+   BOTH (`.resume-biography .prose, .resume-biography .astrip`) at the same
+   value rather than restoring the cap here alone. */
+.resume-biography .prose,
+.resume-biography .bio-text {
+  max-width: none;
+}
+
+/* The name scales `text-xl sm:text-2xl lg:text-3xl`, so on a large screen it
+   needs ~360px — more than the fixed 20rem sidebar — and "Sebastian
+   Otarola-Bustos" broke across two lines again. Capping the top step keeps it
+   on one line without giving the sidebar width back at the bio's expense,
+   which is the same trade `name.size: xs` in content/_index.md already makes.
+   `.font-black` is the name specifically; section titles use `font-bold`. */
+@media (min-width: 64rem) {
+  .resume-biography .font-black {
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+}

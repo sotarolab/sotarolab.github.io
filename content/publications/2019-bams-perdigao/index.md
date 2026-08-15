@@ -11,7 +11,7 @@ authors:
   - Julie K. Lundquist
   - Rebecca J. Barthelmie
   - Margarida Belo-Pereira
-  - et al. (48 authors, incl. S. Otarola-Bustos)
+  - et al.
 
 date: 2019-05-01
 publishDate: 2019-05-01

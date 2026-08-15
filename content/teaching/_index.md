@@ -1,6 +1,6 @@
 ---
 title: Teaching
-summary: Engineering mentoring at Hazen and Sawyer, graduate teaching at Notre Dame, and a course proposal in machine learning for weather extremes.
+summary: Engineering mentoring at Hazen and Sawyer, and graduate teaching at Notre Dame.
 type: landing
 
 # `docs` type for the pages nested under this section — gives each course its
@@ -8,6 +8,14 @@ type: landing
 # path: this section was `content/courses/` until it was renamed to match the
 # /teaching/ nav item, and a stale pattern here fails silently (the pages build,
 # they just lose the docs chrome).
+# The "Interactive Tools" and "Course Development" collections were removed
+# 2026-08-15 (Sebastian: "not ready"). Their pages are still in the repo as
+# drafts — content/teaching/saint-venant-flume/ and
+# content/teaching/ml-weather-extremes/ — so restoring either means dropping
+# `draft: true` from its front matter and re-adding a collection block that
+# filters `tag: Interactive` / `tag: Course` with `kinds: [section]`. The
+# teaching interest those sections carried is now stated in the intro instead.
+
 cascade:
   - target:
       path: '{/teaching/*/**}'
@@ -20,9 +28,10 @@ sections:
     content:
       title: 'Teaching'
       text: |-
-        I teach mostly by mentoring — engineers moving into modelling and machine
-        learning — and taught undergraduate hydrology and fluid mechanics during
-        my PhD.
+        I teach mostly by mentoring: engineers moving into modeling and machine
+        learning. I taught undergraduate hydrology and fluid mechanics during my
+        PhD, and I am interested in teaching a graduate or upper-level course in
+        hydrology, fluid mechanics, or machine learning for weather and water.
     design:
       columns: '1'
 
@@ -58,20 +67,4 @@ sections:
           homework, mid-terms, and exams (Prof. David Richter).
     design:
       columns: '1'
-
-  # Course pages are sections tagged `Course`, hence `kinds: [section]` — a
-  # plain page with the same tag would not be matched.
-  - block: collection
-    id: courses
-    content:
-      title: 'Course Development'
-      text: |-
-        A course I have designed and would be glad to teach.
-      filters:
-        tag: Course
-        kinds:
-          - section
-    design:
-      view: date-title-summary
-      columns: 1
 ---

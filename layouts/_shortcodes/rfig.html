@@ -1,0 +1,118 @@
+{{/*
+  rfig — one figure (image or video) inside a {{< rstrip >}} row.
+
+  Ported from tools/gen_research.py's strip_figure() on 2026-08-15, when
+  /research/ moved from a generated page to hand-written markdown. The class
+  names are load-bearing: assets/js/research-strip.js and
+  assets/css/custom/06-figures.css key off .rstrip-item / .rstrip-frame /
+  .rstrip-media / .rstrip-cap. Change them here and there, or not at all.
+
+  Usage — the caption is the shortcode's inner content, as markdown:
+
+      {{< rstrip >}}
+      {{< rfig image="/media/research/figure.png" ratio="1600/900"
+               alt="Plain-language description for screen readers." >}}
+      **Bold lead-in.** One or two sentences.
+      {{< /rfig >}}
+      {{< /rstrip >}}
+
+  Params:
+    image / video   exactly one; path under /media/
+    image_dark      optional companion rendered on a dark canvas, shown only
+                    when the site is in dark mode. Produce it from the SAME
+                    plotting code as the light one — both source repos have a
+                    `--dark` flag that re-runs the figure builders inside a
+                    dark rcParams context (caudal.viz.style.dark,
+                    chile_super_extremes.viz.style.dark), so the two variants
+                    cannot drift apart. A figure with no dark companion is
+                    shown as-is in both themes, which is correct for
+                    photographs and screenshots.
+    poster          required for video — without it the lazy player is a
+                    blank box until clicked
+    ratio           "width/height" of the SOURCE FILE, e.g. 1280/1100. This
+                    reserves layout space; get it wrong and the page jumps
+                    as media loads.
+    alt             required — the screen-reader description
+    width           optional CSS length, this figure's own max width
+                    (default is the strip's 560px card)
+    wide            optional "true" — full rail, for panoramic figures that
+                    are illegible at card size
+
+  Missing ratio/alt/poster fails the BUILD. That is deliberate: it replaces
+  the validate() pass in the old generator, which no longer runs.
+*/}}
+
+{{- $img := .Get "image" -}}
+{{- $vid := .Get "video" -}}
+{{- $ratio := .Get "ratio" -}}
+{{- $alt := .Get "alt" -}}
+{{- $poster := .Get "poster" -}}
+{{- $imgDark := .Get "image_dark" -}}
+
+{{- if and $img $vid -}}
+  {{- errorf "rfig (%s): give either image= or video=, not both" .Position -}}
+{{- end -}}
+{{- if not (or $img $vid) -}}
+  {{- errorf "rfig (%s): needs image= or video=" .Position -}}
+{{- end -}}
+{{- if not (findRE `^[0-9]+/[0-9]+$` (string $ratio)) -}}
+  {{- errorf "rfig (%s): needs ratio=\"width/height\" of the source file, e.g. ratio=\"1280/1100\"" .Position -}}
+{{- end -}}
+{{- if not $alt -}}
+  {{- errorf "rfig (%s): needs alt= — it is the screen-reader description" .Position -}}
+{{- end -}}
+{{- if and $vid (not $poster) -}}
+  {{- errorf "rfig (%s): a video needs poster= — without it the lazy-loaded player is a blank box until clicked" .Position -}}
+{{- end -}}
+{{- if and $imgDark $vid -}}
+  {{- errorf "rfig (%s): image_dark= pairs with image=, not video=" .Position -}}
+{{- end -}}
+{{- range slice $img $vid $poster $imgDark -}}
+  {{- if and . (not (hasPrefix . "/media/")) -}}
+    {{- errorf "rfig (%s): %q should start with /media/ (files live in static/media/)" $.Position . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $cls := cond (eq (.Get "wide") "true") "rstrip-item rstrip-item--wide" "rstrip-item" -}}
+{{- $style := printf "--ar: %s" $ratio -}}
+{{- with .Get "width" }}{{ $style = printf "%s; --fig-w: %s" $style . }}{{ end -}}
+
+{{/* markdownify wraps the caption in <p>; the CSS styles .rstrip-cap itself
+     and a single-paragraph caption reads better without it. */}}
+{{- $cap := "" -}}
+{{- with .Inner -}}
+  {{- $cap = . | markdownify | chomp -}}
+  {{- $cap = $cap | strings.TrimPrefix "<p>" | strings.TrimSuffix "</p>" -}}
+{{- end -}}
+
+  <figure class="{{ $cls }}" style="{{ $style | safeCSS }}">
+    <div class="rstrip-frame">
+{{- if $vid }}
+      {{/* data-src not src: research-strip.js swaps it in when the figure
+           scrolls into view, so an off-screen video costs nothing to load. */}}
+      <video class="rstrip-media"
+        data-src="{{ $vid }}"
+        poster="{{ $poster }}"
+        muted loop playsinline controls preload="none"
+        aria-label="{{ $alt }}"></video>
+{{- else if $imgDark }}
+      {{/* Both variants ship; 06-figures.css shows one per theme. They are the
+           same figure, so only ONE carries the alt text — the light copy, which
+           is the default-visible one — and the dark copy is marked decorative.
+           A screen reader must not read the same figure twice, and CSS
+           `display: none` is not what decides that. */}}
+      <img class="rstrip-media rstrip-media--light" src="{{ $img }}"
+        loading="lazy" alt="{{ $alt }}">
+      <img class="rstrip-media rstrip-media--dark" src="{{ $imgDark }}"
+        loading="lazy" alt="" aria-hidden="true">
+{{- else }}
+      <img class="rstrip-media" src="{{ $img }}"
+        loading="lazy" alt="{{ $alt }}">
+{{- end }}
+    </div>
+{{- with $cap }}
+    <figcaption class="rstrip-cap">
+      {{ . | safeHTML }}
+    </figcaption>
+{{- end }}
+  </figure>
