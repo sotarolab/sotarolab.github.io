@@ -1,23 +1,6 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   Content sections — one rail, one heading treatment, no cards
-   ═══════════════════════════════════════════════════════════════════════════
-   Every block ships its own container width, alignment and heading size, so out
-   of the box "Research", "Experience" and "Publications" each start at a
-   different x-position and a different scale. This file normalises all of them
-   onto `--hb-rail` with one gutter and one heading style, so the site reads as
-   one document.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* Content sections — one rail, one heading treatment, no cards. */
 
-/* NESTED MEASURE CLAMP. The block wrapper carries `max-w-prose` *and* so does
-   the `.prose` element inside it. `max-w-prose` is 65ch resolved against each
-   element's own font size — so the outer clamp computes at 1rem (~520px) and
-   starves the inner `lg:prose-xl` text, which was sized for 1.25rem. The result
-   is a narrow ribbon stranded in a wide page. Releasing the outer clamp lets
-   the inner `.prose` govern the measure, which is what it was written to do.
-
-   CENTRED TITLE, LEFT-ALIGNED BODY. The wrapper is `items-center`, so the
-   section title centres while the prose under it starts at the left edge of a
-   narrower column. Nothing lines up. */
+/* the `.prose` element inside it. `max-w-prose` is 65ch resolved against each. */
 .hbb-section .flex.flex-col.items-center.max-w-prose {
   max-width: var(--hb-rail);
   align-items: flex-start;
@@ -45,29 +28,14 @@
   padding-right: var(--hb-gutter);
 }
 
-/* Upstream puts `mt-16 sm:mt-20` on the list wrapper, opening a 5rem gap
-   between a section heading and its own first entry — which reads as an empty
-   section, especially on /publications/ where three headings stack.
-
-   Matched on `> *` rather than a class because each collection view wraps its
-   list differently: `date-title-summary` uses `.w-fit`, `citation` uses
-   `.container.max-w-3xl.w-full`. Targeting the child position covers every view
-   and any view added later. */
+/* between a section heading and its own first entry — which reads as an empty. */
 .hbb-section > .flex.flex-col.items-center.px-6 > * {
   width: 100%;
   max-width: var(--hb-rail);
   margin-top: 1.75rem;
 }
 
-/* ── Section titles ──────────────────────────────────────────────────────────
-   Styled as GitHub styles a README heading: a full-width `border.default`
-   hairline underneath, no accent colour. That rule is what makes a long README
-   scan cleanly, and it does the same for the stacked topic sections on
-   /research/. The accent stays spent on links only, which is the discipline
-   that keeps a two-colour palette readable.
-
-   The block emits these as a bare `div`, not an `h2` — an upstream a11y/SEO
-   wart this stylesheet can style but not fix. */
+/* Styled as GitHub styles a README heading: a full-width `border.default`. */
 .hbb-section .flex.flex-col.items-center.max-w-prose > .text-3xl {
   width: 100%;
   margin-bottom: 1.5rem;
@@ -84,18 +52,7 @@
   line-height: 1.15;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   Experience & education cards → GitHub panels
-   ═══════════════════════════════════════════════════════════════════════════
-   `resume-experience` and `resume-biography-3` render each entry as a floating
-   card: `rounded-xl`, a diagonal gradient fill, `shadow-md` rising to
-   `shadow-xl` on hover, `backdrop-blur`, and a 1px translate on hover. That is
-   a 2021 SaaS-landing-page idiom and the single most off-key thing next to
-   Primer — GitHub has no cards, no gradients, no shadows in content surfaces.
-
-   Flattened to what GitHub uses: 6px radius, transparent fill, one hairline, a
-   plain background tint on hover. `!important` throughout because these are
-   Tailwind utilities on the element itself, not defaults we can out-specify. */
+/* Experience & education cards → GitHub panels. */
 #section-resume-experience .rounded-xl,
 .resume-biography .rounded-xl {
   border-radius: 6px !important;
@@ -160,7 +117,7 @@
   line-height: 1.65;
   /* The citation list sits outside `.prose`, so it inherited the 1rem base
      while article text renders at `lg:prose-xl` (1.25rem) — /publications/
-     read as fine print next to every other page (Sebastian, 2026-08-15).
+     read as fine print next to every other page (design decision).
      1.125rem lands between the two: a reference list should be denser than
      running prose, but it is still the page's main content, not a footnote. */
   font-size: 1.125rem;
@@ -181,16 +138,7 @@
   pointer-events: none;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   Section list pages rendered outside the block system
-   ═══════════════════════════════════════════════════════════════════════════
-   Pages driven by the default list layout (a section `_index.md` without
-   `type: landing`) get none of the rules above: the title lands centred at
-   `text-6xl` and the entry list sits in its own `max-w-3xl` container with a
-   4–5rem top margin. Next to /research/ and /cv/ it reads as a different site.
-
-   /publications/ is a landing page now, so nothing currently hits these rules —
-   they stay for /blog/ and any future plain section. */
+/* Section list pages rendered outside the block system. */
 .page-body > .max-w-prose.mx-auto.flex.justify-center {
   justify-content: flex-start;
   max-width: var(--hb-rail);

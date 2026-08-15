@@ -1,26 +1,4 @@
-{{/*
-  applinks — the "open the running application" button row for a project page.
-
-  The theme already renders front-matter `links:` above the body, but as a
-  small text link with a chain icon, indistinguishable from a citation link.
-  On a page whose subject IS a running application, the app itself is the
-  primary action, so it gets a button.
-
-  Usage (app= is required; the rest optional):
-
-      {{< applinks app="https://heat-wave-tracker.onrender.com/"
-                   code="https://github.com/sotarolab/heat-wave-tracker"
-                   note="Source repository is private." >}}
-
-  NB: the usage line above is written WITHOUT the escaping backslash-style
-  delimiters Hugo docs use for showing shortcodes, because that form contains
-  a comment-closing delimiter and Go template comments — like CSS comments —
-  do not nest. Writing it the "correct" way ends this comment early and fails
-  the build with "comment ends before closing delimiter". Same trap as the one
-  documented in assets/css/custom/01-tokens.css.
-
-  Styling: assets/css/custom/08-project-links.css
-*/}}
+{{/* applinks — the "open the running application" button row for a project page. */}}
 
 {{- $app := .Get "app" -}}
 {{- if not $app -}}

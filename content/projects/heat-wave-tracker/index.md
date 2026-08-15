@@ -19,41 +19,6 @@ show_date: false
 reading_time: false
 ---
 
-<!--
-  Figures are live captures of the running app, taken 2026-08-15 with headless
-  Chrome. Plotly draws the map in WebGL, which headless Chrome skips without a
-  GPU — the map came out blank until the capture was rerun with software GL:
-
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-      --headless=new --hide-scrollbars --use-gl=angle --use-angle=swiftshader \
-      --enable-unsafe-swiftshader --ignore-gpu-blocklist \
-      --window-size=1440,3400 --virtual-time-budget=60000 \
-      --screenshot=out.png https://heat-wave-tracker.onrender.com/
-
-  Then cropped with sips into static/media/projects/heatwave-*.png. Only the
-  default view is reachable this way (no scripted clicks), so the station panel
-  is whatever station the app loads by default — KDCA at the time.
-
-  featured.jpg (card cover) is the CONUS map crop, at exactly 16:9 — the
-  theme's card box stretches rather than crops (see docs/CONTENT.md).
-
-  The lead figure is NOT a screenshot: it is rendered from the app's own cached
-  GFS window (data/conus_heat_tracker.nc) by scripts/render_hi_animation.py in
-  the heat-wave-tracker repo, then encoded:
-
-    python scripts/render_hi_animation.py
-    ffmpeg -framerate 6 -i out/hi_frames/frame_%03d.png -c:v libx264 -crf 28 \
-      -preset slow -pix_fmt yuv420p -movflags +faststart out/heatwave-hi-risk.mp4
-
-  A screenshot of the map view was here first and read as a pale static field
-  (Sebastian, 2026-08-15: "not so great"). The diurnal pulse — the risk area
-  inflating each afternoon and collapsing overnight — is the thing a still
-  frame cannot show, and it is what the dashboard is for.
-
-  Both figures use explicit widths rather than wide="true": the full-rail
-  breakout in 09-page-width.css outdents a figure to the LEFT of the text
-  column, which read as misalignment here.
--->
 
 {{< applinks app="https://heat-wave-tracker.onrender.com/" code="https://github.com/sotarolab/heat-wave-tracker" >}}
 

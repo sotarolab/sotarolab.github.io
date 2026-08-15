@@ -1,25 +1,4 @@
-{{/* Display author list.
-
-  Overrides the theme's _partials/page_metadata_authors.html. The upstream file
-  is copied verbatim except for `$highlight_name`, which it declares and then
-  hardcodes to false — a hook it never wires up. Here it is true for Sebastian,
-  so his name is bold in every citation and author list, the convention every
-  academic publication list uses to show which of twelve names is the page's
-  owner.
-
-  ── Matching on the surname stem, not the full string ──────────────────────
-  He is indexed under at least five byline forms (see the note in
-  data/publications.yaml): "Otarola Bustos, Sebastian F.", "Otárola-Bustos,
-  Sebastián F.", "Otárola, Sebastián", "Otarola-Bustos, Sebastian" and
-  "Otarola-Bustos, S.". Each is correct for its own paper of record, so the
-  fix is not to normalise the data — it is to match loosely here. Testing the
-  two spellings of the stem covers all five, and any sixth form that appears
-  later, without a list to maintain.
-
-  Hugo has no accent folding, hence both spellings spelled out. If a co-author
-  named Otárola ever appears, this bolds them too; that is the trade for not
-  maintaining an exact-match list, and it is visible the moment it happens.
-*/}}
+{{/* Overrides the theme's _partials/page_metadata_authors.html. The upstream file. */}}
 
 {{- $authors := .Params.authors -}}
 

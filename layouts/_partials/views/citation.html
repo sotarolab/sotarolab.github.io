@@ -1,21 +1,4 @@
-{{/*
-  Publication citation. Overrides the theme's _partials/views/citation.html.
-
-  ONE CHANGE from upstream: the title is plain text instead of a link to the
-  page's own detail page. The DOI chip underneath is the citation's only link
-  (Sebastian, 2026-08-15) — a reference list should point at the paper of
-  record, and a title linking to a local stub whose content is the citation
-  the reader is already looking at is a round trip to nowhere.
-
-  Detail pages are still built and still reachable: /research/ links to the two
-  AGU abstracts by URL, and search indexes them. They are simply not linked
-  from this list.
-
-  Entries with no DOI (work in preparation, conference abstracts) therefore
-  carry no link here at all. That is correct — there is nothing yet to point
-  at — and the *(in preparation)* / *submitted* status in the venue line says
-  so in words.
-*/}}
+{{/* Publication citation. Overrides the theme's _partials/views/citation.html. */}}
 
 {{ $item := .item }}
 {{ $year_value := $item.Params.event_start | default $item.Date }}

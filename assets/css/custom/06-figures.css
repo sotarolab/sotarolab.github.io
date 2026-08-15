@@ -1,13 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   Figures
-   ═══════════════════════════════════════════════════════════════════════════
-   Two figure systems:
-
-     .rstrip*  the video strip on /research/       — assets/js/research-strip.js
-     .mtw*     the mountain-wave canvas on /research/ — assets/js/mountain-waves.js
-
-   Both are inert on pages that do not use them.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* Figures. */
 
 /* ── Research strip ──────────────────────────────────────────────────────── */
 
@@ -19,17 +10,7 @@
   --fig-w: 560px;
 }
 
-/* Panels share ONE width; each height follows from its own aspect ratio, so the
-   left edges line up and the centres do too, with no offset arithmetic to keep
-   in sync.
-
-   ⚠️ `--ar` is declared INLINE on each <figure> in content/research.md, e.g.
-   `style="--ar: 1280/1100"` — it used to be assigned here by `:nth-child`,
-   which meant reordering or inserting a panel silently gave it the wrong frame
-   shape. Keeping the ratio next to the clip it describes means adding a panel
-   needs no edit to this file. The `1` fallback below is what an undeclared
-   panel gets: a visibly square frame, which is the point — it should look
-   wrong rather than quietly letterbox. */
+/* left edges line up and the centres do too, with no offset arithmetic to keep. */
 .rstrip-item {
   width: min(100%, var(--fig-w));
   margin: 0;
@@ -76,7 +57,7 @@ img.rstrip-media {
 .rstrip-cap {
   margin-top: 0.55rem;
   /* 0.78rem at 0.68 opacity was too quiet to read comfortably against the
-     body text above it (Sebastian, 2026-08-15). A caption is content, not a
+     body text above it (design decision). A caption is content, not a
      credit line: it should sit below body size and clearly above fine print. */
   font-size: 0.9rem;
   line-height: 1.55;
@@ -150,26 +131,12 @@ img.rstrip-media {
   opacity: 0.92;
 }
 
-/* ── Page ─────────────────────────────────────────────────────────────────
-   `margin-inline: calc(50% - 50vw)` bleeds measure against 100vw, which
-   includes the vertical scrollbar — without this a full-bleed figure overhangs
-   the document by the scrollbar's width and produces a horizontal scrollbar.
-   `clip` rather than `hidden` so it does not become a scroll container and
-   break the sticky header. */
+/* `margin-inline: calc(50% - 50vw)` bleeds measure against 100vw, which. */
 .page-body {
   overflow-x: clip;
 }
 
-/* ── Per-theme figure variants ───────────────────────────────────────────────
-   A figure whose canvas is white is a glare panel on the dark theme, and a
-   dark-canvas figure is equally wrong on the light one. Where a figure has
-   both (rfig's `image_dark=`), the theme picks. Plots only: photographs and
-   app screenshots have one true version and ship unpaired.
-
-   Toggled on `html.dark`, the class the theme sets — NOT `prefers-color-scheme`,
-   which would ignore a reader who has overridden the theme with the header
-   switch. Both files are fetched; they are the same figure at the same size,
-   and swapping at paint time is what keeps the switch instant. */
+/* A figure whose canvas is white is a glare panel on the dark theme, and a. */
 
 .rstrip-media--dark {
   display: none;

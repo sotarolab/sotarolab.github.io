@@ -2,25 +2,13 @@
    Typography — prose colours, links, selection, focus
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Tailwind Typography ships its own palette via `--tw-prose-*`, and under
-   `dark:prose-invert` that makes links #fff and bold text #fff — so an inline
-   link on /research/ rendered as plain white text, indistinguishable from the
-   sentence around it. Rebinding the tokens to the Primer values fixes links,
-   bold and headings in one place, in both modes, since `--hb-color-foreground`
-   is already mode-aware.
-
-   Specificity matters. The `dark:prose-invert` utility compiles to
-   `.dark .prose-invert` (0,2,0), which rebinds `--tw-prose-body` and friends to
-   their `-invert-` counterparts. A plain `.prose` rule (0,1,0) loses to it,
-   which is why bold text kept rendering near-white on the dimmed canvas after
-   the first attempt. Matching (0,2,0) and relying on source order — this
-   stylesheet is emitted after the main one — settles it. */
+/* `dark:prose-invert` that makes links #fff and bold text #fff — so an inline. */
 .prose,
 html.dark .prose {
   --tw-prose-body: var(--hb-color-foreground);
   /* Bold ran --hb-bold (emphasis blue) until Aug 2026 — with the bio now
      carrying several bolded phrases, blue bold read as a paragraph full of
-     dead links (Sebastian's call). Prose bold is plain foreground at weight;
+     dead links (a deliberate call). Prose bold is plain foreground at weight;
      --hb-bold lives on in the role line (03-biography.css). */
   --tw-prose-bold: var(--hb-color-foreground);
   --tw-prose-headings: var(--hb-color-foreground);
@@ -39,14 +27,7 @@ html.dark .prose {
   color: var(--hb-color-foreground);
 }
 
-/* ── Body links ──────────────────────────────────────────────────────────────
-   Accent blue with a soft underline that solidifies on hover.
-
-   GitHub itself ships colour-only links and offers an opt-in "underline links"
-   setting. This site keeps the underline on by default instead: bold body text
-   is also blue here (see `--hb-bold` in 01-tokens.css), so colour alone would
-   not distinguish a link from an emphasised word — and colour alone as a link
-   cue is what WCAG 1.4.1 warns about anyway. */
+/* Accent blue with a soft underline that solidifies on hover. */
 .prose a {
   color: var(--color-primary-500);
   text-decoration: underline;
@@ -77,27 +58,7 @@ button:focus-visible {
   border-radius: 2px;
 }
 
-/* ── Heading colour, dark mode ────────────────────────────────────────────────
-   Three different heading colours were shipping in dark mode, measured off the
-   rendered pages:
-
-     landing section titles (About, Projects, Teaching, CV)  #adbac7
-     single-page <h1> (theme's `dark:text-slate-100`)        #f1f5f9
-     single-page prose <h2>/<h3> (--tw-prose-invert-headings) #cdd9e5
-
-   The About page was the dimmest and the one Sebastian wanted matched
-   (2026-08-15): #adbac7 is Primer's dark-dimmed fg.default, the same value the
-   navbar title uses. The other two were brighter than the body text they
-   introduce, which inverts the hierarchy — a heading should not glare more
-   than the sentence under it reads.
-
-   Dark mode only. In light mode the theme's near-black headings are already
-   right, and --hb-heading-dark is defined only under html.dark.
-
-   `html.dark h1` is (0,1,2) and outranks the `dark:text-slate-100` utility
-   (0,1,0) that single.html puts on the title. The prose rule rebinds the
-   Tailwind Typography token instead of setting `color`, so every heading level
-   inside prose follows without listing them. */
+/* Three different heading colours were shipping in dark mode, measured off the. */
 
 html.dark .page-body h1,
 html.dark article h1 {
@@ -105,14 +66,7 @@ html.dark article h1 {
 }
 
 html.dark .prose {
-  /* BOTH tokens, and this is the subtle part. Tailwind's invert utility
-     compiles to `.dark\:prose-invert:where(.dark,.dark *)`, and `:where()`
-     contributes NOTHING to specificity — so its
-     `--tw-prose-headings: var(--tw-prose-invert-headings)` assignment is only
-     (0,1,0). The block at the top of this file sets --tw-prose-headings
-     explicitly at (0,1,2) via `html.dark .prose`, which outranks it, so
-     rebinding the -invert- token alone changed nothing: the headings never
-     read it. Setting the plain token here is what actually lands. */
+  /* compiles to `.dark\:prose-invert:where(.dark,.dark *)`, and `:where()`. */
   --tw-prose-headings: var(--hb-heading-dark);
   --tw-prose-invert-headings: var(--hb-heading-dark);
 }

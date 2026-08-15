@@ -1,10 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   Figure lightbox
-   ═══════════════════════════════════════════════════════════════════════════
-   Behaviour lives in assets/js/figure-lightbox.js. Everything here is inert
-   until that script marks a figure `.lbx-trigger` and appends the overlay, so
-   with JS off nothing below applies and the page is unchanged.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* Figure lightbox. */
 
 /* ── The trigger ─────────────────────────────────────────────────────────────
    The affordance has to be visible without hover, because touch has no hover:

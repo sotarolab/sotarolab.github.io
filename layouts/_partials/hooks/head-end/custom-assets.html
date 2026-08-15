@@ -1,37 +1,4 @@
-{{/*
-  Site-specific CSS and JS.
-
-  This is the ONLY head hook this site adds. It replaced three hooks that each
-  carried a few hundred lines of CSS and JS inline in <style>/<script> tags —
-  no syntax highlighting, no cache-busting, and one 704-line file mixing every
-  concern. Two real bugs had been hiding in that file behind comment delimiters
-  that had come unbalanced, which is the argument for real .css files.
-
-  ── CSS ────────────────────────────────────────────────────────────────────
-  Every file in assets/css/custom/ is concatenated in FILENAME ORDER, hence the
-  numeric prefixes — the cascade depends on it (tokens must come before the
-  rules that use them). Add a file and it is picked up automatically.
-
-  Emitted here, at head-end, so it lands after the theme's own stylesheet.
-  Several rules in 05-typography.css depend on that source order to win ties
-  against equal-specificity Tailwind utilities.
-
-  ── JS ─────────────────────────────────────────────────────────────────────
-  Listed explicitly rather than globbed: order is not alphabetical and each
-  script is independently droppable. Each attaches on DOMContentLoaded and
-  no-ops when its hook element is absent, so `defer` is safe and every page
-  gets all of them regardless of which elements it actually contains.
-
-  Both are minified and then fingerprinted, with Subresource Integrity emitted
-  from the same pipeline. ORDER MATTERS: `minify` must come before
-  `fingerprint`, or the hash describes content that is no longer what ships and
-  the browser refuses to load the file. tools/qc.sh re-derives both hashes from
-  the published bytes so a regression here fails the build rather than the page.
-
-  The comments in these source files are the documentation for a pile of
-  workarounds against upstream block templates — they are stripped from the
-  published bundle, not from the repo.
-*/}}
+{{/* Site-specific CSS and JS. */}}
 
 {{- /* Dark only. The theme reads `wc-color-theme` from localStorage before
        falling back to the configured default, so a browser that toggled to

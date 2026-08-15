@@ -1,22 +1,4 @@
-{{/*
-  rstrip — the media row that {{< rfig >}} figures sit in.
-
-  Always wrap figures in this, even a single one: .rstrip-align sets the
-  760px column the strip is measured against, and 06-figures.css widens it
-  to the full rail only when it sees two or more .rstrip-item siblings
-  (the `:has(.rstrip-item ~ .rstrip-item)` rule). A bare figure outside the
-  wrapper inherits neither.
-
-  `not-prose` opts the raw markup out of the theme's Tailwind prose styles,
-  which would otherwise put article margins on the <figure> and <img>.
-
-      {{< rstrip >}}
-      {{< rfig ... >}}caption{{< /rfig >}}
-      {{< rfig ... >}}caption{{< /rfig >}}
-      {{< /rstrip >}}
-
-  Two or more figures in one strip render side by side.
-*/}}
+{{/* rstrip — the media row that {{< rfig >}} figures sit in. */}}
 <div class="rstrip-align not-prose">
 <div class="rstrip">
 {{ .Inner }}

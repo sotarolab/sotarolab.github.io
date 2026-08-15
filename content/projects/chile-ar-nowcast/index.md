@@ -21,37 +21,6 @@ show_date: false
 reading_time: false
 ---
 
-<!--
-  Figures use the rfig/rstrip shortcodes (layouts/_shortcodes/) — the same pair
-  the Research page uses. `ratio` is the source file's true pixel dimensions.
-
-  Media in static/media/projects/:
-    chile-ar-dga-network.mp4  — 22s cut of DGA_Functionality_0720.mp4
-                                (~/Desktop/Post_07_20, 2026-07-20 screen
-                                recording, 1280x720/60fps/25MB) re-encoded to
-                                24fps CRF 30, audio dropped, ~0.5MB. To recut:
-                                ffmpeg -ss 8 -t 22 -i SRC -an
-                                  -vf "fps=24,scale=1280:-2"
-                                  -c:v libx264 -crf 30 -preset slow
-                                  -pix_fmt yuv420p -movflags +faststart OUT
-    chile-ar-santiago-ensemble.png — UI capture from the same session.
-                                (chile-ar-alto-del-carmen.png went with the
-                                16-20 July section, cut 2026-08-15 with the
-                                page's second event: one worked event is
-                                enough, and the 30 July verification is the
-                                stronger one.)
-    chile-ar-app-tour.mp4     — 25s cut of ~/Desktop/AR_Chile_2026.mp4
-                                (2026-07-17 recording, 61s/40MB), same encode
-                                settings. It tours the FORECAST side; the DGA
-                                clip covers observations. Both use explicit
-                                widths, not wide="true", which outdents a
-                                figure left of the text column.
-  featured.jpg (card cover) is a cropped frame of the station map, at 16:9.
-
-  The screenshots are from the 16–20 July 2026 event and are dated in their
-  captions on purpose: they are a record of a specific storm the tool covered,
-  not a claim about what the app shows today.
--->
 
 {{< applinks app="https://chile-ar-nowcast.onrender.com/" >}}
 
@@ -116,11 +85,6 @@ observations: verification, run live while an event is in progress. On 31 July
 **ECMWF's AI model (AIFS)** against the physics-based **GFS** and **ECMWF-IFS**,
 scored against Chile's weather service (DMC) gauges.
 
-<!-- Figures from ~/dev/chile-ar-nowcast/notebooks/figs (fig5_goes_z500,
-     fig2_leads, fig7_spatial) and the deck from post/carousel.pdf, which
-     post/make_carousel.py builds. The written analysis is post/linkedin_post.md.
-     Sizes here are explicit rather than wide="true" so the figures line up with
-     the text column — see the note on the heat-wave page. -->
 
 {{< rstrip >}}
 {{< rfig image="/media/projects/chile-ar-goes-500hpa.jpg" ratio="1300/1239" width="700px"

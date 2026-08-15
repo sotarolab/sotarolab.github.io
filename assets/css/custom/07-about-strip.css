@@ -1,24 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   About-page animation strip (.astrip) — the looping clips under the bio
-   paragraph on the homepage.
-
-   The strip lives INSIDE the biography block's `text` field
-   (content/_index.md), so it renders in the text column directly under the
-   bio prose. It used to be its own landing section, and every version of
-   that had a large gap above it that no padding override could close: a
-   section cannot start until the whole biography — including the sidebar,
-   which runs well past the paragraph — has ended. In-column, the gap is
-   just this file's margin. Do not move it back out.
-
-   Distinct from the research .rstrip on purpose: .rstrip letterboxes and
-   lazy-loads; these clips autoplay and arrive ALREADY cropped to their
-   frame with ffmpeg. No object-fit cropping here: a first version of this
-   strip cover-cropped rectangular images in CSS and turned them into
-   illegible smears. If a clip ships at the wrong shape it will letterbox
-   visibly, which is the tell to go re-render it, not to re-add object-fit.
-
-   Inert on pages that do not use it.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* About-page animation strip (.astrip) — the looping clips under the bio. */
 
 .astrip {
   margin-top: 4.25rem; /* the paragraph-to-first-clip gap — the whole of it */
@@ -29,26 +9,10 @@
   min-width: 0;
 }
 
-/* IVT and La Paloma side by side. The pair needs more room than the bio
-   text column, and the breakout goes RIGHT (Sebastian, 2026-08-16, after
-   left-breakout variants): the strip's left edge stays exactly on the bio
-   paragraph's, and the row runs rightward past the column into the page
-   margin, stopping 1.5rem short of the viewport edge. With M = the
-   biography container's content width (max-w-7xl inside px-4), the run is
-   100vw − col_left − 1.5rem, which simplifies to the calc below. Tiles are
-   capped by .astrip-duo's minmax and shrink on narrower viewports rather
-   than clipping (the page body is overflow-x: clip). */
+/* text column, and the breakout goes RIGHT (Decided after. */
 @media (min-width: 768px) {
   .astrip {
-    /* Was a hand-tuned breakout — `calc(50vw + min(80rem,100vw - 2rem)/6 -
-       2.167rem)` — which ran the row rightward past the bio column into the
-       page margin. That was tuned against the old 4/8 column split and against
-       the prose cap it was working around; both are gone (the sidebar is a
-       fixed 20rem now, and .bio-text's cap is lifted below), and it left the
-       strip visibly wider than the paragraphs above it.
-
-       The column is the measure now, so the strip simply fills it and the two
-       line up on both edges. */
+    /* 2.167rem)` — which ran the row rightward past the bio column into the. */
     width: 100%;
   }
 }
@@ -79,12 +43,12 @@
 
 /* The biography section's bottom padding scales to py-32 (8rem) on wide
    screens, which is the gap between the strip's captions and News. Shaved
-   a notch — a nudge, not a collapse (Sebastian: "a tiny bit"). */
+   a notch — a nudge, not a collapse (design decision). */
 #section-resume-biography-3 .resume-biography {
   padding-bottom: 1rem;
 }
 
-/* News shares the bio text's left edge (Sebastian, 2026-08-16): its
+/* News shares the bio text's left edge (design decision): its
    rail-centred content shifts right by col_left − rail_left — the same
    expression as the strip's old rail alignment, sign flipped. Desktop
    only; below md the bio stacks and there is no column edge to match. */
@@ -110,21 +74,7 @@
   opacity: 0.92;
 }
 
-/* ── News block: same left edge as the bio column ────────────────────────────
-   The News collection is its own section, so its containers centre on
-   --hb-rail, while the biography above is a two-column grid: fixed 20rem
-   sidebar, 2rem gap, then the bio and the animation strip. The left edges
-   disagreed and News read as shifted against the strip right above it
-   (Sebastian, 2026-08-15).
-
-   The block nests three centring layers — the section's flex children
-   (`items-center`), the heading's `max-w-prose mx-auto`, and the list's
-   `w-fit` — and each one re-centres inside whatever box the layer above
-   gives it. Shifting any single layer just moved the problem down, so every
-   layer is pinned left here and the offset is applied once, on the section.
-
-   The 22rem is the biography's sidebar (20rem) plus its grid gap (2rem). If
-   03-biography.css changes that split, change this with it. */
+/* The News collection is its own section, so its containers centre on. */
 @media (min-width: 48rem) {
   #news {
     padding-left: calc((100% - min(80rem, 100% - 2rem)) / 2 + 22rem) !important;

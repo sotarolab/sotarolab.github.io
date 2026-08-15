@@ -55,18 +55,10 @@ sections:
     content:
       username: me
     design:
-      # No `date_format` here: this block prints `start`/`end` from me.yaml
-      # literally rather than parsing and reformatting them, so the dates are
-      # written in human form there instead.
-      #
-      # Experience first — the applied record is the differentiator here, and
-      # the PhD is visible in the education block right below it.
+      # No `date_format` here: this block prints `start`/`end` from me.yaml.
       is_education_first: false
 
-  # Written inline rather than rendered from `me.yaml` by the `resume-skills`
-  # block, which draws a 1–5 proficiency bar per item and requires a `level`.
-  # The CV lists these unrated, and self-rated proficiency is a public claim
-  # many reviewers discount. Two groups, verbatim from the CV — edit here.
+  # Written inline rather than rendered from `me.yaml` by the `resume-skills`.
   - block: markdown
     content:
       title: 'Technical Skills'
