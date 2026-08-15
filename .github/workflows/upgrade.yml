@@ -15,6 +15,11 @@ on:
     # Run at 05:00 on Monday
     - cron: '0 5 * * 1'
 
+# The workflow needs the repository setting "Allow GitHub Actions to create
+# and approve pull requests" enabled (Settings > Actions > General). Without
+# it every run fails at the create-pull-request step with "GitHub Actions is
+# not permitted to create or approve pull requests", regardless of the
+# permissions declared below. Enabled 2026-08-15.
 permissions:
   contents: write
   pull-requests: write
