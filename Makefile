@@ -10,7 +10,7 @@
 # `make check` is the one to run before pushing. CI runs the same script.
 
 .DEFAULT_GOAL := help
-.PHONY: help serve build check check-fast clean publications pub-from-doi project
+.PHONY: help serve build check check-fast clean publications pub-from-doi project cv-pdf
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
@@ -47,3 +47,19 @@ pub-from-doi: ## Append a publication from Crossref (DOI=10.xxxx/yyyy)
 project: ## Scaffold a project (SLUG=name)
 	@test -n "$(SLUG)" || { echo "usage: make project SLUG=my-tool"; exit 1; }
 	hugo new content/projects/$(SLUG)/index.md --kind project
+
+# ── CV PDF ──────────────────────────────────────────────────────────────────
+# static/uploads/cv.pdf is printed from the built /cv/ page, so it carries the
+# same redactions as the site (no phone number, no client names). Re-run this
+# after any change to data/authors/me.yaml or content/cv.md. Requires Chrome.
+CHROME ?= /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+cv-pdf: build ## Regenerate static/uploads/cv.pdf from the built /cv/ page
+	@test -x "$(CHROME)" || { echo "Chrome not found at $(CHROME); set CHROME=..."; exit 1; }
+	@mkdir -p static/uploads
+	@( cd public && python3 -m http.server 18313 >/dev/null 2>&1 & echo $$! > /tmp/cvpdf.pid ); sleep 1; \
+	"$(CHROME)" --headless=new --disable-gpu --no-pdf-header-footer \
+	  --print-to-pdf=static/uploads/cv.pdf http://localhost:18313/cv/ 2>/dev/null; \
+	kill $$(cat /tmp/cvpdf.pid) 2>/dev/null; rm -f /tmp/cvpdf.pid
+	@pdftotext static/uploads/cv.pdf - 2>/dev/null | grep -qE '\(?[0-9]{3}\)?[ .-][0-9]{3}[ .-][0-9]{4}' \
+	  && { echo "cv.pdf contains a phone-like number; refusing"; rm -f static/uploads/cv.pdf; exit 1; } \
+	  || echo "wrote static/uploads/cv.pdf"
