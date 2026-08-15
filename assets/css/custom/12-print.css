@@ -100,3 +100,74 @@
     margin: 16mm 14mm;
   }
 }
+
+/* Compaction for the printed CV. The web layout is generous with vertical
+   rhythm; on paper that ran to five pages. Tighten the timeline cards, the
+   section spacing and the type so the same content fits in three. */
+@media print {
+  /* Timeline cards: no rail, no icon medallion, no card padding. */
+  #section-resume-experience .rounded-full,
+  #section-resume-experience .absolute,
+  .resume-biography .flex-shrink-0.w-12.h-12 {
+    display: none !important;
+  }
+
+  #section-resume-experience [class*="border"] {
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 0 0.6rem !important;
+  }
+
+  #section-resume-experience [class*="pl-"],
+  #section-resume-experience [class*="ml-"] {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  /* Section blocks: the on-screen 4rem gap between blocks becomes 0.9rem. */
+  .hbb-section {
+    padding-top: 0.9rem !important;
+    padding-bottom: 0.9rem !important;
+  }
+
+  .hbb-section .text-3xl {
+    font-size: 14pt !important;
+    margin-bottom: 0.5rem !important;
+    padding-bottom: 0.2rem !important;
+  }
+
+  /* Type: a notch below the on-screen size, and lists tighter. */
+  main,
+  article,
+  .prose,
+  .resume-biography .prose {
+    font-size: 10pt !important;
+    line-height: 1.35 !important;
+  }
+
+  li {
+    margin-top: 0.15rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  ul,
+  ol {
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  p {
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  /* The Industry / Independent / Academic tag pill under each entry is a
+     screen affordance; on paper it is a stray word. */
+  #section-resume-experience span[class*="rounded-full"] {
+    display: none !important;
+  }
+
+  @page {
+    margin: 14mm 14mm;
+  }
+}
