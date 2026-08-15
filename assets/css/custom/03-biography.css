@@ -1,26 +1,6 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   Biography block — the About page sidebar and hero
-   ═══════════════════════════════════════════════════════════════════════════
-   Borrows the *information architecture* of AcademicPages — the Jekyll theme
-   most of this field's personal sites run on — without borrowing its dated
-   visuals: a left-aligned contact rail with labelled links, hairlines instead
-   of cards. Those are the cues that read as "academic" to a reviewer. The
-   modern Hugo Blox chrome underneath is the differentiator.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* Biography block — the About page sidebar and hero. */
 
-/* ── Hero padding ────────────────────────────────────────────────────────────
-   The `resume-biography-3` block hardcodes its vertical padding
-   (`py-8 sm:py-12 md:py-16 lg:py-24 xl:py-32`) rather than deriving it from the
-   `layout.spacing` token, so `spacing: compact` in params.yaml does not affect
-   it. Bottom padding is deliberately small: the figure sits immediately below,
-   and the block's own bottom padding stacks with the next section's top padding
-   into a visible void.
-
-   ⚠️ This rule was silently dead in the old inline-`<style>` hook: a paragraph
-   of prose directly above it had fallen outside its comment delimiters, so the
-   parser discarded the rule. Do not quote a comment-closing delimiter inside a
-   comment when documenting that — CSS comments do not nest, and doing so
-   recreates the bug. See the note in 01-tokens.css. */
+/* The `resume-biography-3` block hardcodes its vertical padding. */
 .resume-biography {
   padding-top: 3rem;
   padding-bottom: 0.5rem;
@@ -40,47 +20,17 @@ html.dark .avatar {
   border-color: var(--hb-border);
 }
 
-/* ── Section-heading icon badges ─────────────────────────────────────────────
-   The block hardcodes a decorative circled icon before each section heading
-   (`identification` on About, `academic-cap` on Education, `sparkles` on
-   Interests). Not configurable, so hidden.
-
-   `bg-primary-100` is what distinguishes these three badges from the social
-   link circles (`bg-white dark:bg-gray-800`) and the experience-entry icons
-   (`ring-1 …`), which must stay visible — do not loosen this selector. */
+/* The block hardcodes a decorative circled icon before each section heading. */
 .resume-biography .flex-shrink-0.w-12.h-12.bg-primary-100 {
   display: none;
 }
 
-/* ── Education on the About page ─────────────────────────────────────────────
-   Hidden. Populating `education` in the author profile makes this block render
-   an Education grid on the About page *in addition to* the timeline on /cv/ —
-   the same two degrees twice, in a cramped 4-column card. AcademicPages sites
-   keep About as bio-and-figure and put the record on the CV page.
-
-   `.mb-16` is the education wrapper. The CV-download button uses the same
-   class but only renders when `content.button` is set on the block in
-   content/_index.md — it is not. Set that button and this rule would hide it
-   too, so revisit this selector if you ever add one. */
+/* Hidden. Populating `education` in the author profile makes this block render. */
 .resume-biography .md\:col-span-8 > .mb-16 {
   display: none;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   AcademicPages-style contact rail
-   ═══════════════════════════════════════════════════════════════════════════
-   Upstream renders the sidebar centred, with profile links as a row of 48px
-   icon-only circles. AcademicPages instead runs a left-aligned column of
-   labelled links — "GitHub", "ORCID" — under the name and affiliation. The
-   label is the point: a reviewer scanning for an ORCID should not have to hover
-   an unlabelled glyph to find it.
-
-   These selectors key off the utility-class combinations the block emits. They
-   are stable for a given blox version but WILL need revisiting on a module
-   upgrade — if the sidebar suddenly renders centred with circles again, that is
-   what happened. The link list is matched by `.justify-center.gap-4`, which in
-   this block is unique to the social row (Interests uses `.gap-3`, Education
-   uses a grid). */
+/* AcademicPages-style contact rail. */
 
 @media (min-width: 768px) {
   /* Left-align the whole rail. `.items-center.text-center` is the sidebar
@@ -118,21 +68,7 @@ html.dark .avatar {
   color: var(--hb-bold);
 }
 
-/* ── Affiliation icons ───────────────────────────────────────────────────────
-   AcademicPages prefixes the institution with a building glyph and the location
-   with a map pin. The block renders affiliations as bare `<p>` with no icon
-   slot, so they are painted here as CSS masks — mask rather than
-   `background-image` so the glyph inherits `currentColor` and tracks the theme
-   in both modes.
-
-   Which glyph goes where is decided by DATA, not position: an affiliation with
-   a `url:` in data/authors/me.yaml renders an `<a>` inside its `<p>`, and one
-   without renders bare text. `:has(a)` reads that directly.
-
-   This replaced a `p.text-2xl + p` / `p + p` sibling chain that keyed off list
-   ORDER — reordering `affiliations`, or adding a third, silently mislabelled or
-   un-iconed them. Adding a fourth affiliation now Just Works as long as
-   organisations carry a `url` and places do not. */
+/* AcademicPages prefixes the institution with a building glyph and the location. */
 .resume-biography .space-y-3 > p.text-gray-700::before {
   content: '';
   display: inline-block;
@@ -184,17 +120,7 @@ html.dark .avatar {
   border-top: 1px solid var(--hb-border);
 }
 
-/* Small-caps group labels, matching AcademicPages' sidebar headings. Generated
-   content, so they stay out of the document outline and out of search indexing
-   — correct for decorative labels.
-
-   ⚠️ ORDER-DEPENDENT, and unavoidably so: the block renders `links` as one flat
-   list with no grouping data to key off, so the Contact/Profiles split is
-   purely positional. link #1 is labelled Contact and a second heading is
-   injected above link #2. data/authors/me.yaml must therefore keep e-mail first
-   and every profile link after it — adding a phone number as the second entry
-   would file it under Profiles. tools/qc.sh asserts the first link is a
-   mailto:. */
+/* content, so they stay out of the document outline and out of search indexing. */
 .resume-biography .flex.flex-wrap.justify-center.gap-4::before {
   content: 'Contact';
   font-size: 0.7rem;
@@ -262,24 +188,12 @@ html.dark .avatar {
   flex-shrink: 0;
 }
 
-/* ── Bio body size ───────────────────────────────────────────────────────────
-   The biography block ships `prose prose-lg … text-base sm:text-lg`, so the
-   About page's body text tops out at 1.125rem. Every article page renders at
-   `lg:prose-xl` (1.25rem), which made About read a size smaller than the
-   Research page it introduces (Sebastian, 2026-08-15).
-
-   Matched at the same breakpoint Tailwind uses for `lg:prose-xl`, so the two
-   pages step up together rather than crossing over at some width in between.
-   Line height follows prose-xl's 1.8, otherwise the larger type sets tighter
-   than the page it is being matched to.
-
-   `.resume-biography .prose` is (0,2,0) and outranks the block's own
-   `sm:text-lg` utility (0,1,0). */
+/* The biography block ships `prose prose-lg … text-base sm:text-lg`, so the. */
 @media (min-width: 64rem) {
   .resume-biography .prose {
     /* Was 1.25rem to match `lg:prose-xl` on the article pages. Once the column
        widened to fill the block, 1.25rem ran long lines AND read heavy at the
-       top of the site, so it steps back to 1.15rem (Sebastian, 2026-08-15).
+       top of the site, so it steps back to 1.15rem (design decision).
        The article pages keep prose-xl; About is the one page whose measure is
        set by the layout rather than the rail. */
     font-size: 1.15rem;
@@ -287,26 +201,7 @@ html.dark .avatar {
   }
 }
 
-/* ── Column split ────────────────────────────────────────────────────────────
-   The block splits 4 / 8 of twelve columns: identity sidebar left, bio right.
-   With the bio at 1.25rem (see above) the right column ran to roughly 540px on
-   a 1200px screen — about 55 characters, short for body text, and the bullet
-   list wrapped after four or five words (Sebastian, 2026-08-15: "reads a tiny
-   bit cramped").
-
-   Twelfths are the wrong instrument here. Re-splitting 3 / 9 did widen the bio,
-   but it also narrowed the sidebar until "Sebastian Otarola-Bustos" wrapped to
-   two lines — the exact problem the `name.size: xs` setting in
-   content/_index.md exists to avoid.
-
-   So: give the sidebar a FIXED 20rem, which is what "Sebastian Otarola-Bustos"
-   needs to stay on one line at the `name.size: xs` set in content/_index.md
-   (18rem still wrapped it), and let the bio take everything left over. The bio still stops
-   at --hb-rail (09-page-width.css caps every .prose), so a wide monitor makes
-   the gutter grow rather than the line length.
-
-   Only from `md` up, where the two columns exist at all — below that the block
-   is a single stack and the grid is one column. */
+/* The block splits 4 / 8 of twelve columns: identity sidebar left, bio right. */
 @media (min-width: 48rem) {
   .resume-biography .grid.md\:grid-cols-12 {
     grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
@@ -320,36 +215,13 @@ html.dark .avatar {
   }
 }
 
-/* ── Bio text fills its column ───────────────────────────────────────────────
-   09-page-width.css caps every `.prose` at --hb-rail so article pages hold a
-   readable measure. In this block that cap fought the layout: the animation
-   strip below the prose is `not-prose`, so it filled the column (928px at
-   1440) while the paragraphs stopped at 832px, and the text read narrower than
-   the media it introduces (Sebastian, 2026-08-15).
-
-   Two caps had to go, not one: 09-page-width.css's rail, and the theme's own
-   `.bio-text { max-width: 680px }`, which is the one that was actually binding
-   here. The grid column IS the measure — already bounded by the 20rem sidebar
-   and the block's max-w-7xl — so both are redundant, and dropping them lines
-   the paragraphs up with the strip (which now fills the column too; see
-   07-about-strip.css).
-
-   Trade-off worth knowing: at 1440 this runs to roughly 95 characters a line,
-   past the 60-75 that reads most comfortably. It is the price of matching the
-   strip, asked for deliberately. If it ever reads too long, the fix is to cap
-   BOTH (`.resume-biography .prose, .resume-biography .astrip`) at the same
-   value rather than restoring the cap here alone. */
+/* 09-page-width.css caps every `.prose` at --hb-rail so article pages hold a. */
 .resume-biography .prose,
 .resume-biography .bio-text {
   max-width: none;
 }
 
-/* The name scales `text-xl sm:text-2xl lg:text-3xl`, so on a large screen it
-   needs ~360px — more than the fixed 20rem sidebar — and "Sebastian
-   Otarola-Bustos" broke across two lines again. Capping the top step keeps it
-   on one line without giving the sidebar width back at the bio's expense,
-   which is the same trade `name.size: xs` in content/_index.md already makes.
-   `.font-black` is the name specifically; section titles use `font-bold`. */
+/* needs ~360px — more than the fixed 20rem sidebar — and the full name. */
 @media (min-width: 64rem) {
   .resume-biography .font-black {
     font-size: 1.6rem;

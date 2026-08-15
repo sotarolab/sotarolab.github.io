@@ -15,23 +15,6 @@ show_date: false
 reading_time: false
 ---
 
-<!--
-  The application itself is a single self-contained HTML file with no external
-  dependencies (no CDN scripts, no remote fonts, no network calls) — it is
-  copied verbatim to static/apps/saint-venant-flume/index.html and served at
-  /apps/saint-venant-flume/. Hugo does not process static/, so updating the
-  tool means replacing that file; nothing here needs rebuilding beyond a
-  normal `make check`.
-
-  It is deliberately NOT iframed into this page: the tool sets its own dark
-  page design and runs several canvases at once, and nesting that inside the
-  docs chrome (sidebar + breadcrumb + prose column) left every experiment too
-  narrow to read. This page frames it and hands off.
-
-  The figure is a headless-Chrome capture of the local file — see the capture
-  command in content/projects/heat-wave-tracker/index.md; the same software-GL
-  flags are needed, since the panels are canvas-drawn.
--->
 
 {{< applinks app="/apps/saint-venant-flume/" >}}
 

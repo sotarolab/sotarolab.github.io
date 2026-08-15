@@ -3,18 +3,7 @@ title: Teaching
 summary: Engineering mentoring at Hazen and Sawyer, and graduate teaching at Notre Dame.
 type: landing
 
-# `docs` type for the pages nested under this section — gives each course its
-# own sidebar and breadcrumb. The target pattern must track the section's own
-# path: this section was `content/courses/` until it was renamed to match the
-# /teaching/ nav item, and a stale pattern here fails silently (the pages build,
-# they just lose the docs chrome).
-# The "Interactive Tools" and "Course Development" collections were removed
-# 2026-08-15 (Sebastian: "not ready"). Their pages are still in the repo as
-# drafts — content/teaching/saint-venant-flume/ and
-# content/teaching/ml-weather-extremes/ — so restoring either means dropping
-# `draft: true` from its front matter and re-adding a collection block that
-# filters `tag: Interactive` / `tag: Course` with `kinds: [section]`. The
-# teaching interest those sections carried is now stated in the intro instead.
+# `docs` type for the pages nested under this section — gives each course its.
 
 cascade:
   - target:

@@ -1,37 +1,6 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   End of a page — timestamp and author card
-   ═══════════════════════════════════════════════════════════════════════════
-   Upstream stacks four independent spacing utilities between the last
-   paragraph and the author card:
+/* End of a page — timestamp and author card. */
 
-     <time class="mt-12 mb-8">                     3rem + 2rem
-     <div class="… mt-5">                          1.25rem
-       <div class="flex pt-12 pb-4">               3rem
-
-   ≈ 9.25rem of air, so the name floats unanchored in the middle of an empty
-   band with no visual tie to the article above it (Sebastian, 2026-08-15:
-   "a bit floating around"). Each utility is defensible alone; nobody added
-   them up.
-
-   Closed to roughly a third of that. The card still reads as a distinct
-   footer — it keeps its own top rule and the timestamp still sits apart from
-   the prose — it simply belongs to the page it ends.
-
-   Every selector below adds an element or a second class to the utility it
-   overrides, so each is one step more specific than the (0,1,0) utility and
-   source order is not doing the work. ═══════════════════════════════════════ */
-
-/* The "Last updated on …" line, and the hairline that ends the article.
-   The rule lives HERE rather than on the author card because the card is
-   optional: a standing page like /research/ has no `authors` in front matter,
-   so the theme emits an empty author wrapper and the timestamp would be left
-   floating over blank canvas with nothing to anchor it.
-
-   An earlier version tried to detect that case with
-   `time:has(+ .container:not(:has(.flex.pt-12)))`. That selector is INVALID —
-   :has() may not be nested inside another :has() — so the browser dropped the
-   whole rule and the hairline silently never appeared. Anchoring the timestamp
-   unconditionally needs no detection at all. */
+/* The rule lives HERE rather than on the author card because the card is. */
 time.mt-12 {
   margin-top: 2.5rem;
   margin-bottom: 0.5rem;
@@ -52,17 +21,7 @@ time.mt-12 {
   margin-top: 0;
 }
 
-/* ── Both sit on the article's rail ──────────────────────────────────────────
-   The timestamp and the author card are siblings of `.prose`, not children of
-   it, so 09-page-width.css's `--hb-rail` cap never reached them: the <time>
-   spans the full `max-w-6xl` main column and right-aligns to ITS edge, several
-   centimetres past where the prose ends, and the author wrapper is
-   `container mx-auto`, so it centres on a different measure again. The result
-   is a right-aligned date and a hairline that both overshoot the text
-   (Sebastian, 2026-08-15: "a bit misaligned").
-
-   Put them on the same rail, left edge included, so the date's right edge, the
-   rule, and the last line of prose all end on one vertical. */
+/* The timestamp and the author card are siblings of `.prose`, not children of. */
 time.mt-12,
 .container.prose:has(> .max-w-prose) {
   max-width: var(--hb-rail);

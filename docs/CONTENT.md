@@ -101,9 +101,9 @@ Both source repos render the dark variant from the *same* figure code, so the
 two cannot drift:
 
 ```bash
-# ~/dev/caudal
+# the caudal repo
 python scripts/fig_agu_single.py --dark            # → fig_agu_abc_dark.png
-# ~/dev/chile-super-extremes
+# the chile-super-extremes repo
 python paper/agu2026/make_abstract_figures.py --legacy --dark
 ```
 
@@ -117,7 +117,7 @@ Then downscale into `static/media/research/` (the source files are 300 dpi print
 exports, several MB):
 
 ```bash
-sips -Z 1400 ~/dev/caudal/data/results/fig_agu_abc_dark.png \
+sips -Z 1400 the caudal repo/data/results/fig_agu_abc_dark.png \
   --out static/media/research/caudal-lstm-nwm-abc-dark.png
 ```
 

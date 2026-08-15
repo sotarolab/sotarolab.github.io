@@ -10,61 +10,7 @@ sections:
     content:
       # Choose a user profile to display (a folder name within `content/authors/`)
       username: me
-      # BOTH the bio prose and the animation strip live HERE, in the
-      # biography block's `text` field. Two reasons, learned the hard way:
-      #
-      # 1. The strip must render inside the text column, directly under the
-      #    bio paragraph. Every separate-section attempt left a large gap —
-      #    a section cannot start until the whole biography (including the
-      #    sidebar, which runs ~200px past the paragraph) has ended.
-      #    Sebastian flagged that gap three times; do not move it back out.
-      # 2. The block renders a non-empty `text` INSTEAD OF the me.yaml
-      #    `bio`, not after it — so the bio prose must come along. me.yaml's
-      #    `bio` field now just points here.
-      #
-      # The prose was verbatim from the CV's Professional Summary until
-      # 2026-08-14, when Sebastian asked for the register of
-      # jcsandov.github.io — standing first, then the method arsenal, then a
-      # list of research threads. On 2026-08-15 he rewrote it himself; this
-      # is HIS wording, so treat it as authoritative — copy-edit only, and
-      # take substantive rewrites back to him first. The three bullets are
-      # The opening line named him a "water resources engineer" until
-      # 2026-08-15. That is his B.S. field, and it read as a consulting job
-      # title to an atmospheric-science reader — the wrong altitude for the
-      # research the rest of the page shows. Now the discipline leads and
-      # the engineering training follows. Do not reintroduce the job-title
-      # framing. The degree is also no longer called a "PhD in Fluid
-      # Dynamics": the registrar name in me.yaml is "PhD, Civil &
-      # Environmental Engineering & Earth Sciences", so the bio names the
-      # institution and the research area instead of a degree that /cv/
-      # would contradict.
-      #
-      # The three bullets are
-      # deliberately the three threads on /research/, phrased — his first
-      # draft had seven one-word topics and read as a skills inventory
-      # (his own call, 2026-08-15). Keep them in step with research.yaml.
-      # All facts are from his
-      # CV and this site. The closing sentence was his CV wording verbatim
-      # until 2026-08-15, when its topic list was cut for repeating the
-      # bullets above it (his call) — what remains is the half that says
-      # something the rest of the page does not. It stays deliberate:
-      # interest, not intent — "seeking a postdoc" framing belongs in
-      # application materials, not on a public page. Keep "these areas"
-      # pointing at the bullets; if the bullets move, this breaks.
-      #
-      # Strip content — Sebastian's final pick (2026-08-14): two stacked
-      # loops, atmospheric river above, reservoir filling below, each with a
-      # caption tying it to a /research/ thread or project. Sizes are
-      # deliberately unequal (see 07-about-strip.css).
-      #
-      # Each tile is a loop pre-cropped to its exact frame with ffmpeg —
-      # never rely on CSS cover-cropping here, it produced illegible tiles
-      # once already. Sources: the AR nowcast render and the La Paloma
-      # Sentinel pipeline (la-paloma re-timed with cross-dissolves,
-      # setpts=1.6*PTS + framerate blend — the raw 1 fps cuts read "too
-      # fast"). To swap a tile: render an mp4 + poster into
-      # static/media/about/, update the path and --ar here.
-      # Styling: assets/css/custom/07-about-strip.css.
+      # BOTH the bio prose and the animation strip live HERE, in the.
       text: |
         I am an environmental fluid dynamicist with a **PhD from the University of
         Notre Dame**, where I worked on atmospheric turbulence and complex-terrain
@@ -99,7 +45,7 @@ sections:
               AR nowcast</a>.
             </figcaption>
           </figure>
-          <!-- Autoplaying, no controls — Sebastian's final call ("gif so no
+          <!-- Autoplaying, no controls — a deliberate call ("gif so no
                play button"; a muted looping mp4 is gif-equivalent at ~10x
                smaller filesize). No live application exists behind this
                clip, so the caption states the data sources instead of
@@ -143,13 +89,7 @@ sections:
         size: medium # Options: small (150px), medium (200px, default), large (320px), xl (400px), xxl (500px)
         shape: circle # Options: circle (default), square, rounded
 
-  # News instead of Selected Publications (Sebastian, 2026-08-14: "I haven't
-  # been that active" on the publication side; news is where upcoming
-  # conferences and talks go). Pulls the latest posts from content/blog/ —
-  # add a news item by adding a post there (see docs/CONTENT.md). The
-  # `featured` flags in data/publications.yaml are currently unused but kept
-  # in case the publications block ever returns (it was a `collection`
-  # block, view: citation, count: 3).
+  # News instead of Selected Publications (a design decision on the publication side; news is where upcoming.
   - block: collection
     id: news
     content:

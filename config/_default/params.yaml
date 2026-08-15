@@ -1,16 +1,8 @@
-# ══════════════════════════════════════════════════════════════════════════════
-# HUGO BLOX CONFIGURATION
-# Schema: hugoblox.com/schema/v2
-# Tutorial: https://docs.hugoblox.com/tutorial/
-# Documentation: https://docs.hugoblox.com/
-# ══════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════.
 hugoblox:
   schema: "2.0"
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # IDENTITY
-  # Site-level branding (for people/profiles, use the author system in content/authors/)
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   identity:
     # Site name - shown in navbar, footer, copyright, and browser title by default
     name: "Sebastian Otarola-Bustos"
@@ -27,10 +19,7 @@ hugoblox:
     # Social accounts (used for meta tags like Twitter Cards)
     social: {}
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # THEME
-  # Color and visual design system
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   theme:
     # Mode: 'light', 'dark', or 'system' (follows OS preference)
     mode: dark
@@ -57,31 +46,12 @@ hugoblox:
         background: ""
         foreground: ""
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # TYPOGRAPHY
-  # Font and text sizing
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   typography:
-    # Theme pack: name from data/fonts/
-    #
-    # "modern" — Inter for text, JetBrains Mono for code.
-    #
-    # This is a deliberate deviation from GitHub, which renders in the OS UI
-    # font. The system stack is not one typeface but a different one per
-    # platform, and the one it resolves to here reads as generic UI chrome
-    # rather than as a designed page. Inter is the neo-grotesque that stack is
-    # trying to be — same register, drawn properly, with real optical sizing at
-    # heading weights. It costs one webfont request.
-    #
-    # History: "academic" (Lora / Source Serif 4) → "system" → "modern".
-    # Going back to a serif is a coherent choice if the academic register ever
-    # matters more than the GitHub one, but the two do not mix.
+    # Theme pack: name from data/fonts/.
     pack: "modern"
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # LAYOUT
-  # Spacing and shape tokens
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   layout:
     # Border radius: 'none', 'sm', 'md', 'lg', or 'full'
     # 'sm' — squarer corners read more like a document, less like an app UI
@@ -92,10 +62,7 @@ hugoblox:
     # Avatar shape in author profiles
     avatar_shape: circle # circle | square | rounded
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # HEADER
-  # Site header and navigation bar
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   header:
     enable: true
     # Header style variant
@@ -106,17 +73,7 @@ hugoblox:
     align: left # left | center | right
     # Feature toggles
     search: true
-    # Dark only (2026-08-15). The site is designed dark: the figures ship dark
-    # canvases, the app screenshots are dark UIs, and the heading/border tokens
-    # are tuned against the dark surface. A visitor flipping to light got a
-    # half-finished version of the design, so the switch is gone.
-    #
-    # `mode: dark` above is the default for a visitor with no stored choice;
-    # this hides the control that would store one. Browsers that already
-    # stored "light" are reset by the head script in
-    # layouts/_partials/hooks/head-end/custom-assets.html — without it, anyone
-    # who had toggled (including Sebastian) would be stuck in light with no
-    # way back.
+    # Dark only (2026-08-15). The site is designed dark: the figures ship dark.
     theme_toggle: false
     # Theme picker and language switcher disabled — visitor-facing clutter on a
     # single-language personal site.
@@ -128,10 +85,7 @@ hugoblox:
       text: ""
       url: ""
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # FOOTER
-  # Site footer
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   footer:
     # Footer style variant
     style: minimal # minimal | columns | centered
@@ -139,10 +93,7 @@ hugoblox:
     # Custom footer text (HTML supported)
     text: ""
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # COPYRIGHT
-  # Legal notices and licensing
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   copyright:
     # Copyright notice - supports {year}, {name}, {license} placeholders
     notice: "© {year} {name}. This work is licensed under {license}"
@@ -152,10 +103,7 @@ hugoblox:
       share_alike: true
       allow_commercial: false
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # SEO
-  # Search engine optimization - overrides and technical settings
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   seo:
     # Browser tab title override (defaults to identity.name if not set)
     title: ""
@@ -179,10 +127,7 @@ hugoblox:
       note: "Guidance for AI crawlers - customize to match your public content."
       contact: ""
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # CONTENT
-  # Content rendering and behavior
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   content:
     # Math rendering
     math:
@@ -197,10 +142,7 @@ hugoblox:
     citations:
       style: apa # apa | mla | chicago | ieee
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # SEARCH
-  # Site search
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   search:
     enable: true
     # Trending/suggested search terms
@@ -208,10 +150,7 @@ hugoblox:
     # Quick action shortcuts in search modal
     quick_actions: []
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # COMMENTS
-  # User comments system
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   comments:
     enable: false
     provider: "" # giscus | disqus
@@ -223,10 +162,7 @@ hugoblox:
     disqus:
       shortname: ""
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # ANALYTICS
-  # Traffic and behavior analytics
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   analytics:
     google:
       measurement_id: "" # Google Analytics 4: G-XXXXXXXXXX
@@ -243,10 +179,7 @@ hugoblox:
     baidu:
       site_id: ""
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # VERIFICATION
-  # Search engine site verification codes
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   verification:
     google: ""
     bing: ""
@@ -255,29 +188,20 @@ hugoblox:
     pinterest: ""
     naver: ""
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # REPOSITORY
-  # Source code repository for "Edit this page" links
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   repository:
     enable: false
     url: "" # e.g., https://github.com/username/repo
     branch: main
     content_dir: content
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # LOCALE
-  # Regional formatting preferences
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   locale:
     date_format: "Jan 2, 2006" # Go time format
     time_format: "3:04 PM"
     address_format: en-us
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # SECURITY
-  # Security headers and policies (requires Netlify integration)
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   security:
     csp:
       policy: ""
@@ -285,18 +209,12 @@ hugoblox:
     frame_options: allow # deny | sameorigin | allow - allow enables iframe embedding
     permissions_policy: ""
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # PRIVACY
-  # Privacy and compliance features
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   privacy:
     enable: false
     anonymize_analytics: true
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # DEBUG
-  # Development and debugging (hidden in production)
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   debug:
     enable: false
     hud:
@@ -304,15 +222,9 @@ hugoblox:
       opacity: 1.0
     export_logs: true
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # PREMIUM
-  # Premium features and creator program (affiliates)
-  # ────────────────────────────────────────────────────────────────────────────
+  # ────────────────────────────────────────────────────────────────────────────.
   pro:
-    # Hide "Powered by HugoBlox" attribution
-    # Requires: HugoBlox Premium to support HugoBlox via alternative means
-    # Note: Even with Premium, you can keep this false to support open source!
-    # Get Premium: https://hugoblox.com/premium
+    # Hide "Powered by HugoBlox" attribution.
     hide_attribution: false
 
     # Affiliate referral code for rewards program

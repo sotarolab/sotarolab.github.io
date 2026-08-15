@@ -1,7 +1,7 @@
 """
 Render the July 2026 Chilean atmospheric river as an animated IVT map.
 
-Source: ~/dev/chile-ar-nowcast/cache/frames.pkl — the 2026-07-15 18Z GEFS
+Source: the chile-ar-nowcast repo/cache/frames.pkl — the 2026-07-15 18Z GEFS
 control cycle, 17 six-hourly frames covering 15–19 July. Nothing is downloaded;
 this is the same cached field the live nowcast page was built from.
 
@@ -33,7 +33,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from PIL import Image
 
-REPO = os.path.expanduser("~/dev/chile-ar-nowcast")
+REPO = os.path.expanduser("the chile-ar-nowcast repo")
 # media/about, not media/research: the animation moved to the About page
 # (2026-08-14) and the research section no longer references it.
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),

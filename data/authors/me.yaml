@@ -15,39 +15,22 @@ status:
   icon: ""
 role: Principal Scientist
 
-# INTENTIONALLY EMPTY — the bio prose lives in content/_index.md, inside the
-# biography block's `text` field, because the animation strip must render in
-# the text column under it and the block renders `text` INSTEAD of this
-# field when `text` is non-empty. Edit the bio THERE. (Moved 2026-08-14;
-# nothing else consumed this field.)
+# INTENTIONALLY EMPTY — the bio prose lives in content/_index.md, inside the.
 bio: ''
   
 
 # Rendered in the left column under your role, above the contact rail.
-# AcademicPages sites put institution and location here — it is the first thing
-# a search committee looks for, and its absence reads as an unfinished page.
-#
-# The icon beside each line is chosen from the DATA, not the position: an entry
-# with a `url` gets a building glyph, one without gets a map pin. So order here
-# is free, and a third affiliation picks up the right icon on its own. See the
-# `:has(a)` rules in assets/css/custom/03-biography.css.
 affiliations:
   - name: Hazen and Sawyer
     url: https://www.hazenandsawyer.com/
   - name: Rockville, MD
 
-# Rendered by the biography block as icon links. The custom CSS in
-# assets/css/custom/biography.css turns this row into an AcademicPages-style
-# labelled column, so every entry NEEDS a `label` — without one the row renders
-# as a bare icon with no text beside it.
-#
-# The phone number on the CV is deliberately NOT here: this repo is public and
-# the page is crawlable.
+# Rendered by the biography block as icon links. The custom CSS in.
 links:
   - icon: at-symbol
     url: mailto:sfotarol@gmail.com
     label: sfotarol@gmail.com
-  # Scholar deliberately ahead of GitHub (Sebastian, 2026-08-15) — the
+  # Scholar deliberately ahead of GitHub (design decision) — the
   # academic identity leads. Profile verified live before going in: name,
   # Hazen affiliation, and the Perdigão/Atacama/WFIP2 papers all match.
   - icon: academicons/google-scholar
@@ -59,26 +42,13 @@ links:
   - icon: brands/linkedin
     url: https://www.linkedin.com/in/sotarolab/
     label: LinkedIn
-  # ORCID stays inactive until Sebastian recovers access to his existing
-  # account (lost email, Aug 2026) — don't create a new iD, and never ship
-  # a placeholder URL: tools/qc.sh fails the build on them, because a dead
-  # profile link with your name on it is worse than no link.
-  # - icon: academicons/orcid
-  #   url: https://orcid.org/YOUR-ORCID
-  #   label: ORCID
+  # ORCID stays inactive until Sebastian recovers access to his existing.
 
 # Emptied deliberately: an interests cloud restates the bio as pills. The scope
 # of the work is in the bio's closing sentence and, in detail, on /research/.
 interests: []
 
 # Rendered as a timeline on /cv/ (education second, per `is_education_first: false`).
-# Fields: degree (or `area`), institution, start, end, summary, icon, button.
-# Dates are literal strings printed as written — the block's `date_format`
-# setting does not reformat them. Write them the way the CV does. `end: ''`
-# renders as "Present".
-#
-# Degree names are as the registrar writes them, per the CV's Education section.
-# The research area lives in `summary` so both are on the page.
 education:
   - degree: 'PhD, Civil & Environmental Engineering & Earth Sciences'
     institution: 'University of Notre Dame'
@@ -100,22 +70,6 @@ education:
     end: '2015'
 
 # Rendered as the first timeline on /cv/. List most recent first.
-# Fields: role (or `position`), org (or `company_name`), start, end, summary,
-#         icon, tags (list of strings), button {url, text, icon}.
-# Set `end: ''` for a current role — it renders as "Present".
-#
-# Sourced from Sebastian_Otarola-Bustos_CV_human.pdf, following that document's
-# own section order: Professional Experience, then Research & Independent
-# Projects, then Research Experience. Bulleted like the CV itself (2026-08-15,
-# Sebastian's request) rather than condensed into paragraphs.
-#
-# CONFIDENTIALITY: client and funder names in the CV are deliberately NOT
-# reproduced here. The CV names a sewer district, a city, and a funded project
-# number; this page says "a research-foundation study" and "a framework"
-# instead. A CV goes to one reader who asked for it; this page is crawlable.
-# Do not add client names, project numbers, or repository links back in.
-#
-# `tags` makes industry vs. independent vs. academic legible at a glance.
 experience:
   # --- Professional Experience ---
   - role: 'Principal Scientist'
@@ -185,12 +139,6 @@ experience:
     icon: 'academic-cap'
 
 # NOTE: `skills` intentionally absent.
-#
-# The `resume-skills` block renders a 1–5 proficiency bar per item and requires
-# a `level` — omitting it draws an empty bar, which reads as broken. The CV
-# lists two unrated skill groups, and self-rated proficiency is a public claim
-# many reviewers discount, so the CV's two groups render verbatim as plain text
-# in the Technical Skills block on content/cv.md. Edit them there.
 
 languages: []
 

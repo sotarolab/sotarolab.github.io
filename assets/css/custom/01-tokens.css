@@ -1,13 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   Design tokens
-   ═══════════════════════════════════════════════════════════════════════════
-   Every colour the rest of this folder uses resolves through one of these, or
-   through a `--color-primary-*` / `--hb-color-*` custom property generated from
-   the theme pack (data/themes/primer.yaml). Retuning the palette should mean
-   editing the pack, not these files.
-
-   The tokens below exist because the pack schema has no slot for them.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* Design tokens. */
 
 /* ── Border ──────────────────────────────────────────────────────────────────
    Primer's `border.default`. Nearly every division on github.com — header,
@@ -43,24 +34,7 @@ html.dark {
   --hb-nav-active: #ec775c; /* Primer dark dimmed: border.active */
 }
 
-/* ── Emphasis blue ───────────────────────────────────────────────────────────
-   Originally bold body text ran this blue rather than the plain foreground.
-   Reverted Aug 2026: once the bio carried several bolded phrases, blue bold
-   read as a paragraph full of dead links (Sebastian's call) — prose bold is
-   now plain foreground (05-typography.css). The token remains for the role
-   line under the name (03-biography.css), which is a label, not prose, and
-   sits nowhere near a link.
-
-   ⚠️ The light-mode value below was silently dead twice over. First in the old
-   inline-`<style>` hook, where it sat behind a block of prose whose comment
-   delimiters had come unbalanced; then again in this file, because the comment
-   explaining that bug quoted a comment-closing delimiter verbatim and so
-   terminated itself early — swallowing the very rule it was describing.
-
-   NEVER write a comment-closing delimiter inside a CSS comment. CSS comments do
-   not nest. tools/qc.sh now fails the build on stray delimiters in the built
-   bundle, because both of these were invisible: the page renders, the build is
-   clean, and one colour is just quietly missing in one theme. */
+/* Originally bold body text ran this blue rather than the plain foreground. */
 :root {
   /* Light mode cannot reuse primary-400 — it resolves to #BAD7FB, nearly
      invisible on white. Primer's blue.8 is the readable counterpart. */
@@ -68,13 +42,7 @@ html.dark {
 }
 
 html.dark {
-  /* Primer blue.2. Was `--color-primary-400` (#9CC3F0), which matched the role
-     line but went muddy once body text was brightened to #CDD9E5 — emphasis has
-     to stay clearly ahead of body copy, and 8.4:1 against 10.6:1 body was not
-     enough separation. #79C0FF reads as emphasis by hue rather than brightness.
-
-     The role line under the name uses this same token (03-biography.css), so
-     the two stay locked together. */
+  /* line but went muddy once body text was brightened to #CDD9E5 — emphasis has. */
   --hb-bold: #79c0ff;
 }
 

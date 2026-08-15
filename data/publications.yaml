@@ -1,81 +1,7 @@
-# ═══════════════════════════════════════════════════════════════════════════
-# Publications — the single source of truth
-# ═══════════════════════════════════════════════════════════════════════════
-# Every page under content/publications/ is GENERATED from this file.
-# Do not edit those files by hand; your changes are overwritten. Edit here, then:
-#
-#     make publications     regenerate content/publications/
-#     make check            fails if the two have drifted apart
-#
-# This mirrors how AcademicPages keeps its bibliography in one tabular file and
-# generates the per-paper pages from it. The point is that the whole publication
-# record is visible, sortable and diffable in one place, instead of spread
-# across a dozen near-identical page bundles where a missing field is invisible.
-#
-# ── Fields ──────────────────────────────────────────────────────────────────
-#   slug        REQUIRED  directory name under content/publications/. Convention:
-#                         <year>-<venue>-<topic>. Changing it changes the URL.
-#   title       REQUIRED
-#   authors     REQUIRED  full list in publication order, as the paper of record
-#                         prints it — including your own name in whatever form
-#                         that paper used. See the name-variant note below.
-#   date        REQUIRED  YYYY-MM-DD. Sort key. For a forthcoming conference,
-#                         date it to the MEETING, not the submission.
-#   publish_date          only if it differs from `date` (e.g. work dated to a
-#                         future meeting that should be listed on the site now).
-#   type        REQUIRED  article-journal | paper-conference
-#               (`report` is still supported by the generator, but /publications/
-#               no longer renders a Reports section — see content/publications/
-#               _index.md. Adding a report entry would build a page nothing
-#               links to.)
-#                         ⚠️ Anything else renders NOWHERE — /publications/ has
-#                         one block per type. `make check` catches it.
-#   venue       REQUIRED  journal or meeting, spelled out
-#   venue_short           short form, if useful
-#   volume, pages, publisher
-#   doi                   bare DOI, no https://doi.org/ prefix
-#   status                e.g. "in preparation", "in review", "submitted".
-#                         Rendered in parentheses after the venue, so it shows
-#                         in the LIST on /publications/ and not only on the
-#                         entry's own page. Required for a future-dated journal
-#                         article with no DOI, which would otherwise read as
-#                         already published; the generator refuses without it.
-#   featured              true surfaces it in Selected Publications on the
-#                         homepage. Keep that list to about three.
-#   summary     REQUIRED  one or two sentences, written as the FINDING rather
-#                         than the topic — this is what a reader sees first.
-#   tags
-#   abstract              full abstract, for entries that warrant a detail page
-#   body                  markdown appended below the front matter; use it for
-#                         status lines on unpublished work
-#
-# ── Adding a published paper ────────────────────────────────────────────────
-# Fetch authoritative metadata rather than transcribing from the CV, whose short
-# "et al." forms omit co-authors:
-#
-#     make pub-from-doi DOI=10.1007/s10546-023-00797-y
-#
-# That appends a filled-in entry here from Crossref. Add `summary` and `tags`
-# by hand, then run `make publications`.
-#
-# ── Name variants ───────────────────────────────────────────────────────────
-# Sebastian is indexed under at least five forms across these papers:
-#     Otarola Bustos, Sebastian F.   (BLM 2023)
-#     Otárola-Bustos, Sebastián F.   (JAMC 2022)
-#     Otárola, Sebastián             (GRL 2016)
-#     Otarola-Bustos, Sebastian      (BAMS 2019, WFIP2)
-#     Otarola-Bustos, S.             (BAMS 2019, Perdigão)
-# Each byline matching its own paper of record is CORRECT. The consequence is
-# off this site: Google Scholar and ORCID will not merge them automatically, so
-# all five need claiming by hand on both profiles.
-# ═══════════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════.
 
 - slug: 2027-jhydrol-lstm-diffusion-ar-floods
-  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
-  # co-authors to this work and to its companion in OPPOSITE order. The site
-  # follows the Conferences assignment throughout — Giani & Valenzuela on the
-  # CMIP6 work, Buahin on the LSTM/hydrology work — because it matches each
-  # collaborator's field. If the Papers section is right, swap the two lists.
+  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign.
   title: LSTM and diffusion models compared with process-based and operational benchmarks
     during atmospheric-river floods in US West Coast basins
   authors:
@@ -100,11 +26,7 @@
     [presented at AGU Fall Meeting 2026](../agu2026-lstm-diffusion-ar-floods/), where
     the full results are summarised.
 - slug: agu2026-lstm-diffusion-ar-floods
-  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
-  # co-authors to this work and to its companion in OPPOSITE order. The site
-  # follows the Conferences assignment throughout — Giani & Valenzuela on the
-  # CMIP6 work, Buahin on the LSTM/hydrology work — because it matches each
-  # collaborator's field. If the Papers section is right, swap the two lists.
+  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign.
   title: LSTM and diffusion models compared with process-based and operational benchmarks
     during atmospheric-river floods in US West Coast basins
   authors:
@@ -165,11 +87,7 @@
          accepted presentation details, and attach the poster/slides via `url_poster`
          or `url_slides` in the front matter. -->
 - slug: agu2026-cmip6-downscaling-chile
-  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
-  # co-authors to this work and to its companion in OPPOSITE order. The site
-  # follows the Conferences assignment throughout — Giani & Valenzuela on the
-  # CMIP6 work, Buahin on the LSTM/hydrology work — because it matches each
-  # collaborator's field. If the Papers section is right, swap the two lists.
+  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign.
   title: 'Downscaling CMIP6 projections of weather extremes over Chile: a CNN super-resolution
     approach'
   authors:
