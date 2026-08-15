@@ -1,0 +1,94 @@
+# Custom HugoBlox theme pack — "Primer"
+#
+# GitHub's own colour system, transplanted. Values are taken from Primer's
+# published design tokens rather than eyedropped from screenshots, so the site
+# reads as genuinely GitHub-native instead of merely GitHub-ish.
+#
+#   ── Primer DARK DIMMED ───────────────────────────────────────────────────
+#   canvas.default   #22272E   the page ground
+#   canvas.inset     #1C2128   deeper than the canvas — used for the footer
+#   fg.default       #ADBAC7   body text
+#   fg.muted         #768390   secondary text, footer
+#   border.default   #444C56   every hairline on github.com
+#   accent.fg        #539BF5   links
+#   attention.fg     #C69026   warnings / warm emphasis
+#
+# Dark *dimmed*, not dark default. GitHub ships both, and dimmed is the one
+# Sebastian actually runs — the difference is the whole feel of the page:
+#
+#   default   #E6EDF3 on #0D1117 → 15.4:1   near-maximum contrast, black ground
+#   dimmed    #ADBAC7 on #22272E →  7.8:1   softer text on a slate ground
+#
+# 7.8:1 still clears WCAG AAA for body text (7:1). Dimmed is not a compromise
+# on legibility; it just stops pinning both ends of the scale to pure black and
+# near-white, which is what made the default palette read as harsh.
+#
+# `neutral` seeds the gray ramp (bg-gray-*, text-gray-*), NOT the text colour.
+# It must be DARK in dark mode, otherwise utilities like `dark:bg-gray-800` —
+# used by the interest pills and the social-icon circles — resolve to a
+# washed-out mid-gray that floats off the canvas. #2D333B is Primer's dimmed
+# `canvas.subtle`, which is exactly the right role.
+#
+# ── Contrast (WCAG AA) ───────────────────────────────────────────────────────
+#   dark   #ADBAC7 on #22272E →  7.8:1  (AAA body)
+#          #539BF5 on #22272E →  5.3:1  (AA link)
+#   light  #1F2328 on #FFFFFF → 16.1:1  (AAA body)
+#          #0969DA on #FFFFFF →  5.8:1  (AA link)
+#
+# Files in this project's `data/` merge over the theme module's own `data/`, so
+# this is a supported extension point — preferred over CSS overrides, which
+# break when the upstream block templates change.
+#
+# Selected via `hugoblox.theme.pack: "primer"` in config/_default/params.yaml.
+# Paired with `typography.pack: "modern"` (Inter) — see the note there on why
+# this deviates from GitHub's own system-font stack.
+
+hugoblox:
+  meta:
+    format: "hugoblox-theme@1"
+    name: "Primer"
+    vendor: "sotarolab"
+    version: "1.0.0"
+    license: "MIT"
+    description: "GitHub Primer — dark canvas, hairline borders, accent blue"
+
+  type: "dual"
+
+  dark:
+    colors:
+      primary: "#539BF5" # accent.fg — links, active nav, accents
+      secondary: "#C69026" # attention.fg — warm emphasis
+      neutral: "#2D333B" # canvas.subtle
+    surfaces:
+      background: "#22272E"
+      # #CDD9E5, not Primer's own #ADBAC7. GitHub sets body copy at fg.muted-ish
+      # because most of its text is UI chrome read in short bursts; this site is
+      # long-form prose, and at paragraph length #ADBAC7 measured 7.8:1 and read
+      # as washed out. #CDD9E5 is Primer's `fg.default` for dimmed surfaces and
+      # lands at 10.6:1 — brighter without going back to the near-white that
+      # made the dark-default palette harsh.
+      foreground: "#CDD9E5"
+      header:
+        # GitHub's header is the same canvas as the page, separated only by a
+        # 1px border.default hairline — applied in custom-css.html.
+        background: "#22272E"
+        foreground: "#CDD9E5"
+      footer:
+        background: "#1C2128" # canvas.inset
+        foreground: "#768390" # fg.muted
+
+  light:
+    # Primer light, for visitors who toggle out of dark mode.
+    colors:
+      primary: "#0969DA" # accent.fg
+      secondary: "#9A6700" # attention.fg
+      neutral: "#656D76" # fg.muted
+    surfaces:
+      background: "#FFFFFF"
+      foreground: "#1F2328"
+      header:
+        background: "#FFFFFF"
+        foreground: "#1F2328"
+      footer:
+        background: "#F6F8FA" # canvas.subtle
+        foreground: "#656D76"

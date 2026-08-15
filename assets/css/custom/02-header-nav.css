@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Header and navigation
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* The header shares the page canvas (see data/themes/primer.yaml), so once
+   content scrolls under the sticky bar there is nothing separating them. GitHub
+   solves this with a single `border.default` hairline and no shadow. The
+   background stays fully opaque: a translucent blurred bar is an Apple idiom,
+   not a GitHub one. */
+#site-header.header {
+  border-bottom: 1px solid var(--hb-border);
+  background-color: var(--hb-color-header-bg);
+}
+
+/* ── Active nav underline ────────────────────────────────────────────────────
+   Two conventions happen to agree here. AcademicPages marks the current section
+   with a rule under the nav item rather than a colour change; GitHub does the
+   same for its repo and profile tabs. */
+.navbar-nav .nav-link {
+  position: relative;
+}
+
+.navbar-nav .nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.4rem;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--hb-nav-active);
+}
+
+/* The underline is a desktop affordance — in the stacked mobile menu the items
+   are full-width block links and a 2px rule under each reads as a divider, not
+   a state. */
+@media (max-width: 1023px) {
+  .navbar-nav .nav-link.active::after {
+    display: none;
+  }
+}
+
+/* ── Heading brightness ──────────────────────────────────────────────────────
+   Applied broadly rather than per-block: several templates hardcode these
+   utilities. Specificity `html.dark .dark\:text-white` (0,2,1) beats Tailwind's
+   own `.dark .dark\:text-white` (0,2,0). */
+html.dark .dark\:text-white,
+html.dark .dark\:text-zinc-100,
+html.dark .dark\:text-gray-100 {
+  color: var(--hb-heading-dark);
+}

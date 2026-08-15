@@ -3,6 +3,8 @@ title: "US Heat Wave Tracker"
 date: 2026-07-01
 summary: "A live dashboard tracking CONUS heat waves — GFS forecasts, NWS heat-index risk levels, and real-time ASOS observations across 165 US cities."
 links:
+  - type: site
+    url: https://heat-wave-tracker.onrender.com/
   - type: code
     url: https://github.com/sotarolab/heat-wave-tracker
 tags:

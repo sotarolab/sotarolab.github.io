@@ -1,0 +1,130 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+
+  "//": [
+    "Config for the Front Matter CMS VS Code extension (eliostruyf.vscode-front-matter).",
+    "It is inert without the extension — Hugo ignores this file — so it costs nothing",
+    "to leave here.",
+    "",
+    "What it buys: a content dashboard listing every page, form-based editing of the",
+    "front matter (no hand-written YAML), a media library with drag-and-drop for the",
+    "figures and clips in static/media, and a preview pane wired to the local Hugo",
+    "server. Everything stays local and git-based — no accounts, no hosted service.",
+    "",
+    "Start `hugo server` first; the preview pane points at :1313."
+  ],
+
+  "frontMatter.framework.id": "hugo",
+  "frontMatter.preview.host": "http://localhost:1313",
+  "frontMatter.content.publicFolder": "static",
+  "frontMatter.content.autoUpdateDate": false,
+  "frontMatter.taxonomy.dateFormat": "yyyy-MM-dd",
+  "frontMatter.dashboard.openOnStart": false,
+
+  "frontMatter.content.pageFolders": [
+    { "title": "Pages", "path": "[[workspace]]/content" },
+    { "title": "Publications", "path": "[[workspace]]/content/publications" },
+    { "title": "Projects", "path": "[[workspace]]/content/projects" },
+    { "title": "Blog", "path": "[[workspace]]/content/blog" }
+  ],
+
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "default",
+      "pageBundle": false,
+      "fields": [
+        { "title": "Title", "name": "title", "type": "string" },
+        { "title": "Summary", "name": "summary", "type": "string" },
+        { "title": "Date", "name": "date", "type": "datetime" },
+        { "title": "Tags", "name": "tags", "type": "tags" }
+      ]
+    },
+    {
+      "name": "publication",
+      "pageBundle": true,
+      "previewPath": "publications",
+      "fields": [
+        { "title": "Title", "name": "title", "type": "string", "required": true },
+        { "title": "Authors", "name": "authors", "type": "list" },
+        { "title": "Date", "name": "date", "type": "datetime", "required": true },
+        { "title": "Publish date", "name": "publishDate", "type": "datetime" },
+        {
+          "title": "Publication type (decides which section it appears in)",
+          "name": "publication_types",
+          "type": "choice",
+          "multiple": true,
+          "//": [
+            "ONLY these three. /publications/ renders one collection block per",
+            "type; an entry with any other value builds fine, gets a URL, and",
+            "appears in no list. `make check` fails on it. To add a type (thesis,",
+            "chapter, …), add a matching block to content/publications/_index.md",
+            "first, then list it here."
+          ],
+          "choices": ["article-journal", "paper-conference", "report"]
+        },
+        {
+          "title": "Publication",
+          "name": "publication",
+          "type": "fields",
+          "fields": [
+            { "title": "Name", "name": "name", "type": "string" },
+            { "title": "Short name", "name": "short_name", "type": "string" },
+            { "title": "Volume", "name": "volume", "type": "string" },
+            { "title": "Issue", "name": "issue", "type": "string" },
+            { "title": "Pages", "name": "pages", "type": "string" },
+            { "title": "Publisher", "name": "publisher", "type": "string" }
+          ]
+        },
+        {
+          "title": "Links (use type 'doi' for the DOI button)",
+          "name": "links",
+          "type": "block",
+          "fieldGroup": ["link"]
+        },
+        { "title": "Summary", "name": "summary", "type": "string" },
+        { "title": "Abstract", "name": "abstract", "type": "string", "multiline": true },
+        { "title": "Tags", "name": "tags", "type": "tags" },
+        { "title": "Featured", "name": "featured", "type": "boolean" }
+      ]
+    },
+    {
+      "name": "project",
+      "pageBundle": true,
+      "previewPath": "projects",
+      "fields": [
+        { "title": "Title", "name": "title", "type": "string", "required": true },
+        { "title": "Date", "name": "date", "type": "datetime", "required": true },
+        { "title": "Summary", "name": "summary", "type": "string" },
+        { "title": "Links", "name": "links", "type": "block", "fieldGroup": ["link"] },
+        { "title": "Tags", "name": "tags", "type": "tags" }
+      ]
+    },
+    {
+      "name": "post",
+      "pageBundle": true,
+      "previewPath": "blog",
+      "fields": [
+        { "title": "Title", "name": "title", "type": "string", "required": true },
+        { "title": "Date", "name": "date", "type": "datetime", "required": true },
+        { "title": "Summary", "name": "summary", "type": "string" },
+        { "title": "Tags", "name": "tags", "type": "tags" }
+      ]
+    }
+  ],
+
+  "frontMatter.taxonomy.fieldGroups": [
+    {
+      "id": "link",
+      "labelField": "type",
+      "fields": [
+        {
+          "title": "Type",
+          "name": "type",
+          "type": "choice",
+          "choices": ["doi", "site", "code", "dataset", "pdf", "preprint", "video", "slides", "poster"]
+        },
+        { "title": "URL", "name": "url", "type": "string" }
+      ]
+    }
+  ]
+}

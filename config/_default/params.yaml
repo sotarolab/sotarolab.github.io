@@ -18,12 +18,12 @@ hugoblox:
     organization: ""
     # Schema.org type for structured data
     type: person # person | organization | local_business
-    # Short tagline displayed on your site
-    tagline: "Machine Learning & Atmospheric Scientist | Weather Extremes"
+    # Short tagline displayed on your site.
+    # Keep in sync with `role:` in data/authors/me.yaml — they drifted before.
+    tagline: "Machine Learning, Hydrology & Atmospheric Science"
     # Site meta description for search engines and social sharing
-    description: "Machine learning and atmospheric science portfolio: weather
-      extremes, forecast bias correction, satellite-based reconstruction, and
-      climate attribution."
+    description: "Applied research at the intersection of weather and hydrologic
+      forecasting, climate change, remote sensing, and machine learning."
     # Social accounts (used for meta tags like Twitter Cards)
     social: {}
 
@@ -33,9 +33,11 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   theme:
     # Mode: 'light', 'dark', or 'system' (follows OS preference)
-    mode: system
+    mode: dark
     # Theme pack: name from data/themes/ or { light: "x", dark: "y" } for mix-and-match
-    pack: "default"
+    # "primer" is this project's own pack — GitHub's colour system.
+    # See data/themes/primer.yaml.
+    pack: "primer"
     # Optional: Override theme pack colors
     colors:
       primary: "" # Tailwind palette name or hex (e.g., "indigo" or "#6366f1")
@@ -61,7 +63,20 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   typography:
     # Theme pack: name from data/fonts/
-    pack: "academic"
+    #
+    # "modern" — Inter for text, JetBrains Mono for code.
+    #
+    # This is a deliberate deviation from GitHub, which renders in the OS UI
+    # font. The system stack is not one typeface but a different one per
+    # platform, and the one it resolves to here reads as generic UI chrome
+    # rather than as a designed page. Inter is the neo-grotesque that stack is
+    # trying to be — same register, drawn properly, with real optical sizing at
+    # heading weights. It costs one webfont request.
+    #
+    # History: "academic" (Lora / Source Serif 4) → "system" → "modern".
+    # Going back to a serif is a coherent choice if the academic register ever
+    # matters more than the GitHub one, but the two do not mix.
+    pack: "modern"
 
   # ────────────────────────────────────────────────────────────────────────────
   # LAYOUT
@@ -69,9 +84,11 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   layout:
     # Border radius: 'none', 'sm', 'md', 'lg', or 'full'
-    radius: "md"
+    # 'sm' — squarer corners read more like a document, less like an app UI
+    radius: "sm"
     # Spacing density: 'compact', 'comfortable', or 'spacious'
-    spacing: "spacious"
+    # 'compact' — 'spacious' left large vertical gaps between blocks
+    spacing: "compact"
     # Avatar shape in author profiles
     avatar_shape: circle # circle | square | rounded
 
@@ -86,12 +103,14 @@ hugoblox:
     # Stick to top on scroll
     sticky: true
     # Menu alignment
-    align: center # left | center | right
+    align: left # left | center | right
     # Feature toggles
     search: true
     theme_toggle: true
-    theme_picker: true
-    language_switcher: true
+    # Theme picker and language switcher disabled — visitor-facing clutter on a
+    # single-language personal site. Dark/light toggle is kept.
+    theme_picker: false
+    language_switcher: false
     # Call-to-action button
     cta:
       enable: false
@@ -105,7 +124,7 @@ hugoblox:
   footer:
     # Footer style variant
     style: minimal # minimal | columns | centered
-    language_switcher: true
+    language_switcher: false
     # Custom footer text (HTML supported)
     text: ""
 

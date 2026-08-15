@@ -134,6 +134,12 @@ jobs:
         echo "Hugo Cache Dir: $(hugo config | grep cachedir)"
         hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
+    # Same script as `make check` locally. Runs in --fast mode against the
+    # public/ tree the step above produced, so the checks see the real
+    # production baseURL rather than a second, differently-configured build.
+    - name: Pre-publish checks
+      run: ./tools/qc.sh --fast
+
     - name: Generate Pagefind search index (if applicable)
       run: |
         # Check if site uses Pagefind search

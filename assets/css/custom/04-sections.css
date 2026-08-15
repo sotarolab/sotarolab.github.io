@@ -1,0 +1,215 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Content sections — one rail, one heading treatment, no cards
+   ═══════════════════════════════════════════════════════════════════════════
+   Every block ships its own container width, alignment and heading size, so out
+   of the box "Research", "Experience" and "Publications" each start at a
+   different x-position and a different scale. This file normalises all of them
+   onto `--hb-rail` with one gutter and one heading style, so the site reads as
+   one document.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* NESTED MEASURE CLAMP. The block wrapper carries `max-w-prose` *and* so does
+   the `.prose` element inside it. `max-w-prose` is 65ch resolved against each
+   element's own font size — so the outer clamp computes at 1rem (~520px) and
+   starves the inner `lg:prose-xl` text, which was sized for 1.25rem. The result
+   is a narrow ribbon stranded in a wide page. Releasing the outer clamp lets
+   the inner `.prose` govern the measure, which is what it was written to do.
+
+   CENTRED TITLE, LEFT-ALIGNED BODY. The wrapper is `items-center`, so the
+   section title centres while the prose under it starts at the left edge of a
+   narrower column. Nothing lines up. */
+.hbb-section .flex.flex-col.items-center.max-w-prose {
+  max-width: var(--hb-rail);
+  align-items: flex-start;
+}
+
+/* INCONSISTENT LEFT RAIL. The markdown block uses `px-6`, the collection block
+   `px-6 md:px-0`, the skills block its own `max-w-prose mx-auto`. Normalise
+   every centred container onto one rail with one gutter. */
+.hbb-section .max-w-prose.mx-auto {
+  max-width: var(--hb-rail);
+  padding-left: var(--hb-gutter);
+  padding-right: var(--hb-gutter);
+  width: 100%;
+}
+
+/* Collection lists (`date-title-summary`) wrap entries in `items-center` +
+   `w-fit`, which centres a variable-width list — so the rail shifts depending
+   on how long the longest title happens to be. */
+.hbb-section > .flex.flex-col.items-center.px-6 {
+  align-items: flex-start;
+  width: 100%;
+  max-width: var(--hb-rail);
+  margin-inline: auto;
+  padding-left: var(--hb-gutter);
+  padding-right: var(--hb-gutter);
+}
+
+/* Upstream puts `mt-16 sm:mt-20` on the list wrapper, opening a 5rem gap
+   between a section heading and its own first entry — which reads as an empty
+   section, especially on /publications/ where three headings stack.
+
+   Matched on `> *` rather than a class because each collection view wraps its
+   list differently: `date-title-summary` uses `.w-fit`, `citation` uses
+   `.container.max-w-3xl.w-full`. Targeting the child position covers every view
+   and any view added later. */
+.hbb-section > .flex.flex-col.items-center.px-6 > * {
+  width: 100%;
+  max-width: var(--hb-rail);
+  margin-top: 1.75rem;
+}
+
+/* ── Section titles ──────────────────────────────────────────────────────────
+   Styled as GitHub styles a README heading: a full-width `border.default`
+   hairline underneath, no accent colour. That rule is what makes a long README
+   scan cleanly, and it does the same for the stacked topic sections on
+   /research/. The accent stays spent on links only, which is the discipline
+   that keeps a two-colour palette readable.
+
+   The block emits these as a bare `div`, not an `h2` — an upstream a11y/SEO
+   wart this stylesheet can style but not fix. */
+.hbb-section .flex.flex-col.items-center.max-w-prose > .text-3xl {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--hb-border);
+  letter-spacing: -0.015em;
+}
+
+/* The first section on a landing page carries the page title. Upstream gives
+   every section title the same `text-3xl`, which flattens the hierarchy —
+   "Research" ends up the same weight as the topics beneath it. */
+.page-body > .hbb-section:first-child .flex.flex-col.items-center.max-w-prose > .text-3xl {
+  font-size: 2.5rem;
+  line-height: 1.15;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Experience & education cards → GitHub panels
+   ═══════════════════════════════════════════════════════════════════════════
+   `resume-experience` and `resume-biography-3` render each entry as a floating
+   card: `rounded-xl`, a diagonal gradient fill, `shadow-md` rising to
+   `shadow-xl` on hover, `backdrop-blur`, and a 1px translate on hover. That is
+   a 2021 SaaS-landing-page idiom and the single most off-key thing next to
+   Primer — GitHub has no cards, no gradients, no shadows in content surfaces.
+
+   Flattened to what GitHub uses: 6px radius, transparent fill, one hairline, a
+   plain background tint on hover. `!important` throughout because these are
+   Tailwind utilities on the element itself, not defaults we can out-specify. */
+#section-resume-experience .rounded-xl,
+.resume-biography .rounded-xl {
+  border-radius: 6px !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  border: 1px solid var(--hb-border) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  transform: none !important;
+}
+
+#section-resume-experience .rounded-xl:hover,
+.resume-biography .rounded-xl:hover {
+  background-color: color-mix(in oklab, var(--hb-color-foreground) 5%, transparent) !important;
+  border-color: color-mix(in oklab, var(--hb-color-foreground) 28%, transparent) !important;
+}
+
+/* The experience block opts out of every layout convention the others follow:
+   its own `max-w-4xl` container, a `text-center` h2, and a timeline rail
+   painted as a vertical primary-colour gradient with a blurred glow behind each
+   node. Pull it onto the site rail and reduce the timeline to a plain border. */
+#section-resume-experience .max-w-4xl {
+  max-width: var(--hb-rail);
+  padding-left: var(--hb-gutter);
+  padding-right: var(--hb-gutter);
+}
+
+/* `#id h2` (1,0,1) outranks the block's own `.text-center` utility. */
+#section-resume-experience h2 {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--hb-border);
+  letter-spacing: -0.015em;
+}
+
+#section-resume-experience .bg-gradient-to-b {
+  background-image: none !important;
+  background-color: var(--hb-border) !important;
+}
+
+#section-resume-experience .blur-md {
+  display: none !important;
+}
+
+/* The icon medallion inside each card carries its own shadow and ring. */
+#section-resume-experience .rounded-full,
+.resume-biography .md\:col-span-8 .rounded-full {
+  box-shadow: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Publication citations
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Each citation gets its own breathing room. The decorative file icon is
+   dropped: it renders as an empty box because the Font Awesome webfont it
+   expects is not loaded by this theme. */
+.pub-list-item.view-citation {
+  margin-bottom: 1.1rem !important;
+  line-height: 1.65;
+}
+
+.pub-list-item .pub-icon {
+  display: none;
+}
+
+/* The citation view wraps every author name in an anchor, and with author pages
+   suppressed (`build.render: never` in content/authors/_index.md) that anchor
+   has an empty `href` — which resolves to the current page. Render them as the
+   plain text they are, and take them out of the tab order. */
+.pub-list-item .li-cite-author a:not([href]),
+.pub-list-item .li-cite-author a[href=''] {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Section list pages rendered outside the block system
+   ═══════════════════════════════════════════════════════════════════════════
+   Pages driven by the default list layout (a section `_index.md` without
+   `type: landing`) get none of the rules above: the title lands centred at
+   `text-6xl` and the entry list sits in its own `max-w-3xl` container with a
+   4–5rem top margin. Next to /research/ and /cv/ it reads as a different site.
+
+   /publications/ is a landing page now, so nothing currently hits these rules —
+   they stay for /blog/ and any future plain section. */
+.page-body > .max-w-prose.mx-auto.flex.justify-center {
+  justify-content: flex-start;
+  max-width: var(--hb-rail);
+  padding-left: var(--hb-gutter);
+  padding-right: var(--hb-gutter);
+}
+
+.page-body > .max-w-prose.mx-auto.flex.justify-center > .prose {
+  width: 100%;
+  max-width: none;
+}
+
+.page-body > .max-w-prose.mx-auto.flex.justify-center h1 {
+  width: 100%;
+  font-size: 2.5rem;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--hb-border);
+  letter-spacing: -0.015em;
+}
+
+.page-body > .flex.flex-col.items-center > .max-w-3xl {
+  max-width: var(--hb-rail);
+  padding-left: var(--hb-gutter);
+  padding-right: var(--hb-gutter);
+  margin-top: 0.5rem;
+}

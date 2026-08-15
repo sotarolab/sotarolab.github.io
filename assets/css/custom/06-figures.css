@@ -1,0 +1,158 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Figures
+   ═══════════════════════════════════════════════════════════════════════════
+   Two figure systems:
+
+     .rstrip*  the video strip on /research/       — assets/js/research-strip.js
+     .mtw*     the mountain-wave canvas on /research/ — assets/js/mountain-waves.js
+
+   Both are inert on pages that do not use them.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Research strip ──────────────────────────────────────────────────────── */
+
+.rstrip {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin: 0 0 1.25rem;
+  --fig-w: 560px;
+}
+
+/* Panels share ONE width; each height follows from its own aspect ratio, so the
+   left edges line up and the centres do too, with no offset arithmetic to keep
+   in sync.
+
+   ⚠️ `--ar` is declared INLINE on each <figure> in content/research.md, e.g.
+   `style="--ar: 1280/1100"` — it used to be assigned here by `:nth-child`,
+   which meant reordering or inserting a panel silently gave it the wrong frame
+   shape. Keeping the ratio next to the clip it describes means adding a panel
+   needs no edit to this file. The `1` fallback below is what an undeclared
+   panel gets: a visibly square frame, which is the point — it should look
+   wrong rather than quietly letterbox. */
+.rstrip-item {
+  width: min(100%, var(--fig-w));
+  margin: 0;
+  min-width: 0;
+}
+
+/* No background: with the frame matching the clip exactly there is nothing left
+   to show through, and a tinted fill only reappears as a margin the moment the
+   two drift apart — which is precisely the bug it would be hiding. */
+.rstrip-frame {
+  position: relative;
+  aspect-ratio: var(--ar, 1);
+  width: 100%;
+  border: 1px solid var(--hb-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.rstrip-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Static figures are mostly white-background exports (MATLAB panels), which
+   glare against the dark canvas. Dimming is the only safe treatment: a CSS
+   invert would wreck the velocity colormaps and axis text, and the source
+   data to re-export dark isn't in this repo. Scoped to <img> so the video
+   tiles — already dark-styled — keep full brightness. */
+img.rstrip-media {
+  filter: brightness(0.85);
+}
+
+/* `wide: true` figures (data/research.yaml) — panoramic multi-panel exports
+   that are illegible at the 560px card width run the full rail instead. */
+.rstrip-item--wide {
+  width: 100%;
+  max-width: none;
+}
+
+.rstrip-cap {
+  margin-top: 0.55rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  opacity: 0.68;
+}
+
+.rstrip-cap b {
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+/* A lone figure spanning the full rail is an 830px block that dominates the
+   page; capped, it reads as a figure rather than a takeover. Capped from the
+   RIGHT only — `margin-inline: auto` would centre it and pull the left edge off
+   the rail. */
+.rstrip:has(.rstrip-item:only-child) {
+  max-width: 760px;
+  margin-inline: 0;
+}
+
+.rstrip-align {
+  max-width: 760px;
+}
+
+/* A row of two or more wants the full width of the column it is aligned to. */
+.rstrip-align:has(.rstrip-item ~ .rstrip-item) {
+  max-width: none;
+}
+
+/* ── Mountain waves ───────────────────────────────────────────────────────
+   The frame is deliberately tall: the whole point of the figure is the
+   upstream tilt of the phase lines WITH HEIGHT, and in a short frame less
+   than one vertical wavelength fits and the tilt is not legible. */
+
+.mtw-figure {
+  margin: 0.25rem 0 0.5rem;
+  max-width: 560px;
+}
+
+.mtw-frame {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border: 1px solid var(--hb-border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: transparent;
+}
+
+@media (max-width: 640px) {
+  .mtw-frame {
+    height: 220px;
+  }
+}
+
+#mtw-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mtw-caption {
+  margin-top: 0.55rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  opacity: 0.68;
+}
+
+.mtw-caption b {
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+/* ── Page ─────────────────────────────────────────────────────────────────
+   `margin-inline: calc(50% - 50vw)` bleeds measure against 100vw, which
+   includes the vertical scrollbar — without this a full-bleed figure overhangs
+   the document by the scrollbar's width and produces a horizontal scrollbar.
+   `clip` rather than `hidden` so it does not become a scroll container and
+   break the sticky header. */
+.page-body {
+  overflow-x: clip;
+}

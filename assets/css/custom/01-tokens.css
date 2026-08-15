@@ -1,0 +1,87 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Design tokens
+   ═══════════════════════════════════════════════════════════════════════════
+   Every colour the rest of this folder uses resolves through one of these, or
+   through a `--color-primary-*` / `--hb-color-*` custom property generated from
+   the theme pack (data/themes/primer.yaml). Retuning the palette should mean
+   editing the pack, not these files.
+
+   The tokens below exist because the pack schema has no slot for them.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Border ──────────────────────────────────────────────────────────────────
+   Primer's `border.default`. Nearly every division on github.com — header,
+   panels, table rows, timelines — is this exact 1px line and nothing else: no
+   shadows, no cards, no gradients. Defined once so nothing downstream
+   hand-mixes a divider colour. */
+:root {
+  --hb-border: #d1d9e0; /* Primer light: border.default */
+}
+
+html.dark {
+  --hb-border: #444c56; /* Primer dark dimmed: border.default */
+}
+
+/* ── Heading brightness ──────────────────────────────────────────────────────
+   Several blocks hardcode `dark:text-white`, which renders pure #fff on the
+   dark canvas — harsh to read, and the main reason dark sites look amateur.
+   GitHub does not do this: headings and body text are both `fg.default`, and
+   the hierarchy is carried by size and weight alone. */
+html.dark {
+  --hb-heading-dark: #adbac7; /* Primer dark dimmed: fg.default */
+}
+
+/* ── Active nav underline ────────────────────────────────────────────────────
+   GitHub's active tab underline is NOT the accent blue — it is Primer's
+   `border.active` coral. Probably the most recognisable two pixels on the site,
+   and it costs nothing to get right. */
+:root {
+  --hb-nav-active: #fd8c73; /* Primer light: border.active */
+}
+
+html.dark {
+  --hb-nav-active: #ec775c; /* Primer dark dimmed: border.active */
+}
+
+/* ── Emphasis blue ───────────────────────────────────────────────────────────
+   Originally bold body text ran this blue rather than the plain foreground.
+   Reverted Aug 2026: once the bio carried several bolded phrases, blue bold
+   read as a paragraph full of dead links (Sebastian's call) — prose bold is
+   now plain foreground (05-typography.css). The token remains for the role
+   line under the name (03-biography.css), which is a label, not prose, and
+   sits nowhere near a link.
+
+   ⚠️ The light-mode value below was silently dead twice over. First in the old
+   inline-`<style>` hook, where it sat behind a block of prose whose comment
+   delimiters had come unbalanced; then again in this file, because the comment
+   explaining that bug quoted a comment-closing delimiter verbatim and so
+   terminated itself early — swallowing the very rule it was describing.
+
+   NEVER write a comment-closing delimiter inside a CSS comment. CSS comments do
+   not nest. tools/qc.sh now fails the build on stray delimiters in the built
+   bundle, because both of these were invisible: the page renders, the build is
+   clean, and one colour is just quietly missing in one theme. */
+:root {
+  /* Light mode cannot reuse primary-400 — it resolves to #BAD7FB, nearly
+     invisible on white. Primer's blue.8 is the readable counterpart. */
+  --hb-bold: #0550ae;
+}
+
+html.dark {
+  /* Primer blue.2. Was `--color-primary-400` (#9CC3F0), which matched the role
+     line but went muddy once body text was brightened to #CDD9E5 — emphasis has
+     to stay clearly ahead of body copy, and 8.4:1 against 10.6:1 body was not
+     enough separation. #79C0FF reads as emphasis by hue rather than brightness.
+
+     The role line under the name uses this same token (03-biography.css), so
+     the two stay locked together. */
+  --hb-bold: #79c0ff;
+}
+
+/* ── Shared measure ──────────────────────────────────────────────────────────
+   One rail width for the whole site. Blocks each ship their own container
+   width; 04-sections.css normalises them onto this. */
+:root {
+  --hb-rail: 52rem;
+  --hb-gutter: 1.5rem;
+}

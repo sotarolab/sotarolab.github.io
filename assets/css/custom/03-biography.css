@@ -1,0 +1,263 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Biography block — the About page sidebar and hero
+   ═══════════════════════════════════════════════════════════════════════════
+   Borrows the *information architecture* of AcademicPages — the Jekyll theme
+   most of this field's personal sites run on — without borrowing its dated
+   visuals: a left-aligned contact rail with labelled links, hairlines instead
+   of cards. Those are the cues that read as "academic" to a reviewer. The
+   modern Hugo Blox chrome underneath is the differentiator.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Hero padding ────────────────────────────────────────────────────────────
+   The `resume-biography-3` block hardcodes its vertical padding
+   (`py-8 sm:py-12 md:py-16 lg:py-24 xl:py-32`) rather than deriving it from the
+   `layout.spacing` token, so `spacing: compact` in params.yaml does not affect
+   it. Bottom padding is deliberately small: the figure sits immediately below,
+   and the block's own bottom padding stacks with the next section's top padding
+   into a visible void.
+
+   ⚠️ This rule was silently dead in the old inline-`<style>` hook: a paragraph
+   of prose directly above it had fallen outside its comment delimiters, so the
+   parser discarded the rule. Do not quote a comment-closing delimiter inside a
+   comment when documenting that — CSS comments do not nest, and doing so
+   recreates the bug. See the note in 01-tokens.css. */
+.resume-biography {
+  padding-top: 3rem;
+  padding-bottom: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+  .resume-biography {
+    padding-top: 4rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* ── Avatar ring ─────────────────────────────────────────────────────────────
+   The block hardcodes `border-4 border-white` on the avatar, a glaring white
+   ring against the dark ground. */
+html.dark .avatar {
+  border-color: var(--hb-border);
+}
+
+/* ── Section-heading icon badges ─────────────────────────────────────────────
+   The block hardcodes a decorative circled icon before each section heading
+   (`identification` on About, `academic-cap` on Education, `sparkles` on
+   Interests). Not configurable, so hidden.
+
+   `bg-primary-100` is what distinguishes these three badges from the social
+   link circles (`bg-white dark:bg-gray-800`) and the experience-entry icons
+   (`ring-1 …`), which must stay visible — do not loosen this selector. */
+.resume-biography .flex-shrink-0.w-12.h-12.bg-primary-100 {
+  display: none;
+}
+
+/* ── Education on the About page ─────────────────────────────────────────────
+   Hidden. Populating `education` in the author profile makes this block render
+   an Education grid on the About page *in addition to* the timeline on /cv/ —
+   the same two degrees twice, in a cramped 4-column card. AcademicPages sites
+   keep About as bio-and-figure and put the record on the CV page.
+
+   `.mb-16` is the education wrapper. The CV-download button uses the same
+   class but only renders when `content.button` is set on the block in
+   content/_index.md — it is not. Set that button and this rule would hide it
+   too, so revisit this selector if you ever add one. */
+.resume-biography .md\:col-span-8 > .mb-16 {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AcademicPages-style contact rail
+   ═══════════════════════════════════════════════════════════════════════════
+   Upstream renders the sidebar centred, with profile links as a row of 48px
+   icon-only circles. AcademicPages instead runs a left-aligned column of
+   labelled links — "GitHub", "ORCID" — under the name and affiliation. The
+   label is the point: a reviewer scanning for an ORCID should not have to hover
+   an unlabelled glyph to find it.
+
+   These selectors key off the utility-class combinations the block emits. They
+   are stable for a given blox version but WILL need revisiting on a module
+   upgrade — if the sidebar suddenly renders centred with circles again, that is
+   what happened. The link list is matched by `.justify-center.gap-4`, which in
+   this block is unique to the social row (Interests uses `.gap-3`, Education
+   uses a grid). */
+
+@media (min-width: 768px) {
+  /* Left-align the whole rail. `.items-center.text-center` is the sidebar
+     column; the right-hand bio column carries neither class. */
+  .resume-biography .flex.flex-col.items-center.text-center {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* `biography-shared.css` centres the avatar with `margin-inline: auto`, which
+     survives the realignment above and leaves the photo floating off-axis from
+     the name below it. */
+  .resume-biography .avatar-wrapper {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* The name sits above a role line already coloured with the accent; at
+   `font-black` the two compete. */
+.resume-biography h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Role line: the accent colour is right, the 1.5rem `text-2xl` is not — it sets
+   the role at nearly the same size as the name. Colour is `--hb-bold` so the
+   role line and in-prose emphasis are one blue by construction, not two similar
+   ones that drift apart. */
+.resume-biography h1 + p,
+.resume-biography .space-y-3 > p.text-2xl {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--hb-bold);
+}
+
+/* ── Affiliation icons ───────────────────────────────────────────────────────
+   AcademicPages prefixes the institution with a building glyph and the location
+   with a map pin. The block renders affiliations as bare `<p>` with no icon
+   slot, so they are painted here as CSS masks — mask rather than
+   `background-image` so the glyph inherits `currentColor` and tracks the theme
+   in both modes.
+
+   Which glyph goes where is decided by DATA, not position: an affiliation with
+   a `url:` in data/authors/me.yaml renders an `<a>` inside its `<p>`, and one
+   without renders bare text. `:has(a)` reads that directly.
+
+   This replaced a `p.text-2xl + p` / `p + p` sibling chain that keyed off list
+   ORDER — reordering `affiliations`, or adding a third, silently mislabelled or
+   un-iconed them. Adding a fourth affiliation now Just Works as long as
+   organisations carry a `url` and places do not. */
+.resume-biography .space-y-3 > p.text-gray-700::before {
+  content: '';
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  opacity: 0.75;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* Heroicons `building-office` — an affiliation with a URL is an organisation.
+   Strokes are painted black in the data URI on purpose: a mask reads alpha, not
+   colour, so `currentColor` inside the SVG would never resolve. */
+.resume-biography .space-y-3 > p.text-gray-700:has(a)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23000' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23000' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21'/%3E%3C/svg%3E");
+}
+
+/* Heroicons `map-pin` — an affiliation without a URL is a place. */
+.resume-biography .space-y-3 > p.text-gray-700:not(:has(a))::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23000' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'/%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23000' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'/%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'/%3E%3C/svg%3E");
+}
+
+/* Affiliation lines are supporting metadata, not headline text — Primer's
+   `fg.muted` register keeps them subordinate to the role above them. */
+.resume-biography .space-y-3 > p.text-gray-700 {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* ── Link list → labelled column ─────────────────────────────────────────── */
+.resume-biography .flex.flex-wrap.justify-center.gap-4 {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+  gap: 0.125rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--hb-border);
+}
+
+/* Small-caps group labels, matching AcademicPages' sidebar headings. Generated
+   content, so they stay out of the document outline and out of search indexing
+   — correct for decorative labels.
+
+   ⚠️ ORDER-DEPENDENT, and unavoidably so: the block renders `links` as one flat
+   list with no grouping data to key off, so the Contact/Profiles split is
+   purely positional. link #1 is labelled Contact and a second heading is
+   injected above link #2. data/authors/me.yaml must therefore keep e-mail first
+   and every profile link after it — adding a phone number as the second entry
+   would file it under Profiles. tools/qc.sh asserts the first link is a
+   mailto:. */
+.resume-biography .flex.flex-wrap.justify-center.gap-4::before {
+  content: 'Contact';
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 0.4rem;
+}
+
+.resume-biography .flex.flex-wrap.justify-center.gap-4 > a:nth-of-type(2) {
+  position: relative;
+  margin-top: 1.75rem;
+}
+
+/* Absolutely positioned so it sits above the row without becoming a flex item
+   inside the anchor. */
+.resume-biography .flex.flex-wrap.justify-center.gap-4 > a:nth-of-type(2)::before {
+  content: 'Profiles';
+  position: absolute;
+  top: -1.35rem;
+  left: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  color: var(--hb-color-foreground);
+}
+
+.resume-biography .flex.flex-wrap.justify-center.gap-4 > a {
+  width: auto;
+  height: auto;
+  justify-content: flex-start;
+  gap: 0.625rem;
+  padding: 0.3rem 0.4rem;
+  margin-left: -0.4rem; /* optical: align label text to the rail's left edge */
+  border-radius: 0.375rem;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  font-size: 0.95rem;
+  /* Cancel the block's `hover:scale-110 hover:-translate-y-1` — a lift is right
+     for a row of buttons, wrong for a list of links. */
+  transform: none !important;
+}
+
+/* The visible label. `title` carries the human-readable string from the author
+   profile; assets/js/biography-aria.js copies it to `aria-label` so assistive
+   tech gets it too. */
+.resume-biography .flex.flex-wrap.justify-center.gap-4 > a::after {
+  content: attr(title);
+  white-space: nowrap;
+}
+
+.resume-biography .flex.flex-wrap.justify-center.gap-4 > a:hover {
+  background: color-mix(in oklab, var(--color-primary-500) 12%, transparent);
+  box-shadow: none;
+  color: var(--color-primary-500);
+}
+
+.resume-biography .flex.flex-wrap.justify-center.gap-4 > a svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}

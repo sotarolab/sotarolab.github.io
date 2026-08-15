@@ -10,50 +10,174 @@ name:
   pronouns: ''
 postnominals:
   - PhD
+# `status.icon` renders as an emoji badge overlapping the avatar — left empty.
 status:
-  icon: "🌪️"
-role: Machine Learning & Atmospheric Scientist
-bio: |
-  Sebastian Otarola-Bustos, PhD, is a machine learning and atmospheric scientist
-  focused on weather extremes — heat waves, forecast bias correction, and
-  satellite-based reconstruction of surface observations. He builds ML tools
-  and live dashboards that turn NWP forecasts, reanalysis, and satellite
-  retrievals into actionable extreme-weather intelligence, and is looking to
-  bring that work to a national laboratory setting.
+  icon: ""
+role: Principal Scientist
 
-affiliations: []
+# INTENTIONALLY EMPTY — the bio prose lives in content/_index.md, inside the
+# biography block's `text` field, because the animation strip must render in
+# the text column under it and the block renders `text` INSTEAD of this
+# field when `text` is non-empty. Edit the bio THERE. (Moved 2026-08-14;
+# nothing else consumed this field.)
+bio: ''
+  
 
+# Rendered in the left column under your role, above the contact rail.
+# AcademicPages sites put institution and location here — it is the first thing
+# a search committee looks for, and its absence reads as an unfinished page.
+#
+# The icon beside each line is chosen from the DATA, not the position: an entry
+# with a `url` gets a building glyph, one without gets a map pin. So order here
+# is free, and a third affiliation picks up the right icon on its own. See the
+# `:has(a)` rules in assets/css/custom/03-biography.css.
+affiliations:
+  - name: Hazen and Sawyer
+    url: https://www.hazenandsawyer.com/
+  - name: Rockville, MD
+
+# Rendered by the biography block as icon links. The custom CSS in
+# assets/css/custom/biography.css turns this row into an AcademicPages-style
+# labelled column, so every entry NEEDS a `label` — without one the row renders
+# as a bare icon with no text beside it.
+#
+# The phone number on the CV is deliberately NOT here: this repo is public and
+# the page is crawlable.
 links:
   - icon: at-symbol
     url: mailto:sfotarol@gmail.com
-    label: E-mail Me
+    label: sfotarol@gmail.com
+  # Scholar deliberately ahead of GitHub (Sebastian, 2026-08-15) — the
+  # academic identity leads. Profile verified live before going in: name,
+  # Hazen affiliation, and the Perdigão/Atacama/WFIP2 papers all match.
+  - icon: academicons/google-scholar
+    url: https://scholar.google.com/citations?user=Z1446WAAAAAJ&hl=en
+    label: Google Scholar
   - icon: brands/github
     url: https://github.com/sotarolab
+    label: GitHub
+  - icon: brands/linkedin
+    url: https://www.linkedin.com/in/sotarolab/
+    label: LinkedIn
+  # ORCID stays inactive until Sebastian recovers access to his existing
+  # account (lost email, Aug 2026) — don't create a new iD, and never ship
+  # a placeholder URL: tools/qc.sh fails the build on them, because a dead
+  # profile link with your name on it is worse than no link.
+  # - icon: academicons/orcid
+  #   url: https://orcid.org/YOUR-ORCID
+  #   label: ORCID
 
-interests:
-  - Machine Learning for Weather & Climate
-  - Weather Extremes & Climate Attribution
-  - Forecast Verification & Bias Correction
-  - Satellite Remote Sensing
-  - Extreme Value Statistics
+# Emptied deliberately: an interests cloud restates the bio as pills. The scope
+# of the work is in the bio's closing sentence and, in detail, on /research/.
+interests: []
 
-education: []
+# Rendered as a timeline on /cv/ (education second, per `is_education_first: false`).
+# Fields: degree (or `area`), institution, start, end, summary, icon, button.
+# Dates are literal strings printed as written — the block's `date_format`
+# setting does not reformat them. Write them the way the CV does. `end: ''`
+# renders as "Present".
+#
+# Degree names are as the registrar writes them, per the CV's Education section.
+# The research area lives in `summary` so both are on the page.
+education:
+  - degree: 'PhD, Civil & Environmental Engineering & Earth Sciences'
+    institution: 'University of Notre Dame'
+    start: '2016'
+    end: '2022'
+    summary: |
+      Atmospheric fluid dynamics — turbulence and complex-terrain boundary-layer
+      flows. Advised by Dr. Harindra Joseph Fernando.
+    # Verified live: the EFM Lab still lists a profile page for you under Recent
+    # Alumni. Linking it here rather than in `affiliations` is the honest
+    # placement — it is alumni standing tied to the PhD, not a current post.
+    button:
+      text: 'EFM Lab profile'
+      url: 'https://efmlab.nd.edu/people/recent-alumni/sebastian-otarola-bustos/'
+      icon: 'academic-cap'
+  - degree: 'B.S., Water Resources Engineering'
+    institution: 'Pontificia Universidad Católica de Chile'
+    start: '2009'
+    end: '2015'
 
-experience: []
+# Rendered as the first timeline on /cv/. List most recent first.
+# Fields: role (or `position`), org (or `company_name`), start, end, summary,
+#         icon, tags (list of strings), button {url, text, icon}.
+# Set `end: ''` for a current role — it renders as "Present".
+#
+# Sourced from Sebastian_Otarola-Bustos_CV_human.pdf, following that document's
+# own section order: Professional Experience → Research & Independent Projects →
+# Research Experience. Summaries condense the CV bullets — a website is skimmed,
+# a CV is read — keeping the named artifacts and dropping process detail.
+#
+# `tags` makes industry vs. independent vs. academic legible at a glance.
+experience:
+  # --- Professional Experience ---
+  - role: 'Principal Scientist'
+    org: 'Hazen — Silver Spring, MD'
+    start: 'Aug 2022'
+    end: ''
+    summary: |
+      Develop and calibrate hydraulic & hydrologic models for utilities and water
+      districts across the US, supporting regulatory compliance, flood analysis,
+      and water supply management. Lead machine learning initiatives in
+      classification, regression, and anomaly detection for wet-weather influent
+      flow forecasting, urban flooding detection, and water demand forecasting.
+      Contributed to the SparseHydro framework for building and calibrating
+      parsimonious hydrological models in Python, and led data analysis and tool
+      development for Water Research Foundation project 5217 on water quality in
+      quarry lakes.
+    tags: ['Industry']
+    icon: 'briefcase'
 
-skills:
-  - name: Technical Skills
-    items:
-      - label: Python
-        level: 5
-      - label: Machine Learning / Deep Learning
-        level: 4
-      - label: Extreme Value Statistics
-        level: 4
-      - label: NWP & Reanalysis (GFS, ECMWF, ERA5)
-        level: 4
-      - label: Dash / Plotly
-        level: 4
+  # --- Research & Independent Projects ---
+  - role: 'Research & Independent Projects'
+    org: 'Self-directed'
+    start: '2025'
+    end: ''
+    summary: |
+      Collaborative research with Chile and US researchers training a
+      convolutional neural network to downscale CMIP6-based projections of
+      extreme precipitation and temperature over Chile, and investigating the
+      physical mechanisms driving the changes so the methodology can be applied to
+      other regions. Separately, applying Long Short-Term Memory (LSTM) and
+      diffusion algorithms to predict flow discharges in US west coast basins,
+      stress-testing them on atmospheric-river flood events and benchmarking
+      against process-based models (GR4J and CemaNeige) across basins in different
+      hydrological regimes. Maintain two web platforms with live data ingestion
+      from operational weather forecasting models and observational weather data,
+      plus a live bias-correction pipeline that calibrates the forecasts: a US
+      heat-wave tracker covering all major airports, and an atmospheric river
+      tracker following weather stations and flood alerts in Chile.
+    tags: ['Independent']
+    icon: 'code-bracket'
+
+  # --- Research Experience ---
+  - role: 'PhD Researcher, Atmospheric Fluid Dynamics'
+    org: 'University of Notre Dame'
+    start: 'Aug 2016'
+    end: 'May 2022'
+    summary: |
+      Participated in two major experiments — the Wind Forecast Improvement
+      Project 2 (WFIP2) in the Columbia River Gorge (OR) and the Sundowner Winds
+      Experiment (SWEX) in Santa Barbara (CA) — deploying flux towers and Doppler
+      lidars and processing their observations to study the skill of weather
+      forecasting models in complex terrain. Published the WFIP2 results in
+      *Boundary-Layer Meteorology*, studying the subgrid variability of surface
+      layer turbulence in complex terrain from 18 months of observations and
+      benchmarking against the WRF model. Collaborated on peer-reviewed
+      publications in boundary layer meteorology and wind energy, produced open
+      datasets published in the DOE Atmosphere to Electrons Archive, and presented
+      at national and international conferences.
+    tags: ['Academic']
+    icon: 'academic-cap'
+
+# NOTE: `skills` intentionally absent.
+#
+# The `resume-skills` block renders a 1–5 proficiency bar per item and requires
+# a `level` — omitting it draws an empty bar, which reads as broken. The CV
+# lists two unrated skill groups, and self-rated proficiency is a public claim
+# many reviewers discount, so the CV's two groups render verbatim as plain text
+# in the Technical Skills block on content/cv.md. Edit them there.
 
 languages: []
 

@@ -1,27 +1,30 @@
 # Navigation Links
-#   To link a homepage widget, specify the URL as a hash `#` followed by the filename of the
-  #     desired widget in your `content/home/` folder.
-  #   The weight parameter defines the order that the links will appear in.
+#   To link a homepage section, specify the URL as a hash `#` followed by the
+#     block `id` set in `content/_index.md`.
+#   The weight parameter defines the order that the links will appear in.
+#
+# Research and Projects are deliberately separate: Research is what the work
+# studies (with its figures), Projects is what is built and running. The
+# `Live Forecast Platforms` thread on /research/ links across to /projects/.
+#
+# /blog/ exists but is unlinked while it has a single post.
 
 main:
-  - name: Bio
+  - name: About
     url: /
     weight: 10
-  - name: Papers
-    url: /#papers
-    weight: 11
-  - name: Talks
-    url: /#talks
-    weight: 12
-  - name: News
-    url: /#news
-    weight: 13
-  - name: Experience
-    url: experience/
+  - name: Research
+    url: research/
     weight: 20
   - name: Projects
     url: projects/
     weight: 30
-  - name: Courses
-    url: courses/
+  - name: Publications
+    url: publications/
     weight: 40
+  - name: Teaching
+    url: teaching/
+    weight: 50
+  - name: CV
+    url: cv/
+    weight: 60

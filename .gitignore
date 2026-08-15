@@ -67,3 +67,12 @@ Desktop.ini
 
 *.log
 npm-debug.log*
+
+# ============================================================================
+# Private source documents
+# ============================================================================
+
+# The CV PDF is the content source of truth for this site, but it carries a
+# personal phone number and this repo is public. Keep it local; the same content
+# is published as HTML on /cv/ without the phone number. See docs/CONTENT.md.
+*_CV_*.pdf

@@ -41,7 +41,16 @@ enableEmoji: true
 enableRobotsTXT: true
 footnotereturnlinkcontents: <sup>^</sup>
 ignoreFiles: [".ipynb_checkpoints$", "\\.Rmd$", "\\.Rmarkdown$", "_cache$"]
-disableAliases: true
+# Aliases ON. The template ships this as `true` because it emits a `redirects`
+# output (a Netlify `_redirects` file) and lets the host do the redirecting —
+# but this site deploys to GitHub Pages, which ignores that file entirely. With
+# aliases disabled, an `aliases:` entry in front matter is accepted silently and
+# generates nothing, so a renamed page's old URL just 404s. That is what
+# happened to /experience/ after it became /cv/.
+#
+# `false` makes Hugo write a small meta-refresh page at each alias path, which
+# works on any static host. tools/qc.sh asserts every declared alias resolves.
+disableAliases: false
 outputs:
   home: [HTML, RSS, headers, redirects, backlinks]
   section: [HTML, RSS]

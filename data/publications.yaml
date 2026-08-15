@@ -1,0 +1,458 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# Publications — the single source of truth
+# ═══════════════════════════════════════════════════════════════════════════
+# Every page under content/publications/ is GENERATED from this file.
+# Do not edit those files by hand; your changes are overwritten. Edit here, then:
+#
+#     make publications     regenerate content/publications/
+#     make check            fails if the two have drifted apart
+#
+# This mirrors how AcademicPages keeps its bibliography in one tabular file and
+# generates the per-paper pages from it. The point is that the whole publication
+# record is visible, sortable and diffable in one place, instead of spread
+# across a dozen near-identical page bundles where a missing field is invisible.
+#
+# ── Fields ──────────────────────────────────────────────────────────────────
+#   slug        REQUIRED  directory name under content/publications/. Convention:
+#                         <year>-<venue>-<topic>. Changing it changes the URL.
+#   title       REQUIRED
+#   authors     REQUIRED  full list in publication order, as the paper of record
+#                         prints it — including your own name in whatever form
+#                         that paper used. See the name-variant note below.
+#   date        REQUIRED  YYYY-MM-DD. Sort key. For a forthcoming conference,
+#                         date it to the MEETING, not the submission.
+#   publish_date          only if it differs from `date` (e.g. work dated to a
+#                         future meeting that should be listed on the site now).
+#   type        REQUIRED  article-journal | paper-conference | report
+#                         ⚠️ Anything else renders NOWHERE — /publications/ has
+#                         one block per type. `make check` catches it.
+#   venue       REQUIRED  journal or meeting, spelled out
+#   venue_short           short form, if useful
+#   volume, pages, publisher
+#   doi                   bare DOI, no https://doi.org/ prefix
+#   status                e.g. "in preparation", "in review", "submitted".
+#                         Rendered in parentheses after the venue, so it shows
+#                         in the LIST on /publications/ and not only on the
+#                         entry's own page. Required for a future-dated journal
+#                         article with no DOI, which would otherwise read as
+#                         already published; the generator refuses without it.
+#   featured              true surfaces it in Selected Publications on the
+#                         homepage. Keep that list to about three.
+#   summary     REQUIRED  one or two sentences, written as the FINDING rather
+#                         than the topic — this is what a reader sees first.
+#   tags
+#   abstract              full abstract, for entries that warrant a detail page
+#   body                  markdown appended below the front matter; use it for
+#                         status lines on unpublished work
+#
+# ── Adding a published paper ────────────────────────────────────────────────
+# Fetch authoritative metadata rather than transcribing from the CV, whose short
+# "et al." forms omit co-authors:
+#
+#     make pub-from-doi DOI=10.1007/s10546-023-00797-y
+#
+# That appends a filled-in entry here from Crossref. Add `summary` and `tags`
+# by hand, then run `make publications`.
+#
+# ── Name variants ───────────────────────────────────────────────────────────
+# Sebastian is indexed under at least five forms across these papers:
+#     Otarola Bustos, Sebastian F.   (BLM 2023)
+#     Otárola-Bustos, Sebastián F.   (JAMC 2022)
+#     Otárola, Sebastián             (GRL 2016)
+#     Otarola-Bustos, Sebastian      (BAMS 2019, WFIP2)
+#     Otarola-Bustos, S.             (BAMS 2019, Perdigão)
+# Each byline matching its own paper of record is CORRECT. The consequence is
+# off this site: Google Scholar and ORCID will not merge them automatically, so
+# all five need claiming by hand on both profiles.
+# ═══════════════════════════════════════════════════════════════════════════
+
+- slug: 2027-jhydrol-lstm-diffusion-ar-floods
+  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
+  # co-authors to this work and to its companion in OPPOSITE order. The site
+  # follows the Conferences assignment throughout — Giani & Valenzuela on the
+  # CMIP6 work, Buahin on the LSTM/hydrology work — because it matches each
+  # collaborator's field. If the Papers section is right, swap the two lists.
+  title: LSTM and diffusion models compared with process-based and operational benchmarks
+    during atmospheric-river floods in US West Coast basins
+  authors:
+  - Sebastian F. Otarola-Bustos
+  - C. Buahin
+  date: '2027-01-01'
+  publish_date: '2026-08-11'
+  type: article-journal
+  venue: Journal of Hydrology
+  status: in preparation
+  summary: Machine-learning streamflow models win on whole-record NSE but lose on
+    atmospheric-river flood peaks — and the deficit is in the ensemble mean, not the
+    network.
+  tags:
+  - Machine Learning
+  - Atmospheric Rivers
+  - Hydrology
+  - Streamflow Forecasting
+  body: |
+    Status: **in preparation** for submission to the *Journal of Hydrology*. The
+    companion abstract is
+    [presented at AGU Fall Meeting 2026](../agu2026-lstm-diffusion-ar-floods/), where
+    the full results are summarised.
+- slug: 2027-climdyn-cmip6-downscaling-chile
+  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
+  # co-authors to this work and to its companion in OPPOSITE order. The site
+  # follows the Conferences assignment throughout — Giani & Valenzuela on the
+  # CMIP6 work, Buahin on the LSTM/hydrology work — because it matches each
+  # collaborator's field. If the Papers section is right, swap the two lists.
+  title: Physical Drivers of Downscaled CMIP6 Projections of Weather Extremes over
+    Chile
+  authors:
+  - Sebastian F. Otarola-Bustos
+  - P. Giani
+  - R. Valenzuela
+  date: '2027-01-01'
+  publish_date: '2026-08-11'
+  type: article-journal
+  venue: Climate Dynamics
+  status: in preparation
+  summary: The physical mechanisms behind CNN-downscaled CMIP6 projections of extreme
+    precipitation and temperature over Chile — why the changes appear where they do,
+    and what that implies for transferring the method to other regions.
+  tags:
+  - Machine Learning
+  - Climate Projections
+  - Downscaling
+  - Weather Extremes
+  - Chile
+  body: |
+    Status: **in preparation** for submission to *Climate Dynamics*. The companion
+    abstract is [presented at AGU Fall Meeting 2026](../agu2026-cmip6-downscaling-chile/).
+- slug: agu2026-lstm-diffusion-ar-floods
+  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
+  # co-authors to this work and to its companion in OPPOSITE order. The site
+  # follows the Conferences assignment throughout — Giani & Valenzuela on the
+  # CMIP6 work, Buahin on the LSTM/hydrology work — because it matches each
+  # collaborator's field. If the Papers section is right, swap the two lists.
+  title: LSTM and diffusion models compared with process-based and operational benchmarks
+    during atmospheric-river floods in US West Coast basins
+  authors:
+  - Sebastian F. Otarola-Bustos
+  - C. Buahin
+  date: '2026-12-01'
+  publish_date: '2026-08-09'
+  type: paper-conference
+  venue: AGU Fall Meeting 2026 — Session H039
+  venue_short: AGU Fall Meeting 2026
+  status: abstract submitted
+  featured: true
+  summary: 'Machine-learning streamflow models win on whole-record NSE but lose on
+    AR flood peaks — and the deficit is in the ensemble mean, not the network: reading
+    the same LSTM at an upper quantile cuts peak error from 0.41 to 0.22.'
+  tags:
+  - Machine Learning
+  - Atmospheric Rivers
+  - Hydrology
+  - Streamflow Forecasting
+  abstract: |
+    Atmospheric rivers (ARs) produce most of the floods in US West Coast basins
+    and deliver roughly 30–50% of the region's annual precipitation, so the same
+    storms that drive floods influence seasonal water supplies. Machine-learning
+    streamflow models routinely outperform process-based models on whole-record
+    Nash–Sutcliffe Efficiency (NSE). This study asks how an LSTM network and a
+    conditional diffusion model compare with process-based and operational models
+    during flood events triggered by AR landfall.
+
+    We evaluate the LSTM and the diffusion model against a calibrated conceptual
+    model (GR4J+CemaNeige) and the National Water Model (NWM) on 71 CAMELS-US
+    West Coast basins (50 rain-dominated, 14 snow-influenced, 7 semi-arid),
+    trained or calibrated on 1980–2004 and evaluated on 2005–2014. The LSTM leads
+    on whole-record NSE with a median of 0.78 against 0.75 for GR4J+CemaNeige and
+    0.61 for the NWM.
+
+    Applying a per-basin peak-over-threshold criterion on AR landfall days from
+    the CW3E AR catalog identifies 358 flood events. NSE favors the LSTM on the
+    whole record and on AR flood days alike — but the ranking reverses when
+    methods are scored by median absolute relative error in flood peaks: 0.25 for
+    the NWM, 0.33 for GR4J+CemaNeige, against 0.41 for the LSTM ensemble mean,
+    which falls below the observed peak in most flood events.
+
+    The deficit lies in the summary statistic rather than the network. Reading
+    the same LSTM ensemble at an upper quantile selected on the training period
+    drops peak error to 0.22 with no retraining: the flood information is present
+    in the predictive distribution and is discarded by the mean. The diffusion
+    model, which samples its predictive distribution rather than summarizing it,
+    reaches 0.27 on AR flood peaks — improving on the LSTM ensemble mean without
+    overtaking the NWM — and attains a whole-record NSE of 0.79. Since 87% of
+    flood events on rain-dominated basins are AR-driven, peak-magnitude
+    comparison may be important to include when models are evaluated for
+    flood-relevant applications.
+  body: |
+    Status: **abstract submitted to AGU Fall Meeting 2026 (Session H039); manuscript in preparation.**
+
+    <!-- TODO once the session is confirmed: replace the status line above with the
+         accepted presentation details, and attach the poster/slides via `url_poster`
+         or `url_slides` in the front matter. -->
+- slug: agu2026-cmip6-downscaling-chile
+  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign
+  # co-authors to this work and to its companion in OPPOSITE order. The site
+  # follows the Conferences assignment throughout — Giani & Valenzuela on the
+  # CMIP6 work, Buahin on the LSTM/hydrology work — because it matches each
+  # collaborator's field. If the Papers section is right, swap the two lists.
+  title: 'Downscaling CMIP6 projections of weather extremes over Chile: a CNN super-resolution
+    approach'
+  authors:
+  - Sebastian F. Otarola-Bustos
+  - P. Giani
+  - R. Valenzuela
+  date: '2026-12-01'
+  publish_date: '2026-08-09'
+  type: paper-conference
+  venue: AGU Fall Meeting 2026 — Session A060
+  venue_short: AGU Fall Meeting 2026
+  status: abstract submitted
+  featured: true
+  summary: A CNN super-resolution approach to downscaling CMIP6 extreme-weather indices
+    over Chile from 1° to 0.05°, cutting Rx1day error by 47% against bilinear interpolation.
+  tags:
+  - Machine Learning
+  - Weather Extremes
+  - Climate Projections
+  - Downscaling
+  abstract: |
+    Chile spans very different climates, from the arid Atacama to sub-polar
+    Patagonia, in a strip rarely wider than 200 km between the Pacific and the
+    Andes. CMIP6 models lack the spatial resolution needed to resolve steep
+    elevation gradients and terrain heterogeneity, limiting their ability to
+    accurately estimate changes in extreme heat and rainfall from direct model
+    output alone. We use a convolutional neural network (CNN) and quantile
+    mapping to bias-correct and downscale 2071–2100 SSP5-8.5 projections of
+    extreme weather indices (Rx1day, Rx5day, TXx, R10mm) from their native
+    1° resolution to 0.05°, using CR2MET as the reference dataset. In held-out
+    years, the CNN decreases Rx1day error by 47% against bilinear interpolation.
+
+    The downscaled projections from 20+ CMIP6 models agree on warming in every
+    subregion, and most project a drier Central Chile and Northern Patagonia on
+    average. The Rx1day change depends strongly on latitude: Central Chile
+    (30–38°S) tends toward less extreme rainfall under SSP5-8.5, while the
+    wettest day of the year becomes wetter in Northern Chile and Patagonia. TXx
+    rises in every subregion, from 3.6 °C in Southern Patagonia to 4.9 °C in the
+    north. Over Central Chile frequency decreases more than intensity: R10mm
+    declines 29% against 11% for Rx5day and 6% for Rx1day, and GEV fits estimate
+    the 2-year event 8% lower with the 100-year event unchanged — the coast loses
+    ordinary winter rain but not its largest floods. Testing whether extreme
+    precipitation changes follow expected subtropical drying (circulation
+    control) or intensify with atmospheric moisture (thermodynamic control), only
+    7 of 241 land cells approximately follow Clausius–Clapeyron scaling, with the
+    largest deviations over the drying latitudes — pointing to circulation rather
+    than thermodynamic control.
+  body: |
+    Status: **abstract submitted to AGU Fall Meeting 2026 (Session A60); manuscript in preparation.**
+
+    <!-- TODO once the session is confirmed: replace the status line above with the
+         accepted presentation details, and attach the poster/slides via `url_poster`
+         or `url_slides` in the front matter. -->
+- slug: 2023-blm-subgrid-variability
+  title: Subgrid Variability of Atmospheric Surface-Layer Parameters in Complex Terrain
+  authors:
+  - Sebastian F. Otarola-Bustos
+  - Harindra J. S. Fernando
+  - James M. Wilczak
+  - Andrey A. Grachev
+  - Christopher Hocut
+  - Robert Dumais
+  date: '2023-03-28'
+  type: article-journal
+  venue: Boundary-Layer Meteorology
+  volume: '187'
+  pages: 229–265
+  doi: 10.1007/s10546-023-00797-y
+  featured: true
+  summary: How surface-layer parameters vary within a single model gridcell over complex
+    terrain, and what that subgrid variability means for NWP surface flux parameterisations.
+  tags:
+  - Boundary Layer
+  - Complex Terrain
+  - Turbulence
+- slug: agu2022-wfip-columbia-gorge
+  title: Measurements of surface layer parameters in complex terrain during the WFIP
+    experiment in the Columbia River Gorge (OR)
+  authors:
+  - Sebastian F. Otarola-Bustos
+  date: '2022-12-12'
+  type: paper-conference
+  venue: AGU Fall Meeting 2022, Chicago, IL, 12–16 December
+  venue_short: AGU Fall Meeting 2022
+  summary: Surface-layer parameters measured across the Columbia River Gorge during
+    WFIP2, and what their spatial variability implies for model gridcell-scale parameterisation.
+  tags:
+  - Boundary Layer
+  - Complex Terrain
+  - Turbulence
+  - Field Campaign
+- slug: ams2022-sundowner-lee-slope-jets
+  title: Exploring the spatiotemporal variability of lee slope jets during the Sundowner
+    Winds Experiment
+  authors:
+  - G. J. Duine
+  - L. M. V. Carvalho
+  - S. F. J. De Wekker
+  - C. Jones
+  - M. de Orla-Barile
+  - Z. Whang
+  - J. Kasić
+  - Harindra J. S. Fernando
+  - Sebastian F. Otarola-Bustos
+  date: '2022-06-01'
+  type: paper-conference
+  venue: 20th Conference on Mountain Meteorology, American Meteorological Society,
+    Park City, UT, June 2022
+  venue_short: 20th Conf. on Mountain Meteorology (AMS)
+  summary: Spatiotemporal structure of the lee-slope jets observed during SWEX in
+    the Santa Ynez Mountains above Santa Barbara.
+  tags:
+  - Complex Terrain
+  - Field Campaign
+  - Boundary Layer
+- slug: 2022-jamc-hybrid-bulk-algorithm
+  title: A Hybrid Bulk Algorithm to Predict Turbulent Fluxes over Dry and Wet Bare
+    Soils
+  authors:
+  - Andrey A. Grachev
+  - Christopher W. Fairall
+  - Byron W. Blomquist
+  - Harindra J. S. Fernando
+  - Laura S. Leo
+  - Sebastián F. Otárola-Bustos
+  - James M. Wilczak
+  - Katherine L. McCaffrey
+  date: '2022-04-01'
+  type: article-journal
+  venue: Journal of Applied Meteorology and Climatology
+  venue_short: J. Applied Meteorology and Climatology
+  volume: '61'
+  pages: 393–414
+  doi: 10.1175/jamc-d-20-0232.1
+  summary: A bulk algorithm for turbulent surface fluxes that holds across both dry
+    and wet bare-soil regimes, where single-regime formulations break down.
+  tags:
+  - Boundary Layer
+  - Surface Fluxes
+  - Turbulence
+- slug: 2020-agrformet-energy-balance-closure
+  title: On the Surface Energy Balance Closure at Different Temporal Scales
+  authors:
+  - Andrey A. Grachev
+  - Christopher W. Fairall
+  - Byron W. Blomquist
+  - Harindra J. S. Fernando
+  - Laura S. Leo
+  - Sebastián F. Otárola-Bustos
+  - James M. Wilczak
+  - Katherine L. McCaffrey
+  date: '2020-02-01'
+  type: article-journal
+  venue: Agricultural and Forest Meteorology
+  volume: '281'
+  pages: '107823'
+  doi: 10.1016/j.agrformet.2019.107823
+  summary: Why the measured surface energy budget fails to close, and how the size
+    of that residual depends on the averaging timescale it is computed over.
+  tags:
+  - Boundary Layer
+  - Surface Fluxes
+  - Turbulence
+- slug: 2019-bams-wfip2-field-campaign
+  title: 'The Second Wind Forecast Improvement Project (WFIP2): Observational Field
+    Campaign'
+  authors:
+  - James M. Wilczak
+  - Mark Stoelinga
+  - Larry K. Berg
+  - Justin Sharp
+  - Caroline Draxl
+  - Katherine McCaffrey
+  - et al. (36 authors, incl. S. Otarola-Bustos)
+  date: '2019-09-01'
+  type: article-journal
+  venue: Bulletin of the American Meteorological Society
+  venue_short: BAMS
+  volume: '100'
+  pages: 1701–1723
+  doi: 10.1175/bams-d-18-0035.1
+  summary: Overview of the WFIP2 observational field campaign — an 18-month DOE/NOAA
+    deployment in the Columbia River Gorge to improve wind forecasts in complex terrain.
+  tags:
+  - Field Campaign
+  - Complex Terrain
+  - Wind Energy
+- slug: 2019-bams-perdigao
+  title: 'The Perdigão: Peering into Microscale Details of Mountain Winds'
+  authors:
+  - Harindra J. S. Fernando
+  - Jakob Mann
+  - José M. L. M. Palma
+  - Julie K. Lundquist
+  - Rebecca J. Barthelmie
+  - Margarida Belo-Pereira
+  - et al. (48 authors, incl. S. Otarola-Bustos)
+  date: '2019-05-01'
+  type: article-journal
+  venue: Bulletin of the American Meteorological Society
+  venue_short: BAMS
+  volume: '100'
+  pages: 799–819
+  doi: 10.1175/bams-d-17-0227.1
+  summary: Overview of the Perdigão field campaign — a densely instrumented study
+    of flow over a double mountain ridge in Portugal, and one of the most detailed
+    microscale terrain-wind datasets collected.
+  tags:
+  - Field Campaign
+  - Complex Terrain
+  - Turbulence
+- slug: 2019-doe-wfip2-columbia-gorge-report
+  title: Wind Forecasting Improvement Project in Complex Terrain Near the Columbia
+    River Gorge
+  authors:
+  - James McCaa
+  - Eric Grimit
+  - Mark Stoelinga
+  - Justin Sharp
+  - Julie K. Lundquist
+  - Branko Kosović
+  - et al. (14 authors, incl. S. Otarola-Bustos)
+  date: '2019-02-28'
+  type: report
+  venue: Technical report, U.S. Department of Energy (OSTI)
+  venue_short: U.S. Dept. of Energy
+  publisher: U.S. Department of Energy (OSTI)
+  doi: 10.2172/1606516
+  summary: Final DOE project report on improving wind forecasts in the complex terrain
+    of the Columbia River Gorge — the modelling and field-campaign programme behind
+    WFIP2.
+  tags:
+  - Field Campaign
+  - Complex Terrain
+  - Wind Energy
+- slug: 2016-grl-atacama-floods
+  title: An Integrated Analysis of the March 2015 Atacama Floods
+  authors:
+  - Andrew C. Wilcox
+  - Cristian Escauriaza
+  - Roberto Agredano
+  - Emmanuel Mignot
+  - Vicente Zuazo
+  - Sebastián Otárola
+  - Lina Castro
+  - Jorge Gironás
+  - Rodrigo Cienfuegos
+  - Luca Mao
+  date: '2016-08-13'
+  type: article-journal
+  venue: Geophysical Research Letters
+  volume: '43'
+  pages: 8035–8043
+  doi: 10.1002/2016gl069751
+  summary: The first peer-reviewed analysis of the March 2015 flash flood in the Atacama
+    Desert — among the driest places on Earth — combining hydrology, hydraulics, and
+    sediment transport.
+  tags:
+  - Flash Floods
+  - Hydrology
+  - Chile

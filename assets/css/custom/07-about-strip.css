@@ -1,0 +1,102 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   About-page animation strip (.astrip) — the looping clips under the bio
+   paragraph on the homepage.
+
+   The strip lives INSIDE the biography block's `text` field
+   (content/_index.md), so it renders in the text column directly under the
+   bio prose. It used to be its own landing section, and every version of
+   that had a large gap above it that no padding override could close: a
+   section cannot start until the whole biography — including the sidebar,
+   which runs well past the paragraph — has ended. In-column, the gap is
+   just this file's margin. Do not move it back out.
+
+   Distinct from the research .rstrip on purpose: .rstrip letterboxes and
+   lazy-loads; these clips autoplay and arrive ALREADY cropped to their
+   frame with ffmpeg. No object-fit cropping here: a first version of this
+   strip cover-cropped rectangular images in CSS and turned them into
+   illegible smears. If a clip ships at the wrong shape it will letterbox
+   visibly, which is the tell to go re-render it, not to re-add object-fit.
+
+   Inert on pages that do not use it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.astrip {
+  margin-top: 4.25rem; /* the paragraph-to-first-clip gap — the whole of it */
+}
+
+.astrip-item {
+  margin: 0;
+  min-width: 0;
+}
+
+/* IVT and La Paloma side by side. The pair needs more room than the bio
+   text column, and the breakout goes RIGHT (Sebastian, 2026-08-16, after
+   left-breakout variants): the strip's left edge stays exactly on the bio
+   paragraph's, and the row runs rightward past the column into the page
+   margin, stopping 1.5rem short of the viewport edge. With M = the
+   biography container's content width (max-w-7xl inside px-4), the run is
+   100vw − col_left − 1.5rem, which simplifies to the calc below. Tiles are
+   capped by .astrip-duo's minmax and shrink on narrower viewports rather
+   than clipping (the page body is overflow-x: clip). */
+@media (min-width: 768px) {
+  .astrip {
+    /* without an explicit width the bio's prose cap (65ch) squeezes the
+       row and the tiles lose ~90px each */
+    width: calc(50vw + min(80rem, 100vw - 2rem) / 6 - 2.167rem);
+    max-width: none;
+  }
+}
+
+.astrip-duo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 460px));
+  gap: 1.75rem;
+}
+
+@media (max-width: 640px) {
+  .astrip-duo {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* `--ar` is declared inline on each figure in content/_index.md, next to
+   the clip it describes — same convention as the research strip. The `1`
+   fallback makes an undeclared tile visibly square rather than quietly
+   letterboxed. */
+.astrip-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ar, 1);
+  border: 1px solid var(--hb-border);
+  border-radius: 6px;
+}
+
+/* The biography section's bottom padding scales to py-32 (8rem) on wide
+   screens, which is the gap between the strip's captions and News. Shaved
+   a notch — a nudge, not a collapse (Sebastian: "a tiny bit"). */
+#section-resume-biography-3 .resume-biography {
+  padding-bottom: 1rem;
+}
+
+/* News shares the bio text's left edge (Sebastian, 2026-08-16): its
+   rail-centred content shifts right by col_left − rail_left — the same
+   expression as the strip's old rail alignment, sign flipped. Desktop
+   only; below md the bio stacks and there is no column edge to match. */
+@media (min-width: 768px) {
+  #news .flex.flex-col.items-center.px-6 > * {
+    margin-left: calc((151rem - min(80rem, 100vw - 2rem)) / 6);
+  }
+}
+
+/* Caption idiom matches the research strip (.rstrip-cap). */
+.astrip-cap {
+  margin-top: 0.55rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  opacity: 0.68;
+}
+
+.astrip-cap b {
+  font-weight: 600;
+  opacity: 0.92;
+}

@@ -1,0 +1,78 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Typography — prose colours, links, selection, focus
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Tailwind Typography ships its own palette via `--tw-prose-*`, and under
+   `dark:prose-invert` that makes links #fff and bold text #fff — so an inline
+   link on /research/ rendered as plain white text, indistinguishable from the
+   sentence around it. Rebinding the tokens to the Primer values fixes links,
+   bold and headings in one place, in both modes, since `--hb-color-foreground`
+   is already mode-aware.
+
+   Specificity matters. The `dark:prose-invert` utility compiles to
+   `.dark .prose-invert` (0,2,0), which rebinds `--tw-prose-body` and friends to
+   their `-invert-` counterparts. A plain `.prose` rule (0,1,0) loses to it,
+   which is why bold text kept rendering near-white on the dimmed canvas after
+   the first attempt. Matching (0,2,0) and relying on source order — this
+   stylesheet is emitted after the main one — settles it. */
+.prose,
+html.dark .prose {
+  --tw-prose-body: var(--hb-color-foreground);
+  /* Bold ran --hb-bold (emphasis blue) until Aug 2026 — with the bio now
+     carrying several bolded phrases, blue bold read as a paragraph full of
+     dead links (Sebastian's call). Prose bold is plain foreground at weight;
+     --hb-bold lives on in the role line (03-biography.css). */
+  --tw-prose-bold: var(--hb-color-foreground);
+  --tw-prose-headings: var(--hb-color-foreground);
+  --tw-prose-links: var(--color-primary-500);
+  --tw-prose-invert-body: var(--hb-color-foreground);
+  --tw-prose-invert-bold: var(--hb-color-foreground);
+  --tw-prose-invert-headings: var(--hb-color-foreground);
+  --tw-prose-invert-links: var(--color-primary-500);
+}
+
+/* The biography block puts `text-gray-800 dark:text-gray-200` on the same
+   element as `.prose`, so the two compete at equal specificity and the winner
+   depends on stylesheet order. Settle it. */
+.prose,
+html.dark .prose {
+  color: var(--hb-color-foreground);
+}
+
+/* ── Body links ──────────────────────────────────────────────────────────────
+   Accent blue with a soft underline that solidifies on hover.
+
+   GitHub itself ships colour-only links and offers an opt-in "underline links"
+   setting. This site keeps the underline on by default instead: bold body text
+   is also blue here (see `--hb-bold` in 01-tokens.css), so colour alone would
+   not distinguish a link from an emphasised word — and colour alone as a link
+   cue is what WCAG 1.4.1 warns about anyway. */
+.prose a {
+  color: var(--color-primary-500);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in oklab, var(--color-primary-500) 45%, transparent);
+  transition: text-decoration-color 150ms ease, color 150ms ease;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-primary-500);
+}
+
+/* ── Text selection ──────────────────────────────────────────────────────────
+   The browser default selection blue clashes with the accent on the dark
+   canvas. */
+::selection {
+  background: color-mix(in oklab, var(--color-primary-500) 30%, transparent);
+}
+
+/* ── Focus ring ──────────────────────────────────────────────────────────────
+   Keyboard focus must clear the dark ground. `:focus-visible` only, so mouse
+   users never see it. */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
