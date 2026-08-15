@@ -54,6 +54,24 @@ else
   fail "content/publications/ is out of sync — edit data/publications.yaml, then: make publications"
 fi
 
+# ── 1c. CV PDF is current ───────────────────────────────────────────────────
+# static/uploads/cv.pdf is printed from /cv/ (make cv-pdf). If the CV sources
+# are newer than the PDF, the download has drifted from the page.
+head_ "1c. CV PDF"
+if [ -f static/uploads/cv.pdf ]; then
+  stale=""
+  for src in data/authors/me.yaml content/cv.md assets/css/custom/12-print.css; do
+    [ "$src" -nt static/uploads/cv.pdf ] && stale="$stale $src"
+  done
+  if [ -z "$stale" ]; then
+    pass "static/uploads/cv.pdf is newer than its sources"
+  else
+    fail "static/uploads/cv.pdf is older than:$stale — run: make cv-pdf"
+  fi
+else
+  warn "static/uploads/cv.pdf missing — run: make cv-pdf"
+fi
+
 # ── 2. No placeholders ship ─────────────────────────────────────────────────
 # Checked against the BUILT SITE, not the sources: a placeholder inside a YAML
 # or HTML comment is fine, one that reaches a reader is not.
