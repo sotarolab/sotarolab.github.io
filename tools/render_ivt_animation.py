@@ -38,7 +38,7 @@ REPO = os.path.expanduser("the chile-ar-nowcast repo")
 # (2026-08-14) and the research section no longer references it.
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                    "static", "media", "about")
-STEM = "chile-ar-ivt-jul2026-v6"  # suffix bumps on every STYLE change: local video cache survives hard refreshes
+STEM = "chile-ar-ivt-jul2026-v7"  # suffix bumps on every STYLE change: local video cache survives hard refreshes
 
 # Style history, so no variant gets retried: v1 full-strength viridis with
 # white coastlines (no basemap); v2/v3 dark basemaps with thresholded alpha
@@ -48,7 +48,10 @@ STEM = "chile-ar-ivt-jul2026-v6"  # suffix bumps on every STYLE change: local vi
 # plus labels and a legend card ("impossible to see... doesn't look good").
 # CURRENT v6 = v1, full stop: opaque viridis, near-white coastline, streaks,
 # no labels, no legend — plus a centred square crop at encode time so the
-# About tile matches the (square) La Paloma tile exactly.
+# About tile matches the (square) reservoir tile exactly. v7 = v6 plus a
+# single date/hour stamp in the top-left corner (2026-08-16), added so the two
+# About tiles carry matching timestamps; it is burned in post on the encoded
+# frames rather than drawn here.
 OCEAN = "#d4dadc"   # only visible if the field ever shrinks below the frame
 LAND = "#f9f8f6"
 COAST = "#eef4fa"

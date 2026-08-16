@@ -12,36 +12,28 @@ sections:
       username: me
       # BOTH the bio prose and the animation strip live HERE, in the.
       text: |
-        I am an environmental fluid dynamicist with a **PhD from the University of
-        Notre Dame**, where I worked on atmospheric turbulence and complex-terrain
-        boundary layers, and a background in water resources engineering. I am
-        currently a **Principal Scientist at Hazen**.
+        I am an atmospheric and hydrologic scientist with a PhD in Civil and Environmental Engineering and Earth Sciences from the **University of Notre Dame**, where I studied atmospheric turbulence and complex-terrain boundary layers at the [Environmental Fluid Dynamics Laboratory](https://efmlab.nd.edu/) under Harindra J. S. Fernando. I am currently a **Principal Scientist at [Hazen](https://www.hazenandsawyer.com/)**, where I apply machine learning and hydrologic modeling to decision support for water utilities.
 
-        My work, research, and professional interests focus on leveraging machine learning
-        (LSTM, diffusion, decision trees, and neural networks) and remote sensing to emulate
-        physics-based approaches in atmospheric and hydrologic systems, with a focus on
-        scalability and operational forecasting. I have a wide research background in
-        environmental flows that includes:
-
-        - Atmospheric boundary layer and turbulent stratified flows in complex terrain
-        - Atmospheric rivers, hydrological forecasting, and climate downscaling
-        - Ground- and space-based remote sensing, and live weather-intelligence platforms
-
-        I am interested in pursuing applied research in these areas, and in fostering
-        collaborations between industry and academia.
-
+        My research interests includes:
+        
+        - Boundary-layer turbulence and stratified flow over complex terrain
+        - Atmospheric rivers and the predictability of extreme precipitation
+        - Flood forcasting and hydrodynamic modeling
+        - Statistical and deep-learning downscaling of climate extremes
+        - Remote sensing and forecast verification for operational systems
+        
+        I am pursuing applied research in these areas and welcome collaborations across academia and industry.
+        
         <div class="astrip not-prose">
           <div class="astrip-duo">
           <figure class="astrip-item" style="--ar: 1">
             <video class="astrip-media" autoplay muted loop playsinline
-                   preload="metadata" poster="/media/about/chile-ar-ivt-jul2026-v6-poster.jpg"
+                   preload="metadata" poster="/media/about/chile-ar-ivt-jul2026-v7-poster.jpg"
                    aria-label="Animated map of integrated vapor transport over the southeast Pacific and Chile, 15–19 July 2026, with particle streaks tracing an atmospheric river's moisture flux into the coast.">
-              <source src="/media/about/chile-ar-ivt-jul2026-v6.mp4" type="video/mp4">
+              <source src="/media/about/chile-ar-ivt-jul2026-v7.mp4" type="video/mp4">
             </video>
             <figcaption class="astrip-cap">
-              <b>Atmospheric river, July 2026.</b> Integrated vapor transport
-              into Chile from the GEFS control run; the streaks trace the
-              moisture flux. From my <a href="/projects/chile-ar-nowcast/">live
+              <b>Atmospheric river, July 2026.</b> Integrated vapor transport derived from GEFS control. The streaks trace the moisture flux. This event was responsible for catastrophic flooding across Chile. From my <a href="/projects/chile-ar-nowcast/">live
               AR nowcast</a>.
             </figcaption>
           </figure>
@@ -52,16 +44,16 @@ sections:
                linking anywhere. -->
           <figure class="astrip-item" style="--ar: 1">
             <video class="astrip-media" autoplay muted loop playsinline
-                   preload="metadata" poster="/media/about/la-paloma-dark-poster.jpg"
-                   aria-label="Animated satellite imagery of Embalse La Paloma, Chile, from 15 June to 27 July 2026, the reservoir's mapped surface water growing after the atmospheric river.">
-              <source src="/media/about/la-paloma-dark.mp4" type="video/mp4">
+                   preload="metadata" poster="/media/about/recoleta-dark-poster.jpg"
+                   aria-label="Animated satellite imagery of Embalse Recoleta, Chile, 15 June to 27 July 2026, each frame date-stamped in the corner, with nearby communities labelled: the reservoir's mapped surface water doubles after the atmospheric river, spreading up its northern arm and past the dam at El Tranque, which is flagged when the water reaches it.">
+              <source src="/media/about/recoleta-dark.mp4" type="video/mp4">
             </video>
             <figcaption class="astrip-cap">
-              <b>Embalse La Paloma, Chile, June to July 2026.</b> Sentinel
-              mapping of the reservoir refilling after that atmospheric river
-              made landfall. Surface water more than doubled, from
-              4.5 to 9.4&nbsp;km². Mapped with Sentinel-2 optical imagery, and
-              with Sentinel-1 radar under cloud.
+              <b>Embalse Recoleta, Chile.</b> Sentinel mapping of the
+              reservoir filling after that atmospheric river made landfall:
+              surface water rose from 1.9 to 3.9&nbsp;km² and the reservoir
+              spilled on 21 July. Sentinel-2 optical imagery, with
+              Sentinel-1 radar under cloud.
             </figcaption>
           </figure>
           </div>
