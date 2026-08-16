@@ -14,7 +14,7 @@ sections:
       text: |
         I am an atmospheric and hydrologic scientist with a PhD in Civil and Environmental Engineering and Earth Sciences from the **University of Notre Dame**, where I studied atmospheric turbulence and complex-terrain boundary layers at the [Environmental Fluid Dynamics Laboratory](https://efmlab.nd.edu/) under Harindra J. S. Fernando. I am currently a **Principal Scientist at [Hazen](https://www.hazenandsawyer.com/)**, where I apply machine learning and hydrologic modeling to decision support for water utilities.
 
-        My research interests includes:
+        My research interests include:
         
         - Boundary-layer turbulence and stratified flow over complex terrain
         - Atmospheric rivers and the predictability of extreme precipitation
