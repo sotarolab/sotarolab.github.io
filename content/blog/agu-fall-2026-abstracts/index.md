@@ -19,5 +19,3 @@ projections of extreme precipitation and temperature over Chile's complex
 topography. The second stress-tests LSTM and diffusion streamflow models
 against process-based benchmarks (GR4J, CemaNeige) during atmospheric-river
 flood events in US West Coast basins and evaluates their performance based on their hydrological regimes.
-
-Looking forward to reconnecting and discussing ideas with the atmospheric, climate, and hydrological sciences communities in December. 

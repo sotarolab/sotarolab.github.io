@@ -18,7 +18,7 @@ sections:
         
         - Boundary-layer turbulence and stratified flow over complex terrain
         - Atmospheric rivers and the predictability of extreme precipitation
-        - Flood forcasting and hydrodynamic modeling
+        - Flood forecasting and hydrodynamic modeling
         - Statistical and deep-learning downscaling of climate extremes
         - Remote sensing and forecast verification for operational systems
         
@@ -33,7 +33,7 @@ sections:
               <source src="/media/about/chile-ar-ivt-jul2026-v7.mp4" type="video/mp4">
             </video>
             <figcaption class="astrip-cap">
-              <b>Atmospheric river, July 2026.</b> Integrated vapor transport derived from GEFS control. The streaks trace the moisture flux. This event was responsible for catastrophic flooding across Chile. From my <a href="/projects/chile-ar-nowcast/">live
+              <b>Atmospheric river, July 2026.</b> Integrated vapor transport derived from GEFS control. The streaks trace the moisture flux. The event produced significant flooding in central and northern Chile. From my <a href="/projects/chile-ar-nowcast/">live
               AR nowcast</a>.
             </figcaption>
           </figure>
