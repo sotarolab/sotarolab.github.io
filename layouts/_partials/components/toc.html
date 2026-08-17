@@ -1,0 +1,73 @@
+{{/* Table of Contents.
+
+     Forked from the theme. Three changes:
+
+     1. Upstream ranged the root headings and rendered only their CHILDREN, so
+        a page whose H2s sit under H1 sections (/research/) lost the H1s
+        entirely and the list broke into unlabelled groups.
+     2. The "Backlinks" list underneath was dropped — it exposed cross-page
+        wiring the reader has no use for.
+     3. The per-link Tailwind utilities are gone in favour of `site-toc-*`
+        classes styled in 13-toc.css. Utilities cannot be widened here: the
+        theme's Tailwind build only emits the classes IT scans for, so any new
+        one would come out unstyled. */}}
+
+{{- $toc := .Params.toc | default true -}}
+{{- $edit_this_page := T "edit_page" }}
+
+{{/* "On this page" (the theme's i18n string) named the page, not the thing.
+     These are the page's sections, so: Sections. */}}
+{{- $toc_label := "Sections" -}}
+
+<nav class="hb-toc site-toc order-last hidden shrink-0 xl:block print:hidden" aria-label="table of contents">
+  {{ partial "functions/get_hook" (dict "hook" "toc-start" "context" .) }}
+  {{- if $toc }}
+  <div class="hb-scrollbar site-toc-inner sticky top-16 overflow-y-auto max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))]">
+    {{- with .Fragments.Headings -}}
+    <p class="site-toc-label">{{ $toc_label }}</p>
+    <ul class="site-toc-list">
+      {{ template "toc-headings" (dict "headings" . "level" 0) }}
+    </ul>
+    {{- end -}}
+
+    {{/* Page Features */}}
+    {{- if site.Params.hugoblox.repository.url | and .Params.editable -}}
+    <div class="site-toc-actions sticky bottom-0 flex flex-col items-start gap-2 pb-8">
+        {{ $edit_url := site.Params.hugoblox.repository.url | default "" }}
+        {{ $branch := site.Params.hugoblox.repository.branch | default "main" }}
+        {{ $dir := site.Params.hugoblox.repository.content_dir | default "content" }}
+        {{- with .File -}}{{ $edit_url = urls.JoinPath $edit_url "edit" $branch $dir (replace .Path "\\" "/") }}{{- end -}}
+        {{- with .Params.edit_url -}}{{ $edit_url = . }}{{- end -}}
+        <a class="site-toc-edit" href="{{ $edit_url }}" target="_blank" rel="noreferer">{{ $edit_this_page }}</a>
+    </div>
+    {{- end -}}
+
+    {{ partial "functions/get_hook" (dict "hook" "toc-end" "context" .) }}
+
+  </div>
+  {{ end -}}
+</nav>
+
+{{/* Render Headings */}}
+{{- define "toc-headings" -}}
+  {{- $headings := .headings -}}
+  {{- $level := .level -}}
+  {{- if ge $level 4 -}}
+    {{ return }}
+  {{- end -}}
+
+  {{- range $headings }}
+    {{- if .Title }}
+      <li class="site-toc-item site-toc-level-{{ $level }}">
+        <a class="site-toc-link" href="#{{ anchorize .ID }}">
+          {{- .Title | plainify | htmlUnescape -}}
+        </a>
+      </li>
+    {{- end -}}
+
+    {{- with .Headings -}}
+      {{ template "toc-headings" (dict "headings" . "level" (add $level 1)) }}
+    {{- end -}}
+
+  {{- end -}}
+{{- end -}}

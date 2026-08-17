@@ -10,6 +10,23 @@
   --fig-w: 560px;
 }
 
+/* Side-by-side variant ({{< rstrip row="true" >}}): equal columns, and each
+   item fills its column rather than stopping at --fig-w. Collapses back to a
+   single column below md, where two figures across would be illegible. */
+.rstrip--row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rstrip--row > .rstrip-item {
+  width: 100%;
+}
+
+@media (max-width: 48rem) {
+  .rstrip--row {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* left edges line up and the centres do too, with no offset arithmetic to keep. */
 .rstrip-item {
   width: min(100%, var(--fig-w));
@@ -78,8 +95,11 @@ img.rstrip-media {
   margin-inline: 0;
 }
 
+/* The rail, not 760px: a single figure asking for width: 820px was being
+   clipped to 760 here, so every one-figure strip sat narrower than the
+   paragraph above it. Figures may now reach the text measure exactly. */
 .rstrip-align {
-  max-width: 760px;
+  max-width: var(--hb-rail);
 }
 
 /* A row of two or more wants the full width of the column it is aligned to. */

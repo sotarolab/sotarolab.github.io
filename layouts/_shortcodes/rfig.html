@@ -46,6 +46,14 @@
   <figure class="{{ $cls }}" style="{{ $style | safeCSS }}">
     <div class="rstrip-frame">
 {{- if $vid }}
+{{- if eq (.Get "autoplay") "true" -}}
+      {{/* Plays like the About tiles: autoplay, loop, no controls, which is
+           what a GIF would give at ~10x the filesize. src (not data-src) so
+           the browser starts it without the lazy-load swap. */}}
+      <video class="rstrip-media" autoplay muted loop playsinline
+        preload="metadata" poster="{{ $poster }}"
+        src="{{ $vid }}" aria-label="{{ $alt }}"></video>
+{{- else -}}
       {{/* data-src not src: research-strip.js swaps it in when the figure
            scrolls into view, so an off-screen video costs nothing to load. */}}
       <video class="rstrip-media"
@@ -53,6 +61,7 @@
         poster="{{ $poster }}"
         muted loop playsinline controls preload="none"
         aria-label="{{ $alt }}"></video>
+{{- end -}}
 {{- else if $imgDark }}
       {{/* Both variants ship; 06-figures.css shows one per theme. They are the
            same figure, so only ONE carries the alt text — the light copy, which

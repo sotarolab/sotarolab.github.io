@@ -29,6 +29,9 @@ REQUIRED_TOKENS = {
     "--hb-nav-active": 2,
     "--hb-rail": 1,
     "--hb-gutter": 1,
+    "--hb-wide": 1,
+    "--hb-body-size": 1,
+    "--hb-body-lh": 1,
 }
 
 COMMENT = re.compile(r"/\*.*?\*/", re.S)

@@ -1,6 +1,8 @@
-{{/* rstrip — the media row that {{< rfig >}} figures sit in. */}}
+{{/* rstrip — the media row that {{< rfig >}} figures sit in.
+     row="true" lays its figures out side by side in equal columns instead of
+     stacking them; use for pairs that read as one panel. */}}
 <div class="rstrip-align not-prose">
-<div class="rstrip">
+<div class="rstrip{{ if eq (.Get "row") "true" }} rstrip--row{{ end }}">
 {{ .Inner }}
 </div>
 </div>

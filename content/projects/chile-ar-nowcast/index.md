@@ -77,49 +77,6 @@ time; selecting a station loads its full record below the map.
 {{< /rfig >}}
 {{< /rstrip >}}
 
-## Event analysis: physics against AI, 30 July 2026
-
-A second use for a platform that is already ingesting forecasts and
-observations: verification, run live while an event is in progress. On 31 July
-2026, with a deep winter low soaking Araucanía and Los Ríos, I compared
-**ECMWF's AI model (AIFS)** against the physics-based **GFS** and **ECMWF-IFS**,
-scored against Chile's weather service (DMC) gauges.
-
-
-{{< rstrip >}}
-{{< rfig image="/media/projects/chile-ar-goes-500hpa.jpg" ratio="1300/1239" width="700px"
-         alt="GOES-19 GeoColor satellite image of the southeast Pacific and Chile on 31 July 2026, showing a large comma-shaped cloud spiral centered southwest of the coast, with GFS 500 hPa geopotential height contours overlaid in yellow closing around the same center, and Santiago and Temuco marked." >}}
-**GOES-19 GeoColor, 31 July 2026 13:20 Chile time,** with GFS 500 hPa
-geopotential height. The contours close around the same center as the cloud
-spiral, so the analysis has the storm where the satellite does.
-{{< /rfig >}}
-{{< /rstrip >}}
-
-The verification is by lead time, at four stations along a terrain gradient:
-an offshore island, the central valley, the Andes foothills, and a high-Andes
-site.
-
-{{< rstrip >}}
-{{< rfig image="/media/projects/chile-ar-model-leads.png" ratio="1600/860" width="820px"
-         alt="A map of four selected DMC stations over shaded terrain beside four panels of forecast rainfall against lead time from seven days out to one day out, each comparing GFS, ECMWF-IFS and AIFS against a dashed observed total: Isla Mocha 43 mm, Temuco 57 mm, Pucon 77 mm, and Lonquimay 36 mm, where GFS peaks near 115 mm two days out." >}}
-**Forecast rainfall by lead time, four DMC stations.** At Lonquimay in the high
-Andes, the physics models called up to three times the observed 36 mm and swung
-hard from cycle to cycle, while AIFS stayed closer. Offshore and in the valley
-the three converge. Skill varied more with terrain than between models.
-{{< /rfig >}}
-{{< /rstrip >}}
-
-{{< rstrip >}}
-{{< rfig image="/media/projects/chile-ar-model-spatial.png" ratio="1600/739" width="820px"
-         alt="Three side-by-side maps of forecast 48-hour precipitation over southern Chile for the same weekend window, from GFS, ECMWF-IFS and AIFS: GFS shows sharp banded maxima along the Andes reaching 179 millimetres, while the AIFS field is visibly smoother with a maximum of 121 millimetres." >}}
-**48-hour forecast precipitation: GFS, ECMWF-IFS, AIFS.** The AI field is
-smoother, a documented consequence of its training objective, and in the Andes
-it softens the orographic banding GFS produces.
-{{< /rfig >}}
-{{< /rstrip >}}
-
-The AI forecast converged on the right answer mainly once the event was inside
-the window where the initial conditions already carry the storm. AI models are
-fast, cheap and improving quickly, but an edge that appears only that late
-matters for anyone considering conditioning alerts on them, and argues for more
-local, event-by-event verification.
+The July 2026 event was also used to verify AIFS against GFS and ECMWF-IFS by
+lead time. That study is on the
+[research page](/research/#atmospheric-rivers-and-extreme-precipitation).
