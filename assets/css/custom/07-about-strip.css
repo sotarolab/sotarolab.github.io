@@ -62,6 +62,16 @@
   padding-bottom: 0;
 }
 
+/* Measured 2026-08-17, the gap was still 144px against 68 above: the theme
+   wraps the bio prose in `mb-12`, 3rem that separated it from the education
+   block below -- which 03-biography.css hides. With nothing under it the
+   margin is trailing space, so it goes; the section padding above is now the
+   whole of the gap. (The 1.75rem the News heading was carrying is handled
+   in 04-sections.css.) */
+#section-resume-biography-3 .md\:col-span-8 > .mb-12 {
+  margin-bottom: 0;
+}
+
 /* News shares the bio text's left edge (design decision): its
    rail-centred content shifts right by col_left − rail_left — the same
    expression as the strip's old rail alignment, sign flipped. Desktop
