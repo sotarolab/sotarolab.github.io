@@ -15,6 +15,15 @@
   document.documentElement.classList.add('dark');
 </script>
 
+{{- /* `hide_title: true` in a page's front matter drops the rendered page
+       title, for pages that open on their own first heading instead
+       (/research/). The title is still set, so the nav, the tab, Pagefind and
+       the sitemap all keep it. The theme's single.html has no hook and no
+       parameter for this, hence the rule here rather than a forked layout. */ -}}
+{{- with .Params.hide_title -}}
+  <style>h1[data-pagefind-meta="title"] { display: none; }</style>
+{{- end -}}
+
 {{- $css := slice -}}
 {{- range (resources.Match "css/custom/*.css") -}}
   {{- $css = $css | append . -}}

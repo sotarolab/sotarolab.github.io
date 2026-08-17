@@ -12,10 +12,13 @@
   max-width: var(--hb-rail);
 }
 
-/* `wide="true"` figures (panoramic multi-panel plots, the lidar scan sequence,. */
+/* `wide="true"` figures break out to --hb-wide, but only to the RIGHT: the left
+   edge stays on the text column. Figures are always left-aligned with the
+   text on this site; a symmetric outdent read as misalignment. */
 @media (min-width: 80rem) {
   .rstrip-align:has(.rstrip-item--wide) {
-    max-width: 60rem;
-    margin-inline: calc((var(--hb-rail) - 60rem) / 2);
+    max-width: var(--hb-wide);
+    margin-left: 0;
+    margin-right: calc(var(--hb-rail) - var(--hb-wide));
   }
 }

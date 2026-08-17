@@ -28,3 +28,19 @@ time.mt-12,
   margin-left: 0;
   margin-right: 0;
 }
+
+/* ── Empty byline row ────────────────────────────────────────────────────────
+   layouts/single.html wraps the date, authors and reading time in a
+   `mt-4 mb-16` block. On a standing page (`show_date: false`,
+   `reading_time: false`, no authors) every child of that block renders empty,
+   but the 1rem + 4rem margins remain: five rems of dead space between the page
+   title and its first paragraph.
+
+   Collapse it to the space a heading normally gets above its own text, but
+   ONLY when it is genuinely empty -- a publication or post still carries a
+   date and author there and needs the room. :has() with the elements a
+   populated byline would contain is what distinguishes the two. */
+main > .mt-4.mb-16:not(:has(span, a, time, img, svg)) {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}

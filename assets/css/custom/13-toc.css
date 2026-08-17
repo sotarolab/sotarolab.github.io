@@ -1,0 +1,115 @@
+/* Section navigation — the "Sections" rail beside long pages (/research/).
+
+   The theme shipped it at w-64 (16rem) minus padding, at text-sm, with every
+   entry the same weight and colour. Two topic titles out of four wrapped to
+   three lines, and the H1 group labels sat in the same visual register as the
+   H2 topics under them, so the grouping did not read.
+
+   Here: a wider column so titles wrap once at most, the group labels demoted
+   to a small tracked-out cap, and the topics hung off a hairline rail that
+   lights up on hover. Selectors are `nav.site-toc ...` (0,1,1) so they beat
+   the theme's single-class Tailwind utilities regardless of bundle order. */
+
+:root {
+  /* Wide enough that "Atmospheric Rivers and Extreme Precipitation" — the
+     longest title on the site — wraps to two lines, not three. */
+  --hb-toc-width: 19rem;
+}
+
+nav.site-toc {
+  width: var(--hb-toc-width);
+  padding-left: 1.5rem;
+  padding-right: 1rem;
+}
+
+nav.site-toc .site-toc-inner {
+  padding-top: 1.75rem;
+  padding-right: 0.5rem;
+  margin-right: -0.5rem;
+}
+
+/* The label names the list, so it should not compete with the entries: caps,
+   small, tracked out, the same treatment as a column header. */
+nav.site-toc .site-toc-label {
+  margin: 0 0 1rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, currentColor 55%, transparent);
+}
+
+nav.site-toc .site-toc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav.site-toc .site-toc-item {
+  margin: 0;
+}
+
+nav.site-toc .site-toc-link {
+  display: block;
+  overflow-wrap: break-word;
+  text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Level 0 — the H1 group labels ("Current Research", "Doctoral Research").
+   Full-strength text, and the only entries with weight on them. */
+nav.site-toc .site-toc-level-0 .site-toc-link {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: var(--hb-heading-dark);
+}
+
+nav.site-toc .site-toc-list > .site-toc-level-0:first-child .site-toc-link {
+  margin-top: 0;
+}
+
+/* Level 1+ — the H2 topics. Hung off a rail rather than indented by padding
+   alone, so the group they belong to is legible without reading the text. */
+nav.site-toc .site-toc-level-1 .site-toc-link,
+nav.site-toc .site-toc-level-2 .site-toc-link,
+nav.site-toc .site-toc-level-3 .site-toc-link {
+  padding: 0.3rem 0 0.3rem 0.875rem;
+  border-left: 1px solid var(--hb-border);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: color-mix(in oklab, currentColor 62%, transparent);
+}
+
+nav.site-toc .site-toc-level-2 .site-toc-link {
+  margin-left: 0.875rem;
+}
+
+nav.site-toc .site-toc-level-3 .site-toc-link {
+  margin-left: 1.75rem;
+}
+
+nav.site-toc .site-toc-link:hover,
+nav.site-toc .site-toc-link:focus-visible {
+  color: var(--hb-heading-dark);
+}
+
+nav.site-toc .site-toc-level-1 .site-toc-link:hover,
+nav.site-toc .site-toc-level-1 .site-toc-link:focus-visible {
+  border-left-color: var(--hb-nav-active);
+}
+
+nav.site-toc .site-toc-actions {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hb-border);
+}
+
+nav.site-toc .site-toc-edit {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: color-mix(in oklab, currentColor 55%, transparent);
+}

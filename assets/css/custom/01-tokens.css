@@ -53,3 +53,18 @@ html.dark {
   --hb-rail: 52rem;
   --hb-gutter: 1.5rem;
 }
+
+/* Wide-figure breakout: how far a `wide` figure (and the Projects card grid)
+   may run past --hb-rail. Grows to the right only. */
+:root {
+  --hb-wide: 60rem;
+}
+
+/* Body type. The theme sets three different sizes: `lg:prose-xl` (1.25rem) on
+   article pages and landing markdown blocks, and `text-base sm:text-lg` on the
+   biography block. The About page's measure was the one that read best, so it
+   is now the site's, applied in 05-typography.css. */
+:root {
+  --hb-body-size: 1.15rem;
+  --hb-body-lh: 1.75;
+}

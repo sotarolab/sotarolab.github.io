@@ -1,7 +1,14 @@
 /* About-page animation strip (.astrip) — the looping clips under the bio. */
 
+/* The gap that frames the strip, above and below. Declared once because the
+   two sides are supposed to look equal and drifted apart when they were two
+   independent numbers. */
+:root {
+  --hb-astrip-gap: 4.25rem;
+}
+
 .astrip {
-  margin-top: 4.25rem; /* the paragraph-to-first-clip gap — the whole of it */
+  margin-top: var(--hb-astrip-gap); /* the bullets-to-first-clip gap, whole */
 }
 
 .astrip-item {
@@ -41,11 +48,18 @@
   border-radius: 6px;
 }
 
-/* The biography section's bottom padding scales to py-32 (8rem) on wide
-   screens, which is the gap between the strip's captions and News. Shaved
-   a notch — a nudge, not a collapse (design decision). */
+/* Captions-to-News, the gap below the strip. It was built out of two paddings
+   that nobody added up: 1rem on the inner block, and another 6rem from
+   `.hbb-section` on the section itself, which the News block escapes with an
+   inline `padding: 0` and this one does not. Seven rems against the strip's
+   4.25 above it, so the strip sat off-centre in its own white space.
+   Now one padding, one number, the same one as the top. */
+#section-resume-biography-3 {
+  padding-bottom: var(--hb-astrip-gap);
+}
+
 #section-resume-biography-3 .resume-biography {
-  padding-bottom: 1rem;
+  padding-bottom: 0;
 }
 
 /* News shares the bio text's left edge (design decision): its

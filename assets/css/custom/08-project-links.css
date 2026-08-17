@@ -91,13 +91,13 @@ html.dark {
 /* Moving from /research/ to /projects/ felt like a layout change (Sebastian,. */
 @media (min-width: 64rem) {
   #live-tools > .flex.flex-col.items-center.px-6 {
-    max-width: 60rem;
+    max-width: var(--hb-wide);
     margin-left: calc((100% - var(--hb-rail)) / 2);
     margin-right: 0;
   }
 
   #live-tools > .flex.flex-col.items-center.px-6 > * {
-    max-width: 60rem;
+    max-width: var(--hb-wide);
   }
 
   /* The collection's own container adds `px-8` (and `xl:px-5`), which inset

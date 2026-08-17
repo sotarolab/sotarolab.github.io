@@ -12,17 +12,18 @@ sections:
       username: me
       # BOTH the bio prose and the animation strip live HERE, in the.
       text: |
-        I am an atmospheric and hydrologic scientist with a PhD in Civil and Environmental Engineering and Earth Sciences from the **University of Notre Dame**, where I studied atmospheric turbulence and complex-terrain boundary layers at the [Environmental Fluid Dynamics Laboratory](https://efmlab.nd.edu/) under Harindra J. S. Fernando. I am currently a **Principal Scientist at [Hazen](https://www.hazenandsawyer.com/)**, where I apply machine learning and hydrologic modeling to decision support for water utilities.
-
-        My research interests include:
+        
+        I am an atmospheric and hydrologic scientist. I obtained my PhD in Civil and Environmental Engineering and Earth Sciences from the **University of Notre Dame** in 2022 under the supervision of Prof. Harindra Joseph Fernando. My dissertation research was conducted as part of the [WFIP2](https://psl.noaa.gov/renewable_energy/wfip2/) wind-energy field campaign, where I used in-situ and remote sensing instrumentation to study atmospheric turbulence and boundary-layer processes in complex terrain to evaluate the skill of numerical weather model parameterizations.
+ 
+        After my PhD, I joined [Hazen](https://www.hazenandsawyer.com/), where my interest in numerical modeling and scientific programming pulled me toward machine learning (ML). I am currently a **Principal Scientist** building hydraulic and hydrologic models, geospatial data pipelines, and ML systems that support water utilities in water supply management, flood mapping, climate resiliency, and operational decision support. 
+        
+        My research areas include:
         
         - Boundary-layer turbulence and stratified flow over complex terrain
         - Atmospheric rivers and the predictability of extreme precipitation
         - Flood forecasting and hydrodynamic modeling
         - Statistical and deep-learning downscaling of climate extremes
         - Remote sensing and forecast verification for operational systems
-        
-        I am pursuing applied research in these areas and welcome collaborations across academia and industry.
         
         <div class="astrip not-prose">
           <div class="astrip-duo">

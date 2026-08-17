@@ -189,17 +189,8 @@ html.dark .avatar {
 }
 
 /* The biography block ships `prose prose-lg … text-base sm:text-lg`, so the. */
-@media (min-width: 64rem) {
-  .resume-biography .prose {
-    /* Was 1.25rem to match `lg:prose-xl` on the article pages. Once the column
-       widened to fill the block, 1.25rem ran long lines AND read heavy at the
-       top of the site, so it steps back to 1.15rem (design decision).
-       The article pages keep prose-xl; About is the one page whose measure is
-       set by the layout rather than the rail. */
-    font-size: 1.15rem;
-    line-height: 1.75;
-  }
-}
+/* The biography inherits the site body size from 05-typography.css; it used to
+   set its own, which is what made About the odd page out. */
 
 /* The block splits 4 / 8 of twelve columns: identity sidebar left, bio right. */
 @media (min-width: 48rem) {
