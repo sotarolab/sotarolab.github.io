@@ -35,6 +35,36 @@
   margin-top: 1.75rem;
 }
 
+/* The margin above replaces the theme's `mt-16` on a collection's entry list.
+   The markdown block's title-and-prose container, and a collection's title
+   wrapper, match the same selector -- and both already space their children
+   with `gap-3`. Measured 2026-08-17: the prose was carrying this 1.75rem ON
+   TOP of the title's 1.5rem margin and the 0.75rem gap, 64px from rule to
+   text on Projects, Teaching and the CV; and the News heading on About sat
+   1.75rem lower than its section padding said. Width and max-width stay. */
+.hbb-section > .flex.flex-col.items-center.px-6.max-w-prose > * {
+  margin-top: 0;
+}
+
+/* Publications stacks two collection sections, Journal Articles and Conference
+   Presentations. Measured 2026-08-17, the gap between them was 80px -- the two
+   sections' own 2.5rem paddings meeting -- while each heading sits 52px above
+   its own first entry (1.5rem heading margin + the 1.75rem above). One page,
+   two different vertical rhythms. Split that 3.25rem across the pair so the
+   division between sections matches the division inside them.
+
+   Only the INNER edges: `#journal-articles` is the page's first section, and
+   its padding-top is the 40px title offset shared with Projects, Teaching and
+   the CV; `#conference-presentations` is the last, and its padding-bottom is
+   the page's end. */
+#journal-articles {
+  padding-bottom: 1.625rem;
+}
+
+#conference-presentations {
+  padding-top: 1.625rem;
+}
+
 /* Styled as GitHub styles a README heading: a full-width `border.default`. */
 .hbb-section .flex.flex-col.items-center.max-w-prose > .text-3xl {
   width: 100%;

@@ -22,35 +22,39 @@ reading_time: false
 
 {{< applinks app="https://heat-wave-tracker.onrender.com/" code="https://github.com/sotarolab/heat-wave-tracker" >}}
 
-A live dashboard tracking CONUS heat waves: GFS forecast temperature and heat
-index over 165 US cities, animated across the forecast window, with real
-observations pulled from NOAA's ASOS network on click and a "Hottest Cities
-Right Now" leaderboard. Auto-updates every six hours as new GFS cycles land.
+A live dashboard tracking CONUS heat waves. The application ingests GFS, National Blend of Models (NBM), and NOAA's ASOS network observations for 165 US cities. The user can visualize synoptic conditions for selected dates and times, as well as heat index, risk, and bias-corrected temperature forecasts for any of the cities included.
 
 <!--more-->
 
+## Synoptic Maps
+
+The synoptic view: forecast fields over the continental United States,
+animated across the forecast window. Heat index is classed into the five NWS
+risk categories, and the underlying temperature, dewpoint and wind fields can
+be stepped through for any date and time in the window.
+
 {{< rstrip >}}
 {{< rfig video="/media/projects/heatwave-hi-risk.mp4" poster="/media/projects/heatwave-hi-risk-poster.jpg" ratio="1280/720" width="820px"
-         alt="Animated map of the continental United States over three days of the July 2026 heat wave, each frame shading the forecast heat index into the five NWS risk categories, with the orange Extreme Caution area expanding across the Plains and Southeast each afternoon and contracting overnight, and small Danger patches appearing in the desert Southwest and the mid-Atlantic." >}}
-**NWS heat-index risk, 16 to 18 July 2026.** The field the dashboard animates,
-in the five NWS categories, so the color breaks fall where the guidance
-changes. Peak heat index 113 °F. Rendered from the
-tracker's cached GFS window; the live app shows the current one.
+         alt="Animated map of the continental United States over three days of the July 2026 heat wave, each frame shading the forecast heat index into the five NWS risk categories." >}}
+**NWS heat-index risk, 16 to 18 July 2026.** Animated map of the continental United States over three days of the July 2026 heat wave, each frame shading the forecast heat index into the five NWS risk categories.
+{{< /rfig >}}
+{{< rfig image="/media/projects/heatwave-conus-forecast.png" ratio="1295/590" width="820px"
+         alt="Forecast 2-metre temperature over the continental United States for 15 August 2026 at 4 PM Eastern, shaded from blue near 50 degrees Fahrenheit over the Rockies to deep red above 100 across the southern Plains and lower Mississippi valley, with major cities labelled." >}}
+**2 m temperature, 15 August 2026 4 PM EDT.** The underlying field the risk
+categories are built from, at one forecast hour: red is above 100 °F across the
+southern Plains, blue is near 50 °F at elevation in the Rockies.
 {{< /rfig >}}
 {{< /rstrip >}}
 
-## Beyond the raw forecast
+## Forecast Verification
 
-A plain GFS trace at a city is a starting point, not an answer. Each station
-panel adds three things on top of it:
+The National Blend of Models (NBM) has a data assimilation layer, however, it's still frequently subject to biases in daily temperature forecasts. To strengthen the predictions, I included: 
 
 - **Same-day bias correction.** The raw forecast is corrected against that
   station's own ASOS observations from earlier the same day, and carries a
-  genuine 95% prediction interval. It widens when only a handful of
-  observations are in, and covers the near-term forecast only.
-- **Live verification.** A running scorecard of bias, RMSE and a Brier score,
-  comparing the day's forecast against what actually happened, updating as
-  observations arrive.
+  genuine 95% prediction interval.
+- **Live verification.** Running metrics including bias, RMSE and a Brier score,
+  comparing the day's forecast against ASOS observations, and updated as new observations arrive. 
 - **Historical rarity.** Each station's forecast is placed against a 54-year
   temperature record for that specific city via a Generalized Extreme Value
   fit, which answers how unusual the value is at that particular city.
@@ -58,17 +62,6 @@ panel adds three things on top of it:
 {{< rstrip >}}
 {{< rfig image="/media/projects/heatwave-kdca-station.png" ratio="1400/700" width="820px"
          alt="Station panel for KDCA, Reagan National Airport: an upper chart of bias-corrected Feels Like temperature as a continuous line with observed values as points, a dashed 90 degree Extreme Caution threshold and a vertical Now marker separating past from forecast; a lower chart of bias-corrected and observed air temperature against dewpoint over the same period." >}}
-**KDCA, Reagan National.** Bias-corrected feels-like temperature (line)
-against the ASOS observations it was corrected with (points), split by the
-*Now* marker, with the 90 °F Extreme Caution threshold dashed across. Below,
-temperature against dewpoint: the gap is the humidity contribution.
+**KDCA, Reagan National.** Bias-corrected feels-like and actual temperature (line) against ASOS observations (dots).
 {{< /rfig >}}
 {{< /rstrip >}}
-
-## Heat index and risk categories
-
-The dashboard reports heat index, the NWS formula combining temperature and
-relative humidity, alongside air temperature, and classifies it into the NWS
-risk categories (No Elevated Risk through Extreme Danger). Human heat stress
-tracks the combination, not temperature alone, and the categories are the
-National Weather Service's own thresholds.

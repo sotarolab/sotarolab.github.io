@@ -11,15 +11,10 @@ sections:
   - block: markdown
     content:
       title: 'Projects'
-      # The opening line used to read "Running applications rather than figures.
       text: |-
-        Operational applications: each ingests live data from weather
-        forecasting models and observation networks on a fixed cycle, and keeps
-        running unattended. Both are public and deployed.
+        
+        I complement my research and scientific programming background with software development initiatives. Particularly, I build live weather forecasting platforms that integrate operational model runs, real-time observations, machine learning, bias-correction algorithms, and modern interactive visualizations for decision support, with a focus on hydrometeorological extremes. Below you can explore some of the live platforms I currently mantain:
 
-        Coming from weather forecasting, I like building applications for
-        high-impact weather events, using the data science and development side
-        of my work to put forecasts somewhere they can actually be used.
     design:
       columns: '1'
 

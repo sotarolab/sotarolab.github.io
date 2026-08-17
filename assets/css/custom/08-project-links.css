@@ -88,6 +88,27 @@ html.dark {
   display: none;
 }
 
+/* Intro-to-cards, the gap between the last line of the intro and the top of
+   the card grid. Made equal to the gap above the intro, rule to text, which
+   is the title's 1.5rem margin plus the container's 0.75rem gap. Measured
+   2026-08-17 it was 100px against 64: the theme's grid container brings its
+   own `py-5 lg:py-8` top padding, and 04-sections.css puts 1.75rem above it as
+   a collection's first entry -- but this collection has no heading of its own,
+   the intro paragraph in the section above is what it follows. Both go, and
+   the section above sets the whole gap. */
+:root {
+  --hb-projects-gap: 2.25rem;
+}
+
+.hbb-section:has(+ #live-tools) {
+  padding-bottom: var(--hb-projects-gap);
+}
+
+#live-tools > .flex.flex-col.items-center.px-6 > .container {
+  margin-top: 0;
+  padding-top: 0;
+}
+
 /* Moving from /research/ to /projects/ felt like a layout change (Sebastian,. */
 @media (min-width: 64rem) {
   #live-tools > .flex.flex-col.items-center.px-6 {

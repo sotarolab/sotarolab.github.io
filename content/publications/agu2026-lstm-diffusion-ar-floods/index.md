@@ -64,7 +64,3 @@ featured: true
 ---
 
 Status: **abstract submitted to AGU Fall Meeting 2026 (Session H039); manuscript in preparation.**
-
-<!-- TODO once the session is confirmed: replace the status line above with the
-     accepted presentation details, and attach the poster/slides via `url_poster`
-     or `url_slides` in the front matter. -->
