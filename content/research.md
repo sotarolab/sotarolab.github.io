@@ -18,7 +18,7 @@ hide_title: true
 
 # Current Research
 
-I am working on two research manuscripts: the first trains a convolutional neural network (CNN) to downscale CMIP6-based climate projections of extreme precipitation and temperature over Chile's complex topography. The second one stress-tests LSTM and difussion streamflow modeles against process-based benchmarks (GR4J, CemaNeige) during atmospheric-river flood events in US West Coast basins and evaluates their performance based on their hydrological regimes. 
+I am working on two research manuscripts: the first trains a convolutional neural network (CNN) to downscale CMIP6-based climate projections of extreme precipitation and temperature over Chile's complex topography. The second one stress-tests LSTM and diffusion streamflow models against process-based benchmarks (GR4J, CemaNeige) during atmospheric-river flood events in US West Coast basins and evaluates their performance based on their hydrological regimes. 
 
 ## Atmospheric Rivers and Extreme Precipitation
 
@@ -63,7 +63,7 @@ events during atmospheric river (AR) events. We are benchmarking the results
 against process-based models (GR4J and CemaNeige) for basins associated
 with various hydrological regimes. 
 
-The regional LSTM beats the NWM v3.0 retrospective on skill, but its ensemble mean is the worst peak estimator during AR floods. Reading the ensemble at q75 overatakes both NWM and physics-based models. An abstract on this was submitted for the [AGU Fall Meeting 2026](/publications/agu2026-lstm-diffusion-ar-floods/), with a journal manuscript in preparation. 
+The regional LSTM beats the NWM v3.0 retrospective on skill, but its ensemble mean is the worst peak estimator during AR floods. Reading the ensemble at q75 overtakes both NWM and physics-based models. An abstract on this was submitted for the [AGU Fall Meeting 2026](/publications/agu2026-lstm-diffusion-ar-floods/), with a journal manuscript in preparation. 
 
 {{< rstrip >}}
 

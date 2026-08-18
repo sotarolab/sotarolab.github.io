@@ -13,7 +13,7 @@ sections:
       title: 'Projects'
       text: |-
         
-        I complement my research and scientific programming background with software development initiatives. Particularly, I build live weather forecasting platforms that integrate operational model runs, real-time observations, machine learning, bias-correction algorithms, and modern interactive visualizations for decision support, with a focus on hydrometeorological extremes. Below you can explore some of the live platforms I currently mantain:
+        I complement my research and scientific programming background with software development initiatives. Particularly, I build live weather forecasting platforms that integrate operational model runs, real-time observations, machine learning, bias-correction algorithms, and modern interactive visualizations for decision support, with a focus on hydrometeorological extremes. Below you can explore some of the live platforms I currently maintain:
 
     design:
       columns: '1'
