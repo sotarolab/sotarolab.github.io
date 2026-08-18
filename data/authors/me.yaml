@@ -77,20 +77,25 @@ experience:
     start: 'Aug 2022'
     end: ''
     summary: |
-      - Develop and calibrate hydraulic and hydrologic models for utilities and
-        water districts across the US, supporting regulatory compliance, flood
-        analysis, water supply management, and capital improvement planning in
-        urban and natural systems.
-      - Lead machine learning work in classification, regression, and anomaly
-        detection: wet-weather influent flow forecasting, urban flooding
-        detection, and water demand forecasting, following version-controlled
-        development practice and modern ML frameworks.
+      - Developed and calibrated hydrologic models for utilities and water
+        districts across the US. The models were used to meet regulatory
+        compliance in topics such as water supply management, evaluation of
+        capital improvement projects, and flood analysis in urban and natural
+        systems.
       - Contributed to a framework for building and calibrating parsimonious
-        (sparse-parameter) hydrological models in Python, aimed at flooding in
-        stormwater systems.
-      - Led data analysis and web tool development for a research-foundation
-        study of water quality in quarry lakes, screening about 500,000 US lakes
-        from in-situ and remote sensing records as alternative supply storage.
+        (sparse-parameter) hydrological models in Python, aimed at flooding
+        during wet-weather events in stormwater systems.
+      - Lead machine learning (ML) initiatives in classification, regression,
+        and anomaly detection including: flow forecasting tool, urban flooding
+        detection, and water demand forecasting. This work followed best
+        software development practices in GitHub and leveraged modern ML
+        frameworks.
+      - Led data analysis and tool development for Water Research Foundation
+        (WRF) project on water quality in quarry lakes. The project leveraged
+        the LAGOS dataset that included information retrieved from in-situ and
+        remote sensing measurements for about 500,000 lakes in the US. A web
+        tool was developed to screen water quality in quarry lakes and is
+        available to WRF subscribers.
     tags: ['Industry']
     icon: 'briefcase'
 
@@ -100,20 +105,23 @@ experience:
     start: '2025'
     end: ''
     summary: |
-      - Collaborative research with Chile and US researchers training a
-        convolutional neural network to downscale CMIP6-based projections of
-        extreme precipitation and temperature over Chile, and investigating the
-        physical mechanisms driving the changes so the method can transfer to
-        other regions.
-      - Applying Long Short-Term Memory (LSTM) and diffusion algorithms to
-        predict flow discharges in US west coast basins, stress-tested on
-        atmospheric-river flood events and benchmarked against process-based
-        models (GR4J and CemaNeige) across hydrological regimes.
-      - Maintain two public platforms with live ingestion from operational
-        forecast models and observation networks, plus a bias-correction
-        pipeline that calibrates the forecasts: a US heat-wave tracker covering
-        major airports, and an atmospheric river tracker following weather
-        stations and flood alerts in Chile.
+      - I am training a convolutional neural network (CNN) to downscale
+        CMIP6-based climate projections of extreme precipitation and temperature
+        in Chile. The CNN can capture Chile's unique topography, and we are
+        investigating the physical mechanisms driving the changes. This is part
+        of a manuscript in preparation for *Climate Dynamics*.
+      - I am evaluating Long Short-Term Memory (LSTM) and diffusion algorithms
+        to predict flow discharges in U.S. west coast Basins during Atmospheric
+        River (AR) events. I am benchmarking the results against process-based
+        models (GR4J and CemaNeige) for various basins' hydrological regimes.
+        This work is part of a manuscript in preparation for the *Journal of
+        Hydrology*.
+      - I maintain two weather intelligence platforms with live data ingestion
+        from operational weather forecasting models and observational weather
+        data and a live bias-correction pipeline to calibrate the forecasts:
+        1) A U.S. heat-wave tracker for all major airports in the U.S., and
+        2) A storm tracker that monitors atmospheric rivers, weather forecasts,
+        weather station data, and flood alerts in Chile.
     tags: ['Independent']
     icon: 'code-bracket'
 
@@ -123,17 +131,18 @@ experience:
     start: 'Aug 2016'
     end: 'May 2022'
     summary: |
-      - Participated in two major field experiments: the Wind Forecast
-        Improvement Project 2 (WFIP2) in the Columbia River Gorge (OR) and the
-        Sundowner Winds Experiment (SWEX) in Santa Barbara (CA), deploying flux
-        towers and Doppler lidars and processing their observations to study the
+      - Participated in two major experiments including the Wind Forecast
+        Improvement Project 2 (WFIP2) in the Columbia River (OR) and the
+        Sundowner Wind Experiment (SWEX) in Santa Barbara (CA). I deployed flux
+        towers and doppler lidars and processed their observations to study the
         skill of weather forecasting models in complex terrain.
-      - Published the WFIP2 results in *Boundary-Layer Meteorology*, on the
-        subgrid variability of surface layer turbulence in complex terrain from
-        18 months of observations, benchmarked against the WRF model.
-      - Collaborated on peer-reviewed publications in boundary layer meteorology
-        and wind energy, produced open datasets published in the DOE Atmosphere
-        to Electrons archive, and presented at national and international
+      - Published results associated with the WFIP2 experiment in
+        *Boundary Layer Meteorology*, where I studied the sub-grid variability
+        of surface layer turbulence in complex terrain using 18-month
+        observational data, and benchmarked the results against the WRF model.
+      - Collaborated in peer-reviewed publications in boundary layer and wind
+        energy; produced open datasets published in the DOE Atmosphere to
+        Electrons Archive and presented research in national and international
         conferences.
     tags: ['Academic']
     icon: 'academic-cap'

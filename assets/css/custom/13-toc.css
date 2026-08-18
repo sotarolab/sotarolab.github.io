@@ -92,14 +92,26 @@ nav.site-toc .site-toc-level-3 .site-toc-link {
   margin-left: 1.75rem;
 }
 
+/* Hover, focus, and the section currently being read share one treatment:
+   full-strength text, and on a topic, the rail lit in the accent. The active
+   state is set by assets/js/toc-scrollspy.js and is a no-op without it. */
 nav.site-toc .site-toc-link:hover,
-nav.site-toc .site-toc-link:focus-visible {
+nav.site-toc .site-toc-link:focus-visible,
+nav.site-toc .site-toc-link.is-active {
   color: var(--hb-heading-dark);
 }
 
 nav.site-toc .site-toc-level-1 .site-toc-link:hover,
-nav.site-toc .site-toc-level-1 .site-toc-link:focus-visible {
+nav.site-toc .site-toc-level-1 .site-toc-link:focus-visible,
+nav.site-toc .site-toc-level-1 .site-toc-link.is-active {
   border-left-color: var(--hb-nav-active);
+}
+
+/* Weight is what separates "where I am" from "where the pointer is": hover is
+   momentary and needs no more than a colour change, but the active entry has
+   to be findable at a glance in a list of six. */
+nav.site-toc .site-toc-level-1 .site-toc-link.is-active {
+  font-weight: 600;
 }
 
 nav.site-toc .site-toc-actions {

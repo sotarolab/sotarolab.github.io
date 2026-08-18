@@ -49,17 +49,25 @@ project: ## Scaffold a project (SLUG=name)
 	hugo new content/projects/$(SLUG)/index.md --kind project
 
 # ── CV PDF ──────────────────────────────────────────────────────────────────
-# static/uploads/cv.pdf is printed from the built /cv/ page, so it carries the
-# same redactions as the site (no phone number, no client names). Re-run this
-# after any change to data/authors/me.yaml or content/cv.md. Requires Chrome.
-CHROME ?= /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
-cv-pdf: build ## Regenerate static/uploads/cv.pdf from the built /cv/ page
-	@test -x "$(CHROME)" || { echo "Chrome not found at $(CHROME); set CHROME=..."; exit 1; }
+# static/uploads/cv.pdf is the resume exported from Word, copied out of resume/.
+# It is NOT generated from the site: the Word layout is the one people download.
+#
+# Direction reversed 2026-08-17. This target used to PRINT the built /cv/ page
+# to PDF, which guaranteed the two could not drift but produced a printed web
+# page rather than a designed resume. Now resume/ is upstream of the download,
+# and /cv/ is maintained alongside it by hand — `make check` compares their
+# timestamps and complains when the page falls behind.
+#
+# The phone-number guard survives the reversal, because the risk did: the
+# source resume carries a personal number, this repo and the site are public,
+# and the whole point of the redacted export is that the published copy has it
+# removed. The guard now checks what is being IMPORTED rather than exported,
+# and refuses rather than publishing a leak.
+CV_SRC = $(shell ls -t resume/*.pdf 2>/dev/null | head -1)
+cv-pdf: ## Publish static/uploads/cv.pdf from the newest PDF in resume/
+	@test -n "$(CV_SRC)" || { echo "no PDF in resume/ — export one from Word first"; exit 1; }
+	@pdftotext "$(CV_SRC)" - 2>/dev/null | grep -qE '\(?[0-9]{3}\)?[ .-][0-9]{3}[ .-][0-9]{4}' \
+	  && { echo "$(CV_SRC) contains a phone-like number; refusing to publish it"; exit 1; } || true
 	@mkdir -p static/uploads
-	@( cd public && python3 -m http.server 18313 >/dev/null 2>&1 & echo $$! > /tmp/cvpdf.pid ); sleep 1; \
-	"$(CHROME)" --headless=new --disable-gpu --no-pdf-header-footer \
-	  --print-to-pdf=static/uploads/cv.pdf http://localhost:18313/cv/ 2>/dev/null; \
-	kill $$(cat /tmp/cvpdf.pid) 2>/dev/null; rm -f /tmp/cvpdf.pid
-	@pdftotext static/uploads/cv.pdf - 2>/dev/null | grep -qE '\(?[0-9]{3}\)?[ .-][0-9]{3}[ .-][0-9]{4}' \
-	  && { echo "cv.pdf contains a phone-like number; refusing"; rm -f static/uploads/cv.pdf; exit 1; } \
-	  || echo "wrote static/uploads/cv.pdf"
+	@cp "$(CV_SRC)" static/uploads/cv.pdf
+	@echo "published static/uploads/cv.pdf from $(CV_SRC)"

@@ -54,7 +54,7 @@ in a content file.
 **`content/research.md` is ordinary markdown — edit it directly.** One `##`
 heading per thread, prose beneath it, `make serve` to preview. No generator, no
 regeneration step. (It *was* generated from `data/research.yaml` until
-2026-08-15; the prose turned out to be edited far more often than the figures,
+the prose turned out to be edited far more often than the figures,
 and the round-trip through YAML block scalars cost more than the structure
 bought. Git history has both.)
 

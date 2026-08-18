@@ -27,7 +27,8 @@
   }
 }
 
-/* left edges line up and the centres do too, with no offset arithmetic to keep. */
+/* Every figure starts at the same left edge and is capped at the same width, so
+   a column of them lines up with no per-figure offset arithmetic. */
 .rstrip-item {
   width: min(100%, var(--fig-w));
   margin: 0;
@@ -64,7 +65,7 @@ img.rstrip-media {
   filter: brightness(0.85);
 }
 
-/* `wide: true` figures (data/research.yaml) — panoramic multi-panel exports
+/* `wide="true"` figures — panoramic multi-panel exports
    that are illegible at the 560px card width run the full rail instead. */
 .rstrip-item--wide {
   width: 100%;
@@ -74,7 +75,7 @@ img.rstrip-media {
 .rstrip-cap {
   margin-top: 0.55rem;
   /* 0.78rem at 0.68 opacity was too quiet to read comfortably against the
-     body text above it (design decision). A caption is content, not a
+     body text above it. A caption is content, not a
      credit line: it should sit below body size and clearly above fine print. */
   font-size: 0.9rem;
   line-height: 1.55;
@@ -151,13 +152,14 @@ img.rstrip-media {
   opacity: 0.92;
 }
 
-/* `margin-inline: calc(50% - 50vw)` bleeds measure against 100vw, which. */
+/* Full-bleed figures are sized against 100vw, which counts the scrollbar and can
+   overflow the page by a few pixels. Clip rather than scroll. */
 .page-body {
   overflow-x: clip;
 }
 
-/* A figure whose canvas is white is a glare panel on the dark theme, and a. */
-
+/* Figures that ship a light and a dark export: show one per theme. A white
+   canvas is a glare panel on the dark ground. */
 .rstrip-media--dark {
   display: none;
 }

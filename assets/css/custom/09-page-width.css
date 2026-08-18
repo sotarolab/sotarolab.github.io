@@ -1,13 +1,14 @@
 /* Single-page width — /research/, /projects/<slug>/, /teaching/<slug>/. */
 
-/* layouts/single.html calls components/sidebar.html with `no_sidebar true`,. */
+/* The theme reserves a left sidebar column on single pages. Nothing fills it
+   here, so it is hidden and the content takes the width. */
 @media (min-width: 80rem) {
   aside.hb-sidebar-container {
     display: none;
   }
 }
 
-/* The theme wraps page bodies in `prose prose-slate lg:prose-xl`, and Tailwind. */
+/* The theme's prose wrapper sets its own measure; pin it to the shared rail. */
 .prose {
   max-width: var(--hb-rail);
 }

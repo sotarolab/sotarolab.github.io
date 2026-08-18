@@ -120,7 +120,8 @@ html.dark .avatar {
   border-top: 1px solid var(--hb-border);
 }
 
-/* content, so they stay out of the document outline and out of search indexing. */
+/* Labels the contact row. Generated content rather than a heading element, so
+   it stays out of the document outline and out of search indexing. */
 .resume-biography .flex.flex-wrap.justify-center.gap-4::before {
   content: 'Contact';
   font-size: 0.7rem;
@@ -188,8 +189,7 @@ html.dark .avatar {
   flex-shrink: 0;
 }
 
-/* The biography block ships `prose prose-lg … text-base sm:text-lg`, so the. */
-/* The biography inherits the site body size from 05-typography.css; it used to
+/* The biography inherits the site body size from 05-typography.css. It used to
    set its own, which is what made About the odd page out. */
 
 /* The block splits 4 / 8 of twelve columns: identity sidebar left, bio right. */
@@ -206,13 +206,16 @@ html.dark .avatar {
   }
 }
 
-/* 09-page-width.css caps every `.prose` at --hb-rail so article pages hold a. */
+/* 09-page-width.css caps every `.prose` at --hb-rail to hold a readable measure
+   on article pages. Here the column already provides it, and the cap would only
+   narrow the bio further. */
 .resume-biography .prose,
 .resume-biography .bio-text {
   max-width: none;
 }
 
-/* needs ~360px — more than the fixed 20rem sidebar — and the full name. */
+/* The name sits in the 20rem identity column, so it is sized to fit there
+   rather than scaled up with the viewport. */
 @media (min-width: 64rem) {
   .resume-biography .font-black {
     font-size: 1.6rem;

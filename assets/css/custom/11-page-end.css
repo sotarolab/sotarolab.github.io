@@ -1,6 +1,7 @@
 /* End of a page — timestamp and author card. */
 
-/* The rule lives HERE rather than on the author card because the card is. */
+/* The rule that closes an article sits on the timestamp rather than the author
+   card below it: the card is optional, the timestamp is not. */
 time.mt-12 {
   margin-top: 2.5rem;
   margin-bottom: 0.5rem;
@@ -21,7 +22,8 @@ time.mt-12 {
   margin-top: 0;
 }
 
-/* The timestamp and the author card are siblings of `.prose`, not children of. */
+/* Both are siblings of `.prose`, not children, so they do not inherit its
+   measure and have to be pinned to the rail themselves. */
 time.mt-12,
 .container.prose:has(> .max-w-prose) {
   max-width: var(--hb-rail);

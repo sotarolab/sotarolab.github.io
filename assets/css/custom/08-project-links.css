@@ -81,8 +81,6 @@ html.dark {
   }
 }
 
-/* The Projects index uses the theme's article-grid view. Its card image box is. */
-
 /* The article-grid card prints the page's first tag as a pill above the title. */
 .hbb-section div:has(> a[href^="/tags/"]) {
   display: none;
@@ -91,7 +89,7 @@ html.dark {
 /* Intro-to-cards, the gap between the last line of the intro and the top of
    the card grid. Made equal to the gap above the intro, rule to text, which
    is the title's 1.5rem margin plus the container's 0.75rem gap. Measured
-   2026-08-17 it was 100px against 64: the theme's grid container brings its
+   It was 100px against 64: the theme's grid container brings its
    own `py-5 lg:py-8` top padding, and 04-sections.css puts 1.75rem above it as
    a collection's first entry -- but this collection has no heading of its own,
    the intro paragraph in the section above is what it follows. Both go, and
@@ -109,7 +107,8 @@ html.dark {
   padding-top: 0;
 }
 
-/* Moving from /research/ to /projects/ felt like a layout change (Sebastian,. */
+/* The card grid runs wider than the text rail, starting on the same left edge
+   and extending right. */
 @media (min-width: 64rem) {
   #live-tools > .flex.flex-col.items-center.px-6 {
     max-width: var(--hb-wide);

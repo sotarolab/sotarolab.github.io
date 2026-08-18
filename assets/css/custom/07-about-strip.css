@@ -16,10 +16,9 @@
   min-width: 0;
 }
 
-/* text column, and the breakout goes RIGHT (Decided after. */
+/* The strip fills the bio's text column rather than breaking out of it. */
 @media (min-width: 768px) {
   .astrip {
-    /* 2.167rem)` — which ran the row rightward past the bio column into the. */
     width: 100%;
   }
 }
@@ -62,20 +61,17 @@
   padding-bottom: 0;
 }
 
-/* Measured 2026-08-17, the gap was still 144px against 68 above: the theme
-   wraps the bio prose in `mb-12`, 3rem that separated it from the education
-   block below -- which 03-biography.css hides. With nothing under it the
-   margin is trailing space, so it goes; the section padding above is now the
-   whole of the gap. (The 1.75rem the News heading was carrying is handled
-   in 04-sections.css.) */
+/* The theme wraps the bio prose in `mb-12`, 3rem separating it from the
+   education block below -- which 03-biography.css hides. With nothing under it
+   that margin is trailing space, so the gap ends up larger below the strip than
+   above it. The section padding is the whole of the gap. */
 #section-resume-biography-3 .md\:col-span-8 > .mb-12 {
   margin-bottom: 0;
 }
 
-/* News shares the bio text's left edge (design decision): its
-   rail-centred content shifts right by col_left − rail_left — the same
-   expression as the strip's old rail alignment, sign flipped. Desktop
-   only; below md the bio stacks and there is no column edge to match. */
+/* News shares the bio text's left edge: its rail-centred content shifts right
+   by col_left − rail_left. Desktop only; below md the bio stacks and there is
+   no column edge to match. */
 @media (min-width: 768px) {
   #news .flex.flex-col.items-center.px-6 > * {
     margin-left: calc((151rem - min(80rem, 100vw - 2rem)) / 6);
@@ -98,7 +94,9 @@
   opacity: 0.92;
 }
 
-/* The News collection is its own section, so its containers centre on. */
+/* News is its own section, so its containers centre on the viewport while the
+   biography above centres on its own grid. These paddings put the News column
+   on the same left edge as the bio text. */
 @media (min-width: 48rem) {
   #news {
     padding-left: calc((100% - min(80rem, 100% - 2rem)) / 2 + 22rem) !important;

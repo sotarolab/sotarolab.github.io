@@ -13,7 +13,7 @@ sections:
       # BOTH the bio prose and the animation strip live HERE, in the.
       text: |
         
-        I am an atmospheric and hydrologic scientist. I obtained my PhD in Civil and Environmental Engineering and Earth Sciences from the **University of Notre Dame** in 2022 under the supervision of Prof. Harindra Joseph Fernando. My dissertation research was conducted as part of the [WFIP2](https://psl.noaa.gov/renewable_energy/wfip2/) wind-energy field campaign, where I used in-situ and remote sensing instrumentation to study atmospheric turbulence and boundary-layer processes in complex terrain to evaluate the skill of numerical weather model parameterizations.
+        I am an atmospheric and hydrologic scientist. I obtained my PhD in Civil and Environmental Engineering and Earth Sciences from the **University of Notre Dame** in 2022. My dissertation research was conducted as part of the [WFIP2](https://psl.noaa.gov/renewable_energy/wfip2/) wind-energy field campaign, where I used in-situ and remote sensing instrumentation to study atmospheric turbulence and boundary-layer processes in complex terrain to evaluate the skill of numerical weather model parameterizations.
  
         After my PhD, I joined [Hazen](https://www.hazenandsawyer.com/), where my interest in numerical modeling and scientific programming pulled me toward machine learning (ML). I am currently a **Principal Scientist** building hydraulic and hydrologic models, geospatial data pipelines, and ML systems that support water utilities in water supply management, flood mapping, climate resiliency, and operational decision support. 
         
@@ -38,11 +38,10 @@ sections:
               AR nowcast</a>.
             </figcaption>
           </figure>
-          <!-- Autoplaying, no controls — a deliberate call ("gif so no
-               play button"; a muted looping mp4 is gif-equivalent at ~10x
-               smaller filesize). No live application exists behind this
-               clip, so the caption states the data sources instead of
-               linking anywhere. -->
+          <!-- Autoplaying and muted with no controls: a looping mp4 is
+               gif-equivalent at roughly a tenth of the filesize. No live
+               application sits behind this clip, so the caption names the
+               data sources rather than linking anywhere. -->
           <figure class="astrip-item" style="--ar: 1">
             <video class="astrip-media" autoplay muted loop playsinline
                    preload="metadata" poster="/media/about/recoleta-dark-poster.jpg"
@@ -82,7 +81,8 @@ sections:
         size: medium # Options: small (150px), medium (200px, default), large (320px), xl (400px), xxl (500px)
         shape: circle # Options: circle (default), square, rounded
 
-  # News instead of Selected Publications (a design decision on the publication side; news is where upcoming.
+  # News rather than Selected Publications: /publications/ carries the full
+  # record, and news is where upcoming talks and submissions surface first.
   - block: collection
     id: news
     content:
