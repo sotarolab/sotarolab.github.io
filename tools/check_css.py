@@ -32,6 +32,8 @@ REQUIRED_TOKENS = {
     "--hb-wide": 1,
     "--hb-body-size": 1,
     "--hb-body-lh": 1,
+    "--hb-caption-size": 1,
+    "--hb-caption-lh": 1,
 }
 
 COMMENT = re.compile(r"/\*.*?\*/", re.S)

@@ -74,13 +74,11 @@ img.rstrip-media {
 
 .rstrip-cap {
   margin-top: 0.55rem;
-  /* 0.78rem at 0.68 opacity was too quiet to read comfortably against the
-     body text above it. A caption is content, not a
-     credit line: it should sit below body size and clearly above fine print. */
-  font-size: 0.9rem;
-  /* A notch under the body's 1.5: small text needs proportionally less
-     leading, and at 1.55 a caption sat looser than the paragraph above it. */
-  line-height: 1.4;
+  /* Caption tokens live in 01-tokens.css and are shared with the About
+     strip. A caption is content, not a credit line: below body size, above
+     fine print. */
+  font-size: var(--hb-caption-size);
+  line-height: var(--hb-caption-lh);
   opacity: 0.8;
 }
 
