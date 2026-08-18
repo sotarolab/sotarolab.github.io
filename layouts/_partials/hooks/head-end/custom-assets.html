@@ -28,17 +28,33 @@
 {{- range (resources.Match "css/custom/*.css") -}}
   {{- $css = $css | append . -}}
 {{- end -}}
+{{- /* STABLE filenames, no fingerprint, no SRI -- deliberately.
+
+       These were fingerprinted (`custom-bundle.min.<sha>.css`) with an
+       integrity attribute. Each deploy replaced the file, and GitHub Pages
+       serves HTML with `Cache-Control: max-age=600`, so for up to ten minutes
+       after every deploy a returning visitor's cached page asked for a
+       stylesheet that no longer existed: 404, and the site rendered as the
+       raw theme -- centred titles, stacked tiles, the education block that
+       03-biography.css hides. The JS failed the same way, silently.
+
+       With a stable name, the worst case for those ten minutes is the
+       PREVIOUS stylesheet against the new HTML: mildly stale, never
+       unstyled. Pages caps assets at the same ten minutes, so there is no
+       long-lived staleness to bust; and SRI on a same-origin file adds
+       nothing here while guaranteeing the failure above whenever the hash
+       in cached HTML stops matching. */ -}}
 {{- with $css -}}
-  {{- $bundle := . | resources.Concat "css/custom-bundle.css" | minify | fingerprint -}}
-  <link rel="stylesheet" href="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}">
+  {{- $bundle := . | resources.Concat "css/custom-bundle.css" | minify -}}
+  <link rel="stylesheet" href="{{ $bundle.RelPermalink }}">
 {{- else -}}
   {{- errorf "custom-assets.html: no stylesheets matched assets/css/custom/*.css" -}}
 {{- end -}}
 
 {{- range slice "js/biography-aria.js" "js/research-strip.js" "js/figure-lightbox.js" "js/toc-scrollspy.js" -}}
   {{- with resources.Get . -}}
-    {{- $js := . | minify | fingerprint -}}
-    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+    {{- $js := . | minify -}}
+    <script src="{{ $js.RelPermalink }}" defer></script>
   {{- else -}}
     {{- errorf "custom-assets.html: missing asset %q" . -}}
   {{- end -}}

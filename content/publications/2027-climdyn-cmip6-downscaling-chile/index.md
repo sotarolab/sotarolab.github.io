@@ -2,7 +2,7 @@
 # ⚠️ GENERATED FILE — DO NOT EDIT.
 # Source: data/publications.yaml   Regenerate: make publications
 # Edits here are silently reverted the next time the generator runs.
-title: "Downscaling CMIP6 projections of weather extremes over Chile: a CNN super-resolution approach"
+title: "Physical Drivers of Downscaled CMIP6 Projections of Weather Extremes over Chile"
 
 authors:
   - Sebastian F. Otarola-Bustos

@@ -225,33 +225,33 @@ for f in content/publications/*/index.md; do
 done
 [ "$pub_problems" -eq 0 ] && pass "all publications have a venue and a renderable type"
 
-# ── 6. Subresource Integrity ────────────────────────────────────────────────
-# layouts/_partials/hooks/head-end/custom-assets.html pipes minify → fingerprint.
-# Reversing that order, or any later step that rewrites a fingerprinted file,
-# yields an SRI hash describing bytes that are no longer served — and the
-# browser silently refuses to apply the stylesheet. The page still builds.
-sri_pairs=$(python3 tools/sri_pairs.py)
-head_ "6. Subresource integrity"
-sri_bad=0
-sri_checked=0
-while IFS=$'\t' read -r url want; do
-  [ -z "$url" ] && continue
-  f="public${url}"
-  [ -e "$f" ] || { fail "SRI: referenced asset missing: $url"; sri_bad=$((sri_bad + 1)); continue; }
-  got="sha256-$(openssl dgst -sha256 -binary "$f" | openssl base64 -A)"
-  sri_checked=$((sri_checked + 1))
-  if [ "$got" != "$want" ]; then
-    fail "SRI mismatch on $url — the browser will refuse to load this"
-    sri_bad=$((sri_bad + 1))
+# ── 6. Custom assets resolve ────────────────────────────────────────────────
+# custom-assets.html emits the site's stylesheet and scripts under STABLE
+# names, unfingerprinted and without SRI. That is deliberate: fingerprinted
+# names plus GitHub Pages' ten-minute HTML cache meant every deploy left
+# returning visitors asking for a stylesheet that had just been deleted, and
+# the site rendered as the raw theme until their cache expired.
+#
+# The check that matters now is the plain one: every asset the built pages
+# reference actually exists in public/. A renamed source file, or a bundle
+# name changed in one place and not the other, would ship a broken link that
+# builds cleanly.
+head_ "6. Custom assets"
+asset_bad=0
+asset_checked=0
+# `hugo --minify` drops the attribute quotes, so match both quoted and bare.
+for url in $(grep -rhoE '(href|src)="?/(css/custom-bundle[^" >]*|js/[^" >]*)' public/index.html public/research/index.html 2>/dev/null \
+             | sed -E 's/^(href|src)="?//' | sort -u); do
+  asset_checked=$((asset_checked + 1))
+  if [ ! -e "public${url}" ]; then
+    fail "referenced asset missing from the build: $url"
+    asset_bad=$((asset_bad + 1))
   fi
-done <<< "$sri_pairs"
-# Guard against a vacuous pass: if the extractor stops matching (a Hugo change
-# to how the tags are emitted, an absolute baseURL the regex does not handle),
-# it would find nothing and this check would silently succeed forever.
-if [ "$sri_checked" -eq 0 ]; then
-  fail "SRI: found no fingerprinted assets to verify — tools/sri_pairs.py has stopped matching"
-elif [ "$sri_bad" -eq 0 ]; then
-  pass "$sri_checked fingerprinted assets match their integrity hashes"
+done
+if [ "$asset_checked" -eq 0 ]; then
+  fail "found no custom asset references on the built pages — the extractor has stopped matching"
+elif [ "$asset_bad" -eq 0 ]; then
+  pass "$asset_checked custom asset references all resolve"
 fi
 
 # ── 7. Custom CSS integrity ─────────────────────────────────────────────────

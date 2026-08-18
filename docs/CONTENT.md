@@ -284,13 +284,15 @@ hence the numeric prefixes, because the cascade depends on it.
 | `06-figures.css` | `.rstrip` videos and the `.mtw` mountain-wave canvas |
 
 Add a file and it is picked up automatically. `layouts/_partials/hooks/head-end/custom-assets.html`
-is the only hook; it concatenates, minifies, fingerprints, and emits Subresource
-Integrity hashes.
+is the only hook; it concatenates and minifies into `/css/custom-bundle.min.css`,
+under a **stable name** with no fingerprint and no Subresource Integrity.
 
-> **Do not reorder `minify` and `fingerprint`** in that hook. The hash must
-> describe the bytes that actually ship, or the browser silently refuses to
-> apply the stylesheet and the page renders unstyled. `make check` re-derives
-> both hashes from the published files.
+> **Do not reintroduce fingerprinting or SRI here.** GitHub Pages serves HTML
+> with a ten-minute cache. A fingerprinted stylesheet is deleted by the next
+> deploy, so for those ten minutes every returning visitor's cached page asked
+> for a file that no longer existed and the site rendered as the raw theme.
+> With a stable name the worst case is briefly stale CSS, never no CSS.
+> `make check` verifies every referenced asset exists in the build.
 
 Most rules in `03-` and `04-` are workarounds keyed to the utility classes the
 upstream blox templates emit. They are stable for a given module version but

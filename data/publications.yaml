@@ -83,9 +83,9 @@
   body: |
     Status: **abstract submitted to AGU Fall Meeting 2026 (Session H039); manuscript in preparation.**
 - slug: 2027-climdyn-cmip6-downscaling-chile
-  # ⚠️ CO-AUTHORS UNCONFIRMED. The CV's Papers and Conferences sections assign.
-  title: 'Downscaling CMIP6 projections of weather extremes over Chile: a CNN super-resolution
-    approach'
+  # The manuscript carries its own title, distinct from the AGU abstract it
+  # grew out of (agu2026-cmip6-downscaling-chile, below).
+  title: 'Physical Drivers of Downscaled CMIP6 Projections of Weather Extremes over Chile'
   authors:
   - Sebastian F. Otarola-Bustos
   - P. Giani
