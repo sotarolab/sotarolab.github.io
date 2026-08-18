@@ -81,13 +81,10 @@
 /* Caption idiom matches the research strip (.rstrip-cap). */
 .astrip-cap {
   margin-top: 0.55rem;
-  /* Matched to .rstrip-cap in 06-figures.css, which went up for the same
-     reason: at 0.78rem/0.68 opacity these read as fine print rather than as
-     the description of the thing above them. */
-  font-size: 0.9rem;
-  /* A notch under the body's 1.5: small text needs proportionally less
-     leading, and at 1.55 a caption sat looser than the paragraph above it. */
-  line-height: 1.4;
+  /* Same tokens as .rstrip-cap in 06-figures.css: one caption format across
+     the site. */
+  font-size: var(--hb-caption-size);
+  line-height: var(--hb-caption-lh);
   opacity: 0.8;
 }
 

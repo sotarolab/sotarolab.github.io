@@ -85,3 +85,11 @@ html.dark {
   --hb-title-weight: 600;
   --hb-title-tracking: -0.01em;
 }
+
+/* Figure captions -- the About strip and every rstrip figure share these. One
+   size across the site: a notch under Primer's 14px small text, on a tighter
+   line than the body since small type needs proportionally less leading. */
+:root {
+  --hb-caption-size: 0.85rem;
+  --hb-caption-lh: 1.45;
+}
