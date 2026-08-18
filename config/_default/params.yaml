@@ -72,8 +72,13 @@ hugoblox:
     # Menu alignment
     align: left # left | center | right
     # Feature toggles
-    search: true
-    # Dark only (2026-08-15). The site is designed dark: the figures ship dark.
+    # Search removed: six nav items and ~17 pages, all of them two
+    # clicks away, and the one plausible query — finding a paper by keyword —
+    # is answered by the Publications page listing everything on one screen.
+    # Paired with `search.enable` below; the icon and the feature are separate
+    # switches, and turning off only one leaves a magnifier that finds nothing.
+    search: false
+    # Dark only. The site is designed dark: the figures ship dark.
     theme_toggle: false
     # Theme picker and language switcher disabled — visitor-facing clutter on a
     # single-language personal site.
@@ -144,7 +149,9 @@ hugoblox:
 
   # ────────────────────────────────────────────────────────────────────────────.
   search:
-    enable: true
+    # Off — see the note on `hugoblox.header.search`. This also stops the
+    # Pagefind index being built and the search bundle being shipped.
+    enable: false
     # Trending/suggested search terms
     suggestions: []
     # Quick action shortcuts in search modal

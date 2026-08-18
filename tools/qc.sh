@@ -54,22 +54,42 @@ else
   fail "content/publications/ is out of sync — edit data/publications.yaml, then: make publications"
 fi
 
-# ── 1c. CV PDF is current ───────────────────────────────────────────────────
-# static/uploads/cv.pdf is printed from /cv/ (make cv-pdf). If the CV sources
-# are newer than the PDF, the download has drifted from the page.
+# ── 1c. CV PDF and page agree ───────────────────────────────────────────────
+# resume/ is upstream of the download: the resume is written
+# in Word, exported with the phone number removed, and `make cv-pdf` copies it
+# to static/uploads/cv.pdf. The /cv/ page is maintained BY HAND from the same
+# resume, which is where drift can now enter — the download stays current while
+# the page silently falls behind.
+#
+# So there are two things to check, in the new direction:
+#   1. the published PDF matches the newest export in resume/
+#   2. the page sources are not older than that export
+# And one that has to hold whichever way the pipeline runs: no phone number in
+# the published copy. That is the leak the whole arrangement exists to prevent,
+# so it is verified here as well as at import — a file could be dropped into
+# static/uploads/ without going through the Makefile.
 head_ "1c. CV PDF"
-if [ -f static/uploads/cv.pdf ]; then
+cv_src=$(ls -t resume/*.pdf 2>/dev/null | head -1)
+if [ ! -f static/uploads/cv.pdf ]; then
+  warn "static/uploads/cv.pdf missing — run: make cv-pdf"
+elif command -v pdftotext >/dev/null 2>&1 \
+     && pdftotext static/uploads/cv.pdf - 2>/dev/null \
+        | grep -qE '\(?[0-9]{3}\)?[ .-][0-9]{3}[ .-][0-9]{4}'; then
+  fail "static/uploads/cv.pdf contains a phone-like number — the published CV is public"
+elif [ -z "$cv_src" ]; then
+  warn "no PDF in resume/ — cannot tell whether the published CV is current"
+elif ! cmp -s "$cv_src" static/uploads/cv.pdf; then
+  fail "static/uploads/cv.pdf differs from $cv_src — run: make cv-pdf"
+else
   stale=""
-  for src in data/authors/me.yaml content/cv.md assets/css/custom/12-print.css; do
-    [ "$src" -nt static/uploads/cv.pdf ] && stale="$stale $src"
+  for src in data/authors/me.yaml content/cv.md; do
+    [ "$cv_src" -nt "$src" ] && stale="$stale $src"
   done
   if [ -z "$stale" ]; then
-    pass "static/uploads/cv.pdf is newer than its sources"
+    pass "published CV matches resume/ and the page is current"
   else
-    fail "static/uploads/cv.pdf is older than:$stale — run: make cv-pdf"
+    warn "resume is newer than:$stale — the /cv/ page may have fallen behind the resume"
   fi
-else
-  warn "static/uploads/cv.pdf missing — run: make cv-pdf"
 fi
 
 # ── 2. No placeholders ship ─────────────────────────────────────────────────

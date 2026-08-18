@@ -1,5 +1,5 @@
 ---
-draft: true  # unpublished 2026-08-15: not ready to show (see content/teaching/_index.md)
+draft: true  # unpublished: not ready to show
 title: 'The Saint-Venant Flume'
 summary: 'An interactive shallow-water teaching tool: five live numerical experiments that switch the Saint-Venant source terms on one at a time, each verified against an exact or reference solution.'
 date: 2026-08-13

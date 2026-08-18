@@ -26,26 +26,20 @@ sections:
           <p>Rockville, MD · sfotarol@gmail.com · linkedin.com/in/sotarolab</p>
         </div>
 
-        My background spans water resources engineering, atmospheric fluid
-        dynamics, and applied machine learning, in industry and in research.
+        I am an atmospheric and hydrologic scientist. I hold a PhD in Fluid
+        Dynamics and have 4 years of industry experience in water modeling and
+        data science. For my PhD, I participated in two major field campaigns on
+        the U.S. west coast, where I operated scientific instrumentation to study
+        atmospheric flows over complex terrain to improve boundary layer
+        parameterizations in weather models.
 
-        <!-- The PDF at the repo root is deliberately NOT the one published: it
-             carries a personal phone number and this site is public and
-             crawlable. What ships is static/uploads/cv.pdf, PRINTED FROM THIS
-             PAGE, so it inherits the page's redactions (no client names, no
-             project numbers, no phone) and cannot drift from it:
+        At Hazen, I specialize in hydraulic and hydrologic modeling, GIS
+        analysis, and Machine Learning (ML) for predictive modeling in flood and
+        water supply projects. Outside of my role at Hazen, I pursue independent
+        applied research projects and academic collaborations.
 
-               make serve                       # or any local build
-               "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-                 --headless=new --disable-gpu --no-pdf-header-footer \
-                 --print-to-pdf=static/uploads/cv.pdf \
-                 http://localhost:1313/cv/
-
-             Layout comes from assets/css/custom/12-print.css. Regenerate it
-             whenever the CV content changes. To publish a hand-made PDF
-             instead, drop it at the same path; only remove the phone number
-             first. -->
-        <a class="applinks-btn applinks-btn--primary" href="/uploads/cv.pdf" download>
+        <a class="applinks-btn applinks-btn--primary" href="/uploads/cv.pdf"
+           download="Sebastian-Otarola-Bustos-Resume.pdf">
           Download CV (PDF)
         </a>
     design:

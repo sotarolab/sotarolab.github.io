@@ -2,14 +2,15 @@
    Typography — prose colours, links, selection, focus
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* `dark:prose-invert` that makes links #fff and bold text #fff — so an inline. */
+/* The theme's `dark:prose-invert` paints links and bold text pure white, which
+   flattens emphasis into the surrounding copy. Set the prose variables from the
+   site tokens instead. */
 .prose,
 html.dark .prose {
   --tw-prose-body: var(--hb-color-foreground);
-  /* Bold ran --hb-bold (emphasis blue) until Aug 2026 — with the bio now
-     carrying several bolded phrases, blue bold read as a paragraph full of
-     dead links (a deliberate call). Prose bold is plain foreground at weight;
-     --hb-bold lives on in the role line (03-biography.css). */
+  /* Bold is plain foreground at weight, not the emphasis blue: in a paragraph
+     carrying several bolded phrases, blue bold reads as a run of dead links.
+     --hb-bold is still used for the role line (03-biography.css). */
   --tw-prose-bold: var(--hb-color-foreground);
   --tw-prose-headings: var(--hb-color-foreground);
   --tw-prose-links: var(--color-primary-500);
@@ -58,15 +59,16 @@ button:focus-visible {
   border-radius: 2px;
 }
 
-/* Three different heading colours were shipping in dark mode, measured off the. */
-
+/* Three different heading colours were shipping in dark mode. One token for all
+   of them. */
 html.dark .page-body h1,
 html.dark article h1 {
   color: var(--hb-heading-dark);
 }
 
 html.dark .prose {
-  /* compiles to `.dark\:prose-invert:where(.dark,.dark *)`, and `:where()`. */
+  /* `dark:prose-invert` compiles to a `:where()` selector, which has zero
+     specificity — so setting the variables here wins without `!important`. */
   --tw-prose-headings: var(--hb-heading-dark);
   --tw-prose-invert-headings: var(--hb-heading-dark);
 }
@@ -86,14 +88,23 @@ html.dark .prose {
    opens a wide gap above the H2 that follows it, so the pair reads as two
    unrelated things. Sized just above the H2, ruled, and clamped tight to
    whatever comes next, it reads as the label on the group instead. */
+/* Sized against each other rather than against prose-xl's defaults, which put
+   an h2 above an h1 once the h1 was tuned to the body size. Both sit closer to
+   the body text than the defaults, the register the rest of the site is in. */
 .prose h1 {
-  font-size: 1.45em;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  font-size: 1.8em;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
   margin-top: 3.5rem;
   margin-bottom: 0;
   padding-bottom: 0.45rem;
   border-bottom: 1px solid var(--hb-border);
+}
+
+.prose h2 {
+  font-size: 1.45em;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
 }
 
 .prose h1:first-child {

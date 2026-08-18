@@ -42,7 +42,8 @@ html.dark {
 }
 
 html.dark {
-  /* line but went muddy once body text was brightened to #CDD9E5 — emphasis has. */
+  /* The light-theme blue is too dark to read on this ground; Primer's blue.3
+     is its dark-theme counterpart. */
   --hb-bold: #79c0ff;
 }
 
@@ -67,4 +68,16 @@ html.dark {
 :root {
   --hb-body-size: 1.15rem;
   --hb-body-lh: 1.75;
+}
+
+/* Page titles. One size across the site, set to what a content `h1` renders
+   at — 1.8 × the body size, the "Current Research" heading on /research/.
+   Landing titles and single-page titles were both 2.5rem/700 against that
+   2.07rem/800, so the same rank of heading came out two different ways
+   depending on which layout drew it. Weight and tracking travel with it,
+   since matching only the size would still leave them looking unrelated. */
+:root {
+  --hb-title-size: 2.07rem;
+  --hb-title-weight: 800;
+  --hb-title-tracking: -0.015em;
 }

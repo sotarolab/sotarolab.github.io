@@ -35,7 +35,7 @@ from PIL import Image
 
 REPO = os.path.expanduser("the chile-ar-nowcast repo")
 # media/about, not media/research: the animation moved to the About page
-# (2026-08-14) and the research section no longer references it.
+# and the research section no longer references it.
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                    "static", "media", "about")
 STEM = "chile-ar-ivt-jul2026-v7"  # suffix bumps on every STYLE change: local video cache survives hard refreshes

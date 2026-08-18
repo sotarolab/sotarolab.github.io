@@ -71,7 +71,7 @@ time; selecting a station loads its full record below the map.
 
 ## Future Work
 
-This project is not an official tool and it was done independently. I am working on redesigning te application to make it more acessible to a general audience and open sourcing the code to accelerate development and awareness of the tool.  
+This project is not an official tool and it was done independently. I am working on redesigning the application to make it more acessible to a general audience and open sourcing the code to accelerate development and awareness of the tool.  
 
 
 

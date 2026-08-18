@@ -124,10 +124,6 @@ My thesis also included a detailed analysis of internal gravity wave breaking du
 {{< /rfig >}}
 {{< /rstrip >}}
 
-<!-- The two instrument photos were a single stitched composite with a white
-     gutter until 2026-08-16; now they are the originals, side by side in a
-     row strip, so the gutter is the page background and each carries its
-     own caption. -->
 {{< rstrip >}}
 {{< rfig image="/media/research/SWEX/instruments/tower_and_lidar.jpg" ratio="954/517" width="820px"
          alt="Two photographs at equal height: on the left, an instrumented flux tower with a sonic anemometer at the top, in a grassy field at the SYA valley site with hills behind; on the right, a ceilometer and a scanning Doppler lidar on a ridge above Santa Barbara, dry grass in the foreground and the Pacific Ocean beyond the hills." >}}
@@ -136,12 +132,9 @@ My thesis also included a detailed analysis of internal gravity wave breaking du
 {{< /rfig >}}
 {{< /rstrip >}}
 
-<!-- The 3D coplanar scan first, wide, then the terrain map beneath it: the
-     scan says HOW the lidar sampled the volume, the map says WHERE the 315°
-     cut runs across the valley (ridge, drainages, SYA on the flat), which is
-     what makes "downslope" legible in the sequence that follows. A conical
-     PPI scan sat here briefly (2026-08-16) and was cut: handsome, but
-     nothing on the page used it. -->
+<!-- The 3D scan first, then the terrain map: the scan shows how the lidar
+     sampled the volume, the map shows where the 315° cut runs across the
+     valley, which is what makes "downslope" legible in the sequence below. -->
 {{< rstrip >}}
 {{< rfig image="/media/research/SWEX/Results/lidar_scan_a.jpeg" ratio="617/575" width="600px"
          alt="Three-dimensional view of two intersecting Doppler-lidar range–height scan planes above the SYA site on 21 April 2020 at 17:15, radial velocity shaded from blue toward the lidar to yellow away." >}}

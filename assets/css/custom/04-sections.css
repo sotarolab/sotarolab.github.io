@@ -1,6 +1,8 @@
 /* Content sections — one rail, one heading treatment, no cards. */
 
-/* the `.prose` element inside it. `max-w-prose` is 65ch resolved against each. */
+/* `max-w-prose` is 65ch resolved against each block's own font size, so blocks
+   end up different widths. Pin them to the shared rail instead, and left-align
+   the column the theme centres. */
 .hbb-section .flex.flex-col.items-center.max-w-prose {
   max-width: var(--hb-rail);
   align-items: flex-start;
@@ -28,7 +30,8 @@
   padding-right: var(--hb-gutter);
 }
 
-/* between a section heading and its own first entry — which reads as an empty. */
+/* The theme's `mt-16` on a collection's entry list leaves a gap between a
+   section heading and its own first entry. This replaces it. */
 .hbb-section > .flex.flex-col.items-center.px-6 > * {
   width: 100%;
   max-width: var(--hb-rail);
@@ -38,7 +41,7 @@
 /* The margin above replaces the theme's `mt-16` on a collection's entry list.
    The markdown block's title-and-prose container, and a collection's title
    wrapper, match the same selector -- and both already space their children
-   with `gap-3`. Measured 2026-08-17: the prose was carrying this 1.75rem ON
+   with `gap-3`. The prose was carrying this 1.75rem ON
    TOP of the title's 1.5rem margin and the 0.75rem gap, 64px from rule to
    text on Projects, Teaching and the CV; and the News heading on About sat
    1.75rem lower than its section padding said. Width and max-width stay. */
@@ -46,8 +49,35 @@
   margin-top: 0;
 }
 
+/* ── Between stacked sections ────────────────────────────────────────────────
+   A landing page's sections each carry 2.5rem of padding top AND bottom, so
+   two of them meeting put 80px between the last line of one and the heading
+   of the next -- against the 36px each heading puts above its own first line
+   (1.5rem heading margin + the container's 0.75rem gap) — one page, two
+   different vertical rhythms.
+
+   The whole gap now comes from ONE side, the following section's top padding,
+   so it is a single number to reason about. The first section keeps its top
+   padding (the 40px page-title offset shared across Projects, Teaching, the
+   CV and Publications) and the last keeps its bottom (the end of the page).
+
+   Pages that need a different figure override this by id or by :has(#id),
+   both of which outrank these selectors: About's strip gap, Projects'
+   intro-to-cards, and Publications' 52px below. */
+:root {
+  --hb-section-gap: 2.25rem;
+}
+
+.hbb-section:has(+ .hbb-section) {
+  padding-bottom: 0;
+}
+
+.hbb-section + .hbb-section {
+  padding-top: var(--hb-section-gap);
+}
+
 /* Publications stacks two collection sections, Journal Articles and Conference
-   Presentations. Measured 2026-08-17, the gap between them was 80px -- the two
+   Presentations. The gap between them was 80px -- the two
    sections' own 2.5rem paddings meeting -- while each heading sits 52px above
    its own first entry (1.5rem heading margin + the 1.75rem above). One page,
    two different vertical rhythms. Split that 3.25rem across the pair so the
@@ -76,10 +106,26 @@
 
 /* The first section on a landing page carries the page title. Upstream gives
    every section title the same `text-3xl`, which flattens the hierarchy —
-   "Research" ends up the same weight as the topics beneath it. */
+   "Research" ends up the same weight as the topics beneath it. Sized from the
+   shared title tokens (01-tokens.css) so Projects, Publications, Teaching and
+   the CV all match the `h1` on /research/. */
 .page-body > .hbb-section:first-child .flex.flex-col.items-center.max-w-prose > .text-3xl {
-  font-size: 2.5rem;
-  line-height: 1.15;
+  font-size: var(--hb-title-size);
+  font-weight: var(--hb-title-weight);
+  line-height: 1.25;
+  letter-spacing: var(--hb-title-tracking);
+}
+
+/* Teaching has no intro block, so its two sections are peers rather than a
+   title and a subsection — but the rule above was sizing the first of them as
+   a page title, leaving "Graduate Teaching" visibly smaller than
+   "Professional Mentoring" and reading as subordinate to it. Same size for
+   both. */
+#graduate-teaching .flex.flex-col.items-center.max-w-prose > .text-3xl {
+  font-size: var(--hb-title-size);
+  font-weight: var(--hb-title-weight);
+  line-height: 1.25;
+  letter-spacing: var(--hb-title-tracking);
 }
 
 /* Experience & education cards → GitHub panels. */
@@ -147,7 +193,7 @@
   line-height: 1.65;
   /* The citation list sits outside `.prose`, so it inherited the 1rem base
      while article text renders at `lg:prose-xl` (1.25rem) — /publications/
-     read as fine print next to every other page (design decision).
+     read as fine print next to every other page.
      1.125rem lands between the two: a reference list should be denser than
      running prose, but it is still the page's main content, not a footnote. */
   font-size: 1.125rem;
@@ -183,12 +229,13 @@
 
 .page-body > .max-w-prose.mx-auto.flex.justify-center h1 {
   width: 100%;
-  font-size: 2.5rem;
-  line-height: 1.15;
+  font-size: var(--hb-title-size);
+  font-weight: var(--hb-title-weight);
+  line-height: 1.25;
   margin-bottom: 1.5rem;
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--hb-border);
-  letter-spacing: -0.015em;
+  letter-spacing: var(--hb-title-tracking);
 }
 
 .page-body > .flex.flex-col.items-center > .max-w-3xl {

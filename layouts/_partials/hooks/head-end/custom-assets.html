@@ -35,10 +35,7 @@
   {{- errorf "custom-assets.html: no stylesheets matched assets/css/custom/*.css" -}}
 {{- end -}}
 
-{{- /* mountain-waves.js dropped from the bundle 2026-08-16 with its canvas
-       figure on /research/ — the file stays in assets/js/ for possible
-       restoration. */ -}}
-{{- range slice "js/biography-aria.js" "js/research-strip.js" "js/figure-lightbox.js" -}}
+{{- range slice "js/biography-aria.js" "js/research-strip.js" "js/figure-lightbox.js" "js/toc-scrollspy.js" -}}
   {{- with resources.Get . -}}
     {{- $js := . | minify | fingerprint -}}
     <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
