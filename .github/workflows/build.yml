@@ -16,9 +16,15 @@ on:
   # Allow manual trigger for testing
   workflow_dispatch:
 
-# Read-only permissions for security
+# Least privilege, plus what Pages needs. `actions/configure-pages` in the build
+# job reads the repository's Pages configuration, which `contents: read` alone
+# does not allow -- every run failed at "Setup Pages" with "Resource not
+# accessible by integration", before Hugo ever ran. `id-token: write` is what
+# `actions/deploy-pages` uses to prove the deployment came from this workflow.
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 # Prevent duplicate builds for the same PR
 concurrency:
