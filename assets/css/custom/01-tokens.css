@@ -51,7 +51,11 @@ html.dark {
    One rail width for the whole site. Blocks each ship their own container
    width; 04-sections.css normalises them onto this. */
 :root {
-  --hb-rail: 52rem;
+  /* 46rem holds ~76 characters per line at the body size, inside the 65-75
+     range that reads fastest. At 52rem it was 86, and on About, which opted out
+     of the cap entirely, 96. Figures are capped by this same token
+     (06-figures.css), so text and figures stay flush as it changes. */
+  --hb-rail: 46rem;
   --hb-gutter: 1.5rem;
 }
 
@@ -66,18 +70,18 @@ html.dark {
    biography block. The About page's measure was the one that read best, so it
    is now the site's, applied in 05-typography.css. */
 :root {
-  --hb-body-size: 1.15rem;
-  --hb-body-lh: 1.75;
+  /* Primer's markdown-body metrics: 16px on a 1.5 line, the register a
+     GitHub README is set in. The site was at 18.4px/1.6, generous for a
+     reading site but loose next to the GitHub profile it is meant to sit
+     beside. */
+  --hb-body-size: 1rem;
+  --hb-body-lh: 1.5;
 }
 
-/* Page titles. One size across the site, set to what a content `h1` renders
-   at — 1.8 × the body size, the "Current Research" heading on /research/.
-   Landing titles and single-page titles were both 2.5rem/700 against that
-   2.07rem/800, so the same rank of heading came out two different ways
-   depending on which layout drew it. Weight and tracking travel with it,
-   since matching only the size would still leave them looking unrelated. */
+/* Page titles: Primer's h1 -- 2em at weight 600, ruled beneath. One size and
+   weight across the site, whichever layout draws the heading. */
 :root {
-  --hb-title-size: 2.07rem;
-  --hb-title-weight: 800;
-  --hb-title-tracking: -0.015em;
+  --hb-title-size: 2rem;
+  --hb-title-weight: 600;
+  --hb-title-tracking: -0.01em;
 }

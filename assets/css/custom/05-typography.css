@@ -88,22 +88,26 @@ html.dark .prose {
    opens a wide gap above the H2 that follows it, so the pair reads as two
    unrelated things. Sized just above the H2, ruled, and clamped tight to
    whatever comes next, it reads as the label on the group instead. */
-/* Sized against each other rather than against prose-xl's defaults, which put
-   an h2 above an h1 once the h1 was tuned to the body size. Both sit closer to
-   the body text than the defaults, the register the rest of the site is in. */
+/* Primer's h1 (2em/600) and h2 (1.5em/600). Sized against each other rather
+   than against prose-xl's defaults, which put an h2 above an h1 once the h1
+   was tuned to the body size. */
 .prose h1 {
-  font-size: 1.8em;
+  font-size: 2em;
+  font-weight: 600;
   line-height: 1.25;
-  letter-spacing: -0.015em;
-  margin-top: 3.5rem;
-  margin-bottom: 0;
-  padding-bottom: 0.45rem;
+  letter-spacing: -0.01em;
+  margin-top: 3rem;
+  /* Space below lives on the heading, as Primer does it (h1 margin-bottom
+     16px), not on whatever follows -- paragraphs carry no top margin. */
+  margin-bottom: 1rem;
+  padding-bottom: 0.3em;
   border-bottom: 1px solid var(--hb-border);
 }
 
 .prose h2 {
-  font-size: 1.45em;
-  line-height: 1.35;
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: 1.25;
   letter-spacing: -0.01em;
 }
 
@@ -111,6 +115,23 @@ html.dark .prose {
   margin-top: 0;
 }
 
-.prose h1 + * {
-  margin-top: 1.15rem;
+/* ── Lists ───────────────────────────────────────────────────────────────────
+   The prose defaults put 0.6-0.67em between items on top of the body
+   line-height, so a list of one-line bullets (About's research areas) reads
+   as five separate paragraphs. Primer's rhythm instead: blocks carry one
+   1em margin below and none above, items sit 0.25em apart. */
+.prose p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.prose li {
+  margin-top: 0.25em;
+  margin-bottom: 0;
 }
