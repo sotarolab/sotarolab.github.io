@@ -1,14 +1,18 @@
 /* Biography block — the About page sidebar and hero. */
 
-/* The `resume-biography-3` block hardcodes its vertical padding. */
+/* The `resume-biography-3` block hardcodes its vertical padding. Top padding
+   is set so the About heading (and the avatar beside it) sit at the same
+   offset below the navbar as the first heading on /research/ -- the block
+   used to open ~105px down against Research's 76, which read as a different
+   page template rather than the same site. */
 .resume-biography {
-  padding-top: 3rem;
+  padding-top: 2rem;
   padding-bottom: 0.5rem;
 }
 
 @media (min-width: 1024px) {
   .resume-biography {
-    padding-top: 4rem;
+    padding-top: 2.25rem;
     padding-bottom: 0.5rem;
   }
 }
@@ -192,6 +196,40 @@ html.dark .avatar {
 /* The biography inherits the site body size from 05-typography.css. It used to
    set its own, which is what made About the odd page out. */
 
+/* ── About heading and prose rhythm ─────────────────────────────────────────
+   Matched to /research/, the page that reads best. The block's own h2 was
+   30px/700 with nothing under it, against 33px/800 with a rule everywhere
+   else; its paragraphs sat 25px apart against 22; and its bullets carried
+   12px margins on top of a 1.6 line-height, so a list of one-liners came out
+   airy. Same title tokens, same paragraph gap, and the same rule-to-text
+   distance as the h1 on Research (1.15rem). */
+.resume-biography .flex.items-center.gap-4 {
+  margin-bottom: 0;
+  /* The heading sits beside `.bio-text`, not inside it, so it needs the same
+     cap -- otherwise its rule runs the full column and overshoots the text
+     it is meant to underline. */
+  max-width: var(--hb-rail);
+}
+
+.resume-biography .flex.items-center.gap-4 h2 {
+  width: 100%;
+  font-size: var(--hb-title-size);
+  font-weight: var(--hb-title-weight);
+  line-height: 1.25;
+  letter-spacing: var(--hb-title-tracking);
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--hb-border);
+}
+
+.resume-biography .bio-text > p:first-child {
+  margin-top: 1rem;
+}
+
+.resume-biography .bio-text p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
 /* The block splits 4 / 8 of twelve columns: identity sidebar left, bio right. */
 @media (min-width: 48rem) {
   .resume-biography .grid.md\:grid-cols-12 {
@@ -206,19 +244,22 @@ html.dark .avatar {
   }
 }
 
-/* 09-page-width.css caps every `.prose` at --hb-rail to hold a readable measure
-   on article pages. Here the column already provides it, and the cap would only
-   narrow the bio further. */
+/* The bio takes the same measure as every other page. Uncapped it ran to the
+   full width of its column -- 928px, ~96 characters, well past the 65-75 that
+   reads fastest -- because the column grows with the viewport and nothing
+   bounded the text inside it. */
 .resume-biography .prose,
 .resume-biography .bio-text {
-  max-width: none;
+  max-width: var(--hb-rail);
 }
 
 /* The name sits in the 20rem identity column, so it is sized to fit there
    rather than scaled up with the viewport. */
 @media (min-width: 64rem) {
   .resume-biography .font-black {
-    font-size: 1.6rem;
+    /* Primer's profile name: 24px at 600. */
+    font-size: 1.5rem;
+    font-weight: 600;
     line-height: 1.25;
   }
 }

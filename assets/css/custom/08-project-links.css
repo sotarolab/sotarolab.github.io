@@ -107,17 +107,20 @@ html.dark {
   padding-top: 0;
 }
 
-/* The card grid runs wider than the text rail, starting on the same left edge
-   and extending right. */
+/* The card grid takes the text rail: same left edge, same right edge, so the
+   two cards end where the intro paragraph ends and come out the same size as
+   the About page's animation tiles. It used to break out to --hb-wide, which
+   at the old 52rem measure was a modest overhang and at 46rem left the cards
+   running ~220px past the text and each one ~450px wide. */
 @media (min-width: 64rem) {
   #live-tools > .flex.flex-col.items-center.px-6 {
-    max-width: var(--hb-wide);
-    margin-left: calc((100% - var(--hb-rail)) / 2);
-    margin-right: 0;
+    max-width: var(--hb-rail);
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #live-tools > .flex.flex-col.items-center.px-6 > * {
-    max-width: var(--hb-wide);
+    max-width: var(--hb-rail);
   }
 
   /* The collection's own container adds `px-8` (and `xl:px-5`), which inset
@@ -129,4 +132,18 @@ html.dark {
     padding-left: 0;
     padding-right: 0;
   }
+}
+
+/* Card interior at Primer density: 24px padding rather than the theme's 32,
+   title at 18px rather than 20, and the grid gap brought in to match. */
+#live-tools .grid {
+  gap: 1.5rem;
+}
+
+#live-tools .grid > div > .p-8 {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+#live-tools .grid h3 {
+  font-size: 1.125rem;
 }

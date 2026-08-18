@@ -189,14 +189,13 @@
    dropped: it renders as an empty box because the Font Awesome webfont it
    expects is not loaded by this theme. */
 .pub-list-item.view-citation {
-  margin-bottom: 1.1rem !important;
-  line-height: 1.65;
-  /* The citation list sits outside `.prose`, so it inherited the 1rem base
-     while article text renders at `lg:prose-xl` (1.25rem) — /publications/
-     read as fine print next to every other page.
-     1.125rem lands between the two: a reference list should be denser than
-     running prose, but it is still the page's main content, not a footnote. */
-  font-size: 1.125rem;
+  margin-bottom: 1rem !important;
+  /* The citation list sits outside `.prose`, so it does not pick up the body
+     tokens on its own. It used to be sized between the 1rem base and the old
+     1.25rem prose; with the site now at Primer's 16px/1.5 that left it the one
+     page still at 18px on a 1.65 line. Same tokens as everything else. */
+  font-size: var(--hb-body-size);
+  line-height: var(--hb-body-lh);
 }
 
 .pub-list-item .pub-icon {

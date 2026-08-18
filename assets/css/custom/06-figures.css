@@ -78,7 +78,9 @@ img.rstrip-media {
      body text above it. A caption is content, not a
      credit line: it should sit below body size and clearly above fine print. */
   font-size: 0.9rem;
-  line-height: 1.55;
+  /* A notch under the body's 1.5: small text needs proportionally less
+     leading, and at 1.55 a caption sat looser than the paragraph above it. */
+  line-height: 1.4;
   opacity: 0.8;
 }
 
