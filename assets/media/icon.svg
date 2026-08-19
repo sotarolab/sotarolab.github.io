@@ -1,15 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Site favicon: "SFO" monogram on the Primer accent blue the site uses for
+  <!-- Site favicon: "SO" monogram on the Primer accent blue the site uses for
        links and the active nav item. Replaces the theme's default Hugo Blox
        "H". Drawn as strokes, not text, so it renders identically everywhere
        and needs no font. -->
   <rect width="64" height="64" rx="14" fill="#539BF5"/>
-  <g fill="none" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round">
+  <g fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
     <!-- S -->
-    <path d="M19.5 25.5 C19.5 22.2 17 20.5 13.9 20.5 C10.8 20.5 8.5 22.3 8.5 25 C8.5 31.2 19.5 29.6 19.5 36.5 C19.5 39.8 17 41.8 13.8 41.8 C10.6 41.8 8 40 8 37"/>
-    <!-- F -->
-    <path d="M26.5 41.5 V20.8 H37.5 M26.5 30.5 H35"/>
+    <path d="M27.5 24.5 C27.5 20.5 24.5 18.5 20.5 18.5 C16.5 18.5 13.5 20.8 13.5 24.2 C13.5 32 27.5 30 27.5 38.5 C27.5 42.5 24.3 45 20.3 45 C16.3 45 13 42.8 13 39"/>
     <!-- O -->
-    <ellipse cx="49" cy="31.15" rx="7" ry="10.65"/>
+    <ellipse cx="43" cy="31.75" rx="8.5" ry="13.25"/>
   </g>
 </svg>
