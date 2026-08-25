@@ -93,11 +93,14 @@ experience:
         investigating the physical mechanisms driving the projected changes in
         collaboration with researchers in Chile and the US (manuscript in
         preparation, *Climate Dynamics*).
-      - I built two weather intelligence platforms with live data ingestion of
-        operational forecasts and observations and a bias-correction pipeline:
-        1) A U.S. heat-wave tracker for 165 cities with running forecast
-        verification, and 2) a storm tracker that monitors atmospheric rivers,
-        weather forecasts, weather station data, and flood alerts in Chile.
+      # Keep "1)" and "2)" mid-line when rewrapping: a line that starts with
+      # "1)" is parsed as a markdown ordered list and renders as a nested list.
+      - I built two weather intelligence platforms with live data ingestion
+        of operational forecasts and observations and a bias-correction
+        pipeline: 1) a U.S. heat-wave tracker for 165 cities with running
+        forecast verification, and 2) a storm tracker that monitors
+        atmospheric rivers, weather forecasts, weather station data, and
+        flood alerts in Chile.
       - During the Category 4 atmospheric river that hit Chile in July 2026, I
         used my storm tracker to evaluate ECMWF's AI model (AIFS) against GFS
         and ECMWF-IFS at rain gauges from the coast to the high Andes.
