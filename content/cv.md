@@ -26,17 +26,9 @@ sections:
           <p>Rockville, MD · sfotarol@gmail.com · linkedin.com/in/sotarolab</p>
         </div>
 
-        I am an atmospheric and hydrologic scientist. I hold a PhD in Fluid
-        Dynamics and have 4 years of industry experience in water modeling and
-        data science. For my PhD, I participated in two major field campaigns on
-        the U.S. west coast, where I operated scientific instrumentation to study
-        atmospheric flows over complex terrain to improve boundary layer
-        parameterizations in weather models.
+        I am an atmospheric and hydrologic data scientist with a PhD in Atmospheric Sciences and four years of industry experience in data science and Machine Learning (ML) development for weather and hydrologic forecasting. For my PhD, I participated in two major field experiments on the U.S. west coast, where I operated scientific instrumentation to study atmospheric flows over complex terrain to improve boundary-layer parameterizations in weather models.
 
-        At Hazen, I specialize in hydraulic and hydrologic modeling, GIS
-        analysis, and Machine Learning (ML) for predictive modeling in flood and
-        water supply projects. Outside of my role at Hazen, I pursue independent
-        applied research projects and academic collaborations.
+        I pursue independent research projects with a focus on operational pipelines and forecast verification, including deep learning for streamflow, climate downscaling, and live evaluation of AI and physics-based weather models.
 
         <a class="applinks-btn applinks-btn--primary" href="/uploads/cv.pdf"
            download="Sebastian-Otarola-Bustos-Resume.pdf">
@@ -59,14 +51,21 @@ sections:
       text: |-
         <!-- The trailing two spaces after each group name are a markdown hard
              line break — without them the label runs inline with its list. -->
-        **Programming & Computational Stack**  
-        Python Programming • MATLAB • GitHub Workflows • SQL, SQLite, PostgreSQL
-        • Docker • C++ • Linux • HTML • Cloud Computing • LLMS • Agentic AI
-        Workflows • ArcGIS Pro • H&H Modeling Software
+        **Machine Learning & AI**  
+        PyTorch • scikit-learn • CNNs • LSTM • gradient boosting • diffusion
+        models • anomaly detection • forecast verification (Brier, reliability,
+        NSE/KGE) • bias correction • extreme value analysis • AI-assisted
+        development
 
-        **Atmospheric & Climate Models**  
+        **Programming & Computational Stack**  
+        Python • MATLAB • Git • SQL, SQLite, PostgreSQL • Docker • C++ • Linux
+        • HTML • Cloud Computing • ArcGIS Pro
+
+        **Atmospheric Models & Observations**  
         NWP Forecasting Systems (GFS, ECMWF IFS/AIFS, NAM, HRRR, WRF) • CMIP6
-        Project • ERA 5 • Remote Sensing (Sentinel 1, Sentinel 2, GOES)
+        • ERA5 • Satellite Remote Sensing (Sentinel-1, Sentinel-2, GOES) •
+        Field instrumentation (Doppler lidar, microwave radiometer, radar,
+        flux towers)
     design:
       columns: '1'
 

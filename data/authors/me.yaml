@@ -71,59 +71,66 @@ education:
 
 # Rendered as the first timeline on /cv/. List most recent first.
 experience:
+  # --- Research & Independent Projects ---
+  - role: 'Independent Applied Research'
+    org: 'Self-directed'
+    start: '2025'
+    end: ''
+    summary: |
+      - I am training regional Long Short-Term Memory (LSTM) and diffusion
+        models to predict streamflow in U.S. west coast basins during
+        Atmospheric River (AR) flood events and benchmarking them against
+        process-based and operational models (NOAA's National Water Model)
+        across various basins and hydrological regimes. Preliminary results
+        show the LSTM model outperforms operational forecasts on AR-day skill,
+        and that sampling the ensemble at an upper quantile corrects peak-flow
+        underestimation (manuscript in preparation, *Journal of Hydrology:
+        Regional Studies*).
+      - I am training a convolutional neural network (CNN) to downscale
+        CMIP6-based climate projections of extreme precipitation (Rx1day) and
+        temperature (TXx) over Chile from ~1° to 0.05°, across a 26-model
+        ensemble. The CNN captures Chile's unique topography, and I am
+        investigating the physical mechanisms driving the projected changes in
+        collaboration with researchers in Chile and the US (manuscript in
+        preparation, *Climate Dynamics*).
+      - I built two weather intelligence platforms with live data ingestion of
+        operational forecasts and observations and a bias-correction pipeline:
+        1) A U.S. heat-wave tracker for 165 cities with running forecast
+        verification, and 2) a storm tracker that monitors atmospheric rivers,
+        weather forecasts, weather station data, and flood alerts in Chile.
+      - During the Category 4 atmospheric river that hit Chile in July 2026, I
+        used my storm tracker to evaluate ECMWF's AI model (AIFS) against GFS
+        and ECMWF-IFS at rain gauges from the coast to the high Andes.
+        Physics-based models overestimated precipitation by up to 3x at the
+        high-Andes site, while AIFS smoothed the orographic maxima and only
+        matched observed totals at short lead times.
+    tags: ['Independent']
+    icon: 'code-bracket'
+
   # --- Professional Experience ---
   - role: 'Principal Scientist'
     org: 'Hazen, Silver Spring, MD'
     start: 'Aug 2022'
     end: ''
     summary: |
+      - Led machine learning (ML) initiatives including a flow forecasting
+        tool, an urban flooding detection model, and a water demand forecasting
+        model, integrating historical and operational data with weather
+        forecasts.
       - Developed and calibrated hydrologic models for utilities and water
-        districts across the US. The models were used to meet regulatory
-        compliance in topics such as water supply management, evaluation of
-        capital improvement projects, and flood analysis in urban and natural
-        systems.
-      - Contributed to a framework for building and calibrating parsimonious
-        (sparse-parameter) hydrological models in Python, aimed at flooding
-        during wet-weather events in stormwater systems.
-      - Lead machine learning (ML) initiatives in classification, regression,
-        and anomaly detection including: flow forecasting tool, urban flooding
-        detection, and water demand forecasting. This work followed best
-        software development practices in GitHub and leveraged modern ML
-        frameworks.
-      - Led data analysis and tool development for Water Research Foundation
+        districts across the US, supporting flood analysis in urban and natural
+        systems, water supply management, and evaluation of capital improvement
+        projects.
+      - Contributed to a Python framework for building and automatically
+        calibrating parsimonious (sparse-parameter) hydrological models against
+        observed flows, aimed at wet-weather flooding in stormwater systems.
+      - Led data analysis and tool development for a Water Research Foundation
         (WRF) project on water quality in quarry lakes. The project leveraged
-        the LAGOS dataset that included information retrieved from in-situ and
-        remote sensing measurements for about 500,000 lakes in the US. A web
-        tool was developed to screen water quality in quarry lakes and is
-        available to WRF subscribers.
+        the LAGOS dataset, which included in-situ and remote sensing
+        measurements for about 500,000 lakes in the US. Developed a web
+        screening tool now available to WRF subscribers.
     tags: ['Industry']
     icon: 'briefcase'
-
-  # --- Research & Independent Projects ---
-  - role: 'Research & Independent Projects'
-    org: 'Self-directed'
-    start: '2025'
-    end: ''
-    summary: |
-      - I am training a convolutional neural network (CNN) to downscale
-        CMIP6-based climate projections of extreme precipitation and temperature
-        in Chile. The CNN can capture Chile's unique topography, and we are
-        investigating the physical mechanisms driving the changes. This is part
-        of a manuscript in preparation for *Climate Dynamics*.
-      - I am evaluating Long Short-Term Memory (LSTM) and diffusion algorithms
-        to predict flow discharges in U.S. west coast Basins during Atmospheric
-        River (AR) events. I am benchmarking the results against process-based
-        models (GR4J and CemaNeige) for various basins' hydrological regimes.
-        This work is part of a manuscript in preparation for the *Journal of
-        Hydrology*.
-      - I maintain two weather intelligence platforms with live data ingestion
-        from operational weather forecasting models and observational weather
-        data and a live bias-correction pipeline to calibrate the forecasts:
-        1) A U.S. heat-wave tracker for all major airports in the U.S., and
-        2) A storm tracker that monitors atmospheric rivers, weather forecasts,
-        weather station data, and flood alerts in Chile.
-    tags: ['Independent']
-    icon: 'code-bracket'
 
   # --- Research Experience ---
   - role: 'PhD Researcher, Atmospheric Fluid Dynamics'
@@ -131,19 +138,20 @@ experience:
     start: 'Aug 2016'
     end: 'May 2022'
     summary: |
-      - Participated in two major experiments including the Wind Forecast
-        Improvement Project 2 (WFIP2) in the Columbia River (OR) and the
-        Sundowner Wind Experiment (SWEX) in Santa Barbara (CA). I deployed flux
-        towers and doppler lidars and processed their observations to study the
-        skill of weather forecasting models in complex terrain.
-      - Published results associated with the WFIP2 experiment in
-        *Boundary Layer Meteorology*, where I studied the sub-grid variability
-        of surface layer turbulence in complex terrain using 18-month
-        observational data, and benchmarked the results against the WRF model.
-      - Collaborated in peer-reviewed publications in boundary layer and wind
-        energy; produced open datasets published in the DOE Atmosphere to
-        Electrons Archive and presented research in national and international
-        conferences.
+      - Deployed and operated flux towers, scanning Doppler lidars, and
+        microwave radiometers in two major field campaigns, the Wind Forecast
+        Improvement Project 2 (WFIP2) in the Columbia River Gorge, OR, and the
+        Sundowner Wind Experiment (SWEX) in Santa Barbara, CA, and processed
+        the observations to evaluate the skill of weather forecasting models in
+        complex terrain.
+      - Published first-author results from WFIP2 in *Boundary-Layer
+        Meteorology*, quantifying sub-grid variability of surface-layer
+        turbulence in complex terrain from 18 months of tower observations and
+        evaluating the skill of a widely used WRF boundary-layer
+        parameterization across stability regimes.
+      - Designed synchronized scanning sequences for two Doppler lidars during
+        SWEX to resolve internal gravity wave breaking ahead of Sundowner wind
+        onset in the Santa Ynez Mountains.
     tags: ['Academic']
     icon: 'academic-cap'
 
