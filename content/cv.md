@@ -13,6 +13,11 @@ design:
 
 # Experience and education are sourced from `data/authors/me.yaml`.
 # Skills and teaching are written inline below — see the note on each block.
+# Section order mirrors the source CV: summary, education, skills, research
+# experience (independent + PhD), industry experience, teaching. The grouped
+# timelines use the site override of the resume-experience block
+# (layouts/_partials/hbx/blocks/resume-experience/block.html), which adds
+# `title`, `filter_tags`, and show_experience/show_education options.
 sections:
   - block: markdown
     content:
@@ -37,12 +42,13 @@ sections:
     design:
       columns: '1'
 
+  # Education only — the experience timelines follow after the skills, as in
+  # the source CV.
   - block: resume-experience
     content:
       username: me
     design:
-      # No `date_format` here: this block prints `start`/`end` from me.yaml.
-      is_education_first: false
+      show_experience: false
 
   # Written inline rather than rendered from `me.yaml` by the `resume-skills`.
   - block: markdown
@@ -68,6 +74,24 @@ sections:
         flux towers)
     design:
       columns: '1'
+
+  # Independent research and the PhD, under one heading as in the source CV.
+  - block: resume-experience
+    content:
+      username: me
+      title: 'Research Experience'
+      filter_tags: ['Independent', 'Academic']
+    design:
+      # No `date_format` here: this block prints `start`/`end` from me.yaml.
+      show_education: false
+
+  - block: resume-experience
+    content:
+      username: me
+      title: 'Industry Experience'
+      filter_tags: ['Industry']
+    design:
+      show_education: false
 
   # Deliberately a pointer, not a copy. The full record lives on /teaching/;
   # duplicating it here would mean two copies to keep in step, and they would

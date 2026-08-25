@@ -69,13 +69,20 @@ education:
     start: '2009'
     end: '2015'
 
-# Rendered as the first timeline on /cv/. List most recent first.
+# Rendered on /cv/ as two headed timelines that mirror the source CV:
+# "Research Experience" (tags Independent + Academic) and "Industry
+# Experience" (tag Industry). The `tags` below drive that grouping — see the
+# resume-experience blocks in content/cv.md. Within a group, list most
+# recent first.
 experience:
   # --- Research & Independent Projects ---
   - role: 'Independent Applied Research'
     org: 'Self-directed'
     start: '2025'
     end: ''
+    # In the summary below, keep "1)" and "2)" mid-line when rewrapping: a
+    # markdown line starting with "1)" renders as a nested ordered list.
+    # (A comment INSIDE the `summary: |` block would render as content.)
     summary: |
       - I am training regional Long Short-Term Memory (LSTM) and diffusion
         models to predict streamflow in U.S. west coast basins during
@@ -93,11 +100,12 @@ experience:
         investigating the physical mechanisms driving the projected changes in
         collaboration with researchers in Chile and the US (manuscript in
         preparation, *Climate Dynamics*).
-      - I built two weather intelligence platforms with live data ingestion of
-        operational forecasts and observations and a bias-correction pipeline:
-        1) A U.S. heat-wave tracker for 165 cities with running forecast
-        verification, and 2) a storm tracker that monitors atmospheric rivers,
-        weather forecasts, weather station data, and flood alerts in Chile.
+      - I built two weather intelligence platforms with live data ingestion
+        of operational forecasts and observations and a bias-correction
+        pipeline: 1) a U.S. heat-wave tracker for 165 cities with running
+        forecast verification, and 2) a storm tracker that monitors
+        atmospheric rivers, weather forecasts, weather station data, and
+        flood alerts in Chile.
       - During the Category 4 atmospheric river that hit Chile in July 2026, I
         used my storm tracker to evaluate ECMWF's AI model (AIFS) against GFS
         and ECMWF-IFS at rain gauges from the coast to the high Andes.
