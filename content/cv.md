@@ -34,11 +34,13 @@ sections:
         I am an atmospheric and hydrologic data scientist with a PhD in Atmospheric Sciences and four years of industry experience in data science and Machine Learning (ML) development for weather and hydrologic forecasting. For my PhD, I participated in two major field experiments on the U.S. west coast, where I operated scientific instrumentation to study atmospheric flows over complex terrain to improve boundary-layer parameterizations in weather models.
 
         I pursue independent research projects with a focus on operational pipelines and forecast verification, including deep learning for streamflow, climate downscaling, and live evaluation of AI and physics-based weather models.
-
-        <a class="applinks-btn applinks-btn--primary" href="/uploads/cv.pdf"
-           download="Sebastian-Otarola-Bustos-Resume.pdf">
-          Download CV (PDF)
-        </a>
+    # Download button paused (Sep 2026) while the CV content is being revised;
+    # static/uploads/cv.pdf was removed at the same time. To restore, put the
+    # PDF back and append the button to the text above:
+    #   <a class="applinks-btn applinks-btn--primary" href="/uploads/cv.pdf"
+    #      download="Sebastian-Otarola-Bustos-Resume.pdf">
+    #     Download CV (PDF)
+    #   </a>
     design:
       columns: '1'
 

@@ -121,10 +121,8 @@ experience:
     start: 'Aug 2022'
     end: ''
     summary: |
-      - Led machine learning (ML) initiatives including a flow forecasting
-        tool, an urban flooding detection model, and a water demand forecasting
-        model, integrating historical and operational data with weather
-        forecasts.
+      - Led machine learning (ML) and data science initiatives, integrating
+        historical and operational data with weather forecasts.
       - Developed and calibrated hydrologic models for utilities and water
         districts across the US, supporting flood analysis in urban and natural
         systems, water supply management, and evaluation of capital improvement
