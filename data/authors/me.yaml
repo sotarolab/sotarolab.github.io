@@ -106,12 +106,6 @@ experience:
         forecast verification, and 2) a storm tracker that monitors
         atmospheric rivers, weather forecasts, weather station data, and
         flood alerts in Chile.
-      - During the Category 4 atmospheric river that hit Chile in July 2026, I
-        used my storm tracker to evaluate ECMWF's AI model (AIFS) against GFS
-        and ECMWF-IFS at rain gauges from the coast to the high Andes.
-        Physics-based models overestimated precipitation by up to 3x at the
-        high-Andes site, while AIFS smoothed the orographic maxima and only
-        matched observed totals at short lead times.
     tags: ['Independent']
     icon: 'code-bracket'
 
